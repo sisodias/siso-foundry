@@ -54,11 +54,16 @@ publication_patterns = [
     re.compile("(?:ghp|github_pat|sk)" + "-[A-Za-z0-9_-]{16,}"),
 ]
 for path in ROOT.rglob("*"):
-    if not path.is_file() or IGNORED_PARTS.intersection(path.parts):
+    if IGNORED_PARTS.intersection(path.parts):
         continue
-    try:
-        text = path.read_text()
-    except UnicodeDecodeError:
+    if path.is_symlink():
+        text = os.readlink(path)
+    elif path.is_file():
+        try:
+            text = path.read_text()
+        except UnicodeDecodeError:
+            continue
+    else:
         continue
     for pattern in publication_patterns:
         if pattern.search(text):
