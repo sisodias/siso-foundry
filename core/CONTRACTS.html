@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><title>Foundry core — shared contracts (identity · ranking · adoption)</title>
+<style>
+body{font:14px/1.6 -apple-system,system-ui,sans-serif;max-width:1000px;margin:32px auto;padding:0 22px;color:#1a1a1a}
+h1{border-bottom:2px solid #333;padding-bottom:6px} h2{margin-top:30px;color:#0a4;border-bottom:1px solid #eee;padding-bottom:3px} h3{margin-top:18px}
+code{background:#f0f0f0;padding:1px 4px;border-radius:3px;font-family:ui-monospace,Menlo,monospace;font-size:12.5px}
+pre{background:#f6f8fa;border:1px solid #ddd;border-radius:6px;padding:10px 12px;overflow-x:auto;font-size:12.5px}
+table{border-collapse:collapse;width:100%;margin:10px 0} th,td{border:1px solid #ddd;padding:6px 9px;text-align:left;vertical-align:top} th{background:#f4f4f4}
+blockquote{border-left:3px solid #e8d98a;background:#fffbe6;margin:14px 0;padding:8px 14px}
+.k{background:#eef6ff;border-left:3px solid #36c;padding:2px 6px;border-radius:3px;font-weight:600;font-size:12px}
+</style></head><body>
+
+<h1>Foundry core — shared contracts</h1>
+<p><strong>What this file is:</strong> the three concepts every Foundry domain SHARES, written once here so GitHub, YouTube, and future domains reason about identity, ranking, and value-truth the same way. These are not abstractions invented top-down — each is an <em>already-mature</em> primitive proven in one domain, promoted to core so the other domains adopt it. Companions: <code>core/paths.py</code> (the one DB-path indirection) + <code>core/db.py</code> (the read-only / single-writer connection helpers). Map: <a href="../FOUNDRY.html">FOUNDRY.html</a>. Last updated 2026-06-26.</p>
+
+<blockquote><strong>The two laws every reader obeys</strong> (enforced by <code>core/db.py</code>): (1) <strong>single-writer-per-DB</strong> — exactly one always-on collector (on the mini) writes each domain DB; everyone else opens it <code>read-only</code> via <code>connect_ro()</code>. (2) <strong>one path indirection</strong> — never hardcode a DB path; resolve through <code>core/paths.py</code> so identical code finds the right file on mini (engine) vs laptop (cockpit). The three contracts below are <em>data/method</em> contracts that sit on top of those two infra laws.</blockquote>
+
+<h2>1. The identity model — canonical id + append-only observation</h2>
+<p class="k">Origin: GitHub (<code>domains/github/catalog.py</code>, tables <code>repo_identity</code> + <code>repo_observation</code>). This is the MATURE identity primitive → core adopts it for every domain (repos, channels/people, papers…).</p>
+<p>The problem it solves: the same content unit is seen many times, from many sources, under slightly different URLs/handles. Naive dedup overwrites history and loses provenance. Foundry's answer: <strong>two tables, never overwrite a sighting.</strong></p>
+<table>
+<tr><th>Table</th><th>Role</th><th>Key fields</th></tr>
+<tr><td><code>&lt;unit&gt;_identity</code> (e.g. <code>repo_identity</code>)</td><td>ONE canonical row per real-world unit</td><td><code>canonical_id</code> (PK), stable external id when known (<code>github_node_id</code>), <code>confidence</code>, <code>first_seen</code>/<code>last_seen</code>, <code>normalized_url</code></td></tr>
+<tr><td><code>&lt;unit&gt;_observation</code> (e.g. <code>repo_observation</code>)</td><td>APPEND-ONLY log of every sighting</td><td><code>obs_id</code> (PK), <code>canonical_id</code> (FK), <code>observed_url</code>, <code>source</code>, <code>source_format</code>, <code>stars</code>, <code>observed_at</code>, <code>UNIQUE(source, normalized_url)</code></td></tr>
+</table>
+<p><strong>Rules:</strong></p>
+<ol>
+<li><strong>Normalize first.</strong> Collapse URL/handle variants to one <code>normalized_url</code> (lowercase owner/repo, strip <code>.git</code>, drop <code>www.</code>, etc.). The normalized form derives the <code>canonical_id</code>.</li>
+<li><strong>Provisional id until a real id arrives.</strong> Before a stable external id (GitHub node id) is known, <code>canonical_id = "provisional:" + sha256(normalized_url)</code>. When the real id is observed later, the identity can be promoted/merged — observations stay attached.</li>
+<li><strong>Confidence GROWS with corroboration.</strong> Each independent sighting raises confidence: <code>min(0.95, 0.50 + (n_observations − 1) × 0.05)</code>. One source = 0.50; many agreeing sources → 0.95. This is how "is this real / how sure are we" is encoded without a human.</li>
+<li><strong>Never delete a raw observation.</strong> Dedup is represented by identity rows + provenance, not by overwriting. The append-only log is also mirrored to JSONL (<code>raw/round-NNNN.jsonl</code>) for replay.</li>
+</ol>
+<p><strong>For a new domain:</strong> create <code>&lt;unit&gt;_identity</code> + <code>&lt;unit&gt;_observation</code> with the same shape, write a normalizer for that domain's URLs/handles, and reuse the confidence rule. YouTube channels and L2 people should adopt this exact pattern (the mini <code>domains/people/people.sqlite</code> <code>person</code>/<code>external_ids</code> tables are the people instance of it).</p>
+
+<h2>2. The ranking primitive — 6-dim weighted composite + tiers</h2>
+<p class="k">Origin: the YouTube research adapter's <code>scripts/scoring/engine.py</code>, class <code>ChannelScorer</code>. This is the mature ranking primitive → core adopts it for ranking people (and any unit) in every domain.</p>
+<p>Rank any set of units (channels, creators, repos) by a transparent weighted blend of independent quality dimensions, then bucket into letter tiers. The composite:</p>
+<pre>overall = Σ (clamp(dimension_score, 0, 100) × weight)      # weights sum to 1.0
+tier    = S(90-100) · A(80-89) · B(70-79) · C(60-69) · D(0-59)
+missing dimension → conservative default (50)</pre>
+<table>
+<tr><th>Dimension</th><th>Weight</th><th>Measures</th></tr>
+<tr><td>knowledge</td><td>0.25</td><td>knowledge density / educational value</td></tr>
+<tr><td>engagement</td><td>0.20</td><td>audience engagement quality</td></tr>
+<tr><td>consistency</td><td>0.20</td><td>regularity + sustained quality</td></tr>
+<tr><td>quality</td><td>0.15</td><td>production quality</td></tr>
+<tr><td>impact</td><td>0.15</td><td>long-term value / influence</td></tr>
+<tr><td>novelty</td><td>0.05</td><td>uniqueness / originality</td></tr>
+</table>
+<p><strong>Why it's the right primitive:</strong> dimensions + weights are explicit and tunable (validated to sum to 1.0), defaults are conservative so missing data never inflates, and tiers give a coarse human-readable bucket on top of the fine score. The production variant (<code>engine_v2.py</code>) keeps the identical composite+tier shape but swaps in domain-tuned dimensions (<code>siso_relevance, freshness, tech_recency, actionability, duration_score, consistency</code>) — proving the primitive generalizes: <strong>pick 6 dimensions for the new domain, set weights summing to 1.0, reuse the composite + tier logic.</strong></p>
+<p><strong>For GitHub L2 (people):</strong> rank creators (Karpathy, Steinberg, …) with this engine — define person dimensions (e.g. repo impact, release cadence, adoption of their work, novelty) and reuse <code>calculate_overall_score</code> + <code>get_tier</code> unchanged.</p>
+
+<h2>3. The adoption-signal method — ground-truth value corroboration</h2>
+<p class="k">Origin: GitHub (<code>research/goals/adoption_eco.py</code> + <code>score_and_load.py</code>, table <code>bank_adoption</code>). The "God-source" signal: it corroborates a README-derived value guess against the world's real usage of the thing.</p>
+<p>A value rating read off a README is a <em>claim</em>. Adoption is <em>truth</em>: how much is this actually downloaded and depended-on? The method turns external registry usage into a 0–100 score and a promote/confirm/demote verdict.</p>
+<ol>
+<li><strong>Resolve the unit to a package</strong> via <a href="https://ecosyste.ms">ecosyste.ms</a> (one free API over npmjs.org / pypi.org / crates.io; 5000 req/hr). Guess package name from repo name; fall back to repo→packages lookup. <strong>Verify the package's <code>repository_url</code> points back to the source repo</strong> — only then <code>resolved=1</code> (no back-link = weak/unresolved, no false signal).</li>
+<li><strong>Pull the signal:</strong> downloads (last-month for npm/pypi; total for crates, damped ×0.75 since it inflates), <code>dependent_repos_count</code>, dependents, percentile rankings.</li>
+<li><strong>Score 0–100 (log-scaled blend):</strong> <code>adoption_score = 0.6·dl_score + 0.4·dep_score</code>, where <code>dl_score = log10(downloads)/9·100</code> and <code>dep_score = log10(dependents)/6·100</code>. Unresolved → <code>NULL</code> (no signal, README stands).</li>
+<li><strong>Verdict vs the README claim:</strong> map <code>reuse_value</code> 65→88 to an expected band 35→75. <code>adoption ≥ expected+15</code> → <strong>promote</strong> (under-sold); <code>adoption ≤ expected−20</code> AND the package is a canonical name-match (not a fork/example) → <strong>demote</strong> (README over-sold); else <strong>confirm</strong>. The canonical-match guard stops fork/example sub-packages from unfairly demoting.</li>
+</ol>
+<p><strong>The point:</strong> adoption is a signal a frontier model can't get from its weights — it's live, external, ground-truth usage. It's the data-layer moat (per the North Star). <strong>For a new domain:</strong> find the domain's equivalent "real usage" signal (views/subscribers for YouTube, citations for papers) and apply the same resolve → log-score → verdict-vs-claim shape.</p>
+
+<h2>How the contracts compose (one sentence)</h2>
+<p>Each domain <strong>resolves units to a canonical identity</strong> (contract 1, append-only + confidence), <strong>ranks the people/units</strong> behind them with the 6-dim composite (contract 2), and <strong>corroborates the value claim</strong> against real-world adoption (contract 3) — three shared methods, one per "what is it / who's good / is it really valuable", reused across every domain.</p>
+
+</body></html>

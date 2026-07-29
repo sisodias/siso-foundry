@@ -1,0 +1,43 @@
+You are arm A (CARDS-ONLY) in a controlled experiment. Build ONE file and stop.
+
+TASK SPEC (read it exactly):
+---
+Build an ES module `webhook.mjs` exporting one function:
+  export function createReceiver({ dbPath, secret, schema }) -> { handle, close }
+
+handle({ rawBody, signatureHeader, idempotencyKey }) must:
+ 1. VERIFY HMAC: signatureHeader is "sha256=<hex>". Compute HMAC-SHA256 of the
+    RAW request body bytes keyed by `secret`. If mismatch -> return
+    { status:401, reason:'bad_signature' }. The compare MUST be constant-time
+    and MUST NOT throw on a length mismatch.
+ 2. VALIDATE: parse rawBody as JSON then validate against `schema` (a JSON-Schema
+    object). On bad JSON or schema failure -> { status:400, reason:'invalid_body' }.
+    Signature is checked BEFORE parsing.
+ 3. DEDUPE by idempotencyKey: if seen before, do NOT persist again; return
+    { status:200, reason:'duplicate', replayed:true, id:<same id as original> }.
+    Must be race-safe (atomic, no check-then-act gap).
+ 4. PERSIST on first valid delivery: store (idempotency key, raw body, generated
+    id) durably in SQLite at dbPath. Return
+    { status:200, reason:'accepted', replayed:false, id:<recordId> }.
+ close() closes the DB.
+ ES module, Node 22, no network.
+---
+
+YOU MAY USE ONLY the bank slice below (the cards). You are FORBIDDEN to read any
+source, README, npm page, or the web. Wire strictly from these cards plus your
+knowledge of Node built-in modules. The cards give you a full recipe for two
+capabilities and only a SELECT-level pointer (no wiring) for the other two.
+
+=== BANK SLICE (CARDS.md) ===
+{{CARDS}}
+=== END BANK SLICE ===
+
+DELIVERABLES (write exactly these two files, nothing else):
+1. /ARMDIR/webhook.mjs  — the working module.
+2. /ARMDIR/deps.json    — a JSON object of the npm deps you import, e.g.
+   { "better-sqlite3": "^11.0.0", "ajv": "^8.0.0" }  (only what you actually import).
+3. /ARMDIR/NOTES.md     — log every place you had to GUESS because the cards
+   were thin (especially for the HMAC and idempotency capabilities, which had
+   no wiring recipe). Be honest: list each guess as a bullet.
+
+Write the files with the Write tool. Do not run npm or tests. Stop when written.

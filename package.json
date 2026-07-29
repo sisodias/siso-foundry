@@ -1,0 +1,9 @@
+{
+  "name": "siso-foundry",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Source discovery, evidence, ranking, and reusable research knowledge.",
+  "scripts": {
+    "test": "python3 scripts/check.py"
+  }
+}

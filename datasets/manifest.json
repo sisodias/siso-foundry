@@ -1,0 +1,41 @@
+{
+  "schema_version": "0.1.0",
+  "captured_at": "2026-07-30",
+  "work_id": "gls:work:ec664d93-df93-48c5-be40-5d0165886c01",
+  "assets": [
+    {
+      "id": "foundry-github-identity-live",
+      "kind": "sqlite_database",
+      "logical_path": "domains/github/identity/identity.sqlite",
+      "storage_state": "private_local_source",
+      "publication_state": "not_published",
+      "observed_bytes": 1879339008,
+      "observed_counts": {
+        "repo_card": 1358200,
+        "repo_category": 226968,
+        "category": 264,
+        "bank_repo": 23778,
+        "bank_contractcard": 70
+      },
+      "required_release_receipts": ["schema_version", "content_hash", "rights_review", "privacy_review", "durable_copy_count"]
+    },
+    {
+      "id": "foundry-github-raw-observations",
+      "kind": "append_only_corpus",
+      "logical_path": "domains/github/raw",
+      "storage_state": "private_local_source",
+      "publication_state": "not_published",
+      "observed_bytes": 680691116,
+      "required_release_receipts": ["content_manifest", "source_rights_review", "privacy_review", "durable_copy_count"]
+    },
+    {
+      "id": "foundry-github-staging",
+      "kind": "derived_artifacts",
+      "logical_path": "domains/github/staging",
+      "storage_state": "private_local_source",
+      "publication_state": "regenerable_not_published",
+      "observed_bytes": 253410560,
+      "required_release_receipts": ["generator_revision", "input_snapshot", "content_manifest"]
+    }
+  ]
+}
