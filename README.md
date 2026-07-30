@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/assets/repository-header.png" width="100%" alt="Raw source fragments refined by a precision foundry into reusable crystalline modules">
+</p>
+
 # SISO Foundry
 
 Foundry turns large source corpora into traceable, ranked, reusable research knowledge.
