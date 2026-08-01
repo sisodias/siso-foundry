@@ -32,6 +32,12 @@ for path in source_files(".mjs"):
 for path in source_files(".sh"):
     run(["bash", "-n", str(path)])
 
+run([sys.executable, "-m", "unittest", "discover", "-s", "pipelines/github", "-p", "test_*.py"], stdout=subprocess.DEVNULL)
+run([
+    sys.executable, "pipelines/github/run_campaign.py", "--dry-run",
+    "--campaign", "pipelines/github/campaigns/agent-systems-v1.json",
+], stdout=subprocess.DEVNULL)
+
 with tempfile.TemporaryDirectory(prefix="siso-foundry-check-") as directory:
     env = dict(os.environ)
     env["FOUNDRY_TOPICS_DB"] = str(Path(directory) / "topics.sqlite")

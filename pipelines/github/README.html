@@ -8,7 +8,7 @@
     <ul>
       <li><code>raw/</code>: append-only JSONL rounds. Historical import is <code>round-0000.jsonl</code>.</li>
       <li><code>identity/</code>: SQLite identity store keyed by GitHub node ID when known, otherwise provisional normalized URL hashes.</li>
-      <li><code>staging/</code>: future promotion candidates, empty in Phase 2.</li>
+      <li><code>staging/</code>: reproducible derived candidates awaiting direct source, provenance, rights, and promotion review.</li>
       <li><code>curated/</code>: future gated curated sink, empty in Phase 2.</li>
     </ul>
     <p>Never delete raw observations. Dedupe is represented by identity and provenance rows, not by overwriting history.</p>

@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "agent-systems-v1",
+  "title": "Public agent systems and reusable agent capability source",
+  "description": "A resumable GitHub discovery campaign for complete agent stacks and the hooks, skills, playbooks, tools, memory, orchestration, evaluation, and protocol components that can improve them.",
+  "source": "github_repository_search",
+  "default_results_per_query": 20,
+  "rights_policy": "Metadata and public locators may be observed. Source reuse requires direct license and provenance review; discovery never grants promotion or redistribution rights.",
+  "promotion_gate": "direct_source_review",
+  "stop_conditions": [
+    "GitHub search quota has fewer than two requests remaining.",
+    "GitHub returns a rate-limit, abuse-detection, authentication, or access error.",
+    "A response cannot be parsed or safely checkpointed.",
+    "The configured query or output scope expands beyond public repository metadata."
+  ],
+  "query_families": [
+    {
+      "key": "complete-agent-stacks",
+      "label": "Complete agent stacks",
+      "query": "\"agent stack\" in:name,description,readme archived:false fork:false stars:>=20",
+      "capability_tags": ["distribution", "agent-stack", "installer"]
+    },
+    {
+      "key": "claude-code-hooks",
+      "label": "Claude Code lifecycle hooks",
+      "query": "\"Claude Code\" hooks in:name,description,readme archived:false fork:false stars:>=5",
+      "capability_tags": ["hooks", "claude-code", "lifecycle"]
+    },
+    {
+      "key": "codex-skills",
+      "label": "Codex and agent skills",
+      "query": "Codex agent skills SKILL.md in:readme archived:false fork:false stars:>=5",
+      "capability_tags": ["skills", "codex", "capability-pack"]
+    },
+    {
+      "key": "agent-playbooks",
+      "label": "Agent playbooks and operating procedures",
+      "query": "agent playbook multi-agent in:name,description,readme archived:false fork:false stars:>=10",
+      "capability_tags": ["playbook", "workflow", "multi-agent"]
+    },
+    {
+      "key": "agent-orchestration",
+      "label": "Multi-agent orchestration",
+      "query": "multi-agent orchestration framework in:name,description,readme archived:false fork:false stars:>=50",
+      "capability_tags": ["orchestration", "multi-agent", "runtime"]
+    },
+    {
+      "key": "mcp-tooling",
+      "label": "MCP servers and tooling",
+      "query": "MCP server agent tools in:name,description,readme archived:false fork:false stars:>=50",
+      "capability_tags": ["mcp", "tools", "protocol"]
+    },
+    {
+      "key": "agent-memory",
+      "label": "Agent memory and session intelligence",
+      "query": "agent memory session context in:name,description,readme archived:false fork:false stars:>=50",
+      "capability_tags": ["memory", "context", "session-intelligence"]
+    },
+    {
+      "key": "agent-evaluation",
+      "label": "Agent evaluation and verification",
+      "query": "AI agent evaluation benchmark in:name,description,readme archived:false fork:false stars:>=50",
+      "capability_tags": ["evaluation", "verification", "benchmark"]
+    },
+    {
+      "key": "coding-agent-harnesses",
+      "label": "Coding-agent harnesses",
+      "query": "coding agent harness in:name,description,readme archived:false fork:false stars:>=20",
+      "capability_tags": ["coding-agent", "harness", "runtime"]
+    },
+    {
+      "key": "agent-observability",
+      "label": "Agent observability and traces",
+      "query": "LLM agent observability tracing in:name,description,readme archived:false fork:false stars:>=50",
+      "capability_tags": ["observability", "tracing", "operations"]
+    }
+  ]
+}

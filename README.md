@@ -41,6 +41,25 @@ That boundary is what lets Foundry scale from gigabytes to petabytes without tur
 | `packages/bank-api` | Capability query surface and behavioral verification harness | Experimental |
 | `packages/research-topics` | Fuzzy add-or-match topic registry with provenance-preserving merges | Experimental |
 
+## Reproducible discovery campaigns
+
+Campaign definitions are public, reviewable query contracts. Runs are resumable and write only to the external data plane; raw GitHub responses, checkpoints, and candidate projections never enter this repository.
+
+```bash
+python3 pipelines/github/run_campaign.py --dry-run
+python3 pipelines/github/run_campaign.py --max-queries 3 --limit-per-query 20
+```
+
+The first public campaign, [`agent-systems-v1`](pipelines/github/campaigns/agent-systems-v1.json), covers complete agent stacks, Claude Code hooks, Codex/agent skills, playbooks, orchestration, MCP tooling, memory, evaluation, coding-agent harnesses, and observability. The runner:
+
+- checks GitHub's search quota before every query and stops before exhaustion;
+- records each raw response as an append-only observation;
+- checkpoints query key plus query hash, so changed queries rerun without erasing history;
+- produces a deduplicated candidate projection with query lineage and capability tags; and
+- defaults every candidate to `rights_state: review_required` and `promotion_gate: direct_source_review`.
+
+GitHub authentication is supplied by the operator's existing `gh` CLI configuration. Tokens and API responses are never written to Git.
+
 ## Data layout
 
 Foundry resolves data through `FOUNDRY_DATA`. When it is unset, the portable default is:
