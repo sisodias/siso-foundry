@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.0 — 2026-08-03
+
+- Define the Agency OS application mission and the boundary between Foundry research evidence, Great Library registration, and owning SISO Work delivery.
+- Add the routing and promotion contract for moving evidence-reviewed capabilities into Agency OS without treating discovery candidates as adoption authorization.
+- Record the 12-pillar, 10k+ repository campaign scope and its reproducibility, rights-review, and corpus-completeness caveats.
+- Publish a deterministic 628-project coverage inventory that reconciles 497 candidate applications and 189 capability-atlas rows into the canonical 12 Agency OS pillars with explicit metadata, inferred, source-read, and adversarial-confirmed evidence grades.
+
 ## 0.4.0 — 2026-08-02
 
 - Promote the first cross-agency value matrix from the recovered 9,636-repository SISOCRM evidence universe.

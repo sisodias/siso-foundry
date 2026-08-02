@@ -60,9 +60,13 @@ The first public campaign, [`agent-systems-v1`](pipelines/github/campaigns/agent
 
 GitHub authentication is supplied by the operator's existing `gh` CLI configuration. Tokens and API responses are never written to Git.
 
+The campaign is a reproducible discovery contract, not a claim that the resulting corpus is complete, current, or cleared for redistribution. Each run still requires source, license, privacy, and promotion review.
+
 ## Agency intelligence
 
-[`intelligence/agency/`](intelligence/agency/README.md) turns the recovered source corpus into a durable mission for SISO Agency OS: discover useful business software, choose an evidence-backed adoption mode, prove the integration, and promote the result to its owning SISO Work. The package includes a machine-readable metadata snapshot, the scored [`Agency OS value matrix`](intelligence/agency/VALUE-MATRIX.md), and a prioritized evidence backlog without publishing the private corpus.
+[`intelligence/agency/`](intelligence/agency/README.md) turns the recovered source corpus into a durable mission for SISO Agency OS: discover useful business software, choose an evidence-backed adoption mode, prove the integration, and promote the result to its owning SISO Work. The package includes the [`Agency OS application mission`](docs/AGENCY_OS_APPLICATION_MISSION.md), a machine-readable metadata snapshot, the scored [`Agency OS value matrix`](intelligence/agency/VALUE-MATRIX.md), and a prioritized evidence backlog without publishing the private corpus.
+
+The deduplicated repository coverage and canonical 12-pillar evidence split are published in [`COVERAGE.md`](intelligence/agency/COVERAGE.md), with row-level data in [`coverage-inventory.json`](intelligence/agency/coverage-inventory.json).
 
 Foundry remains the source-intelligence engine. The Great Library is the registry and discovery front door. Agency OS owns the product control plane and applies released capabilities to real business outcomes.
 

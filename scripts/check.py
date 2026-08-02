@@ -148,11 +148,50 @@ for entry in value_matrix["entries"]:
 
 assert len(authority_groups) == len(value_matrix["entries"])
 
+# Agency OS expansion coverage inventory: repository-level deduplication and
+# evidence gates.  This is deliberately checked against the lane receipt's
+# 497 application rows so aggregate percentages cannot silently drift.
+coverage = json.loads((ROOT / "intelligence" / "agency" / "coverage-inventory.json").read_text())
+assert coverage["record_type"] == "agency_os_coverage_inventory"
+assert coverage["counts"]["candidate_application_rows"] == 497
+assert coverage["counts"]["frontier_rows"] == 30
+assert coverage["counts"]["atlas_capability_rows"] == 189
+coverage_rows = coverage["rows"]
+assert coverage["counts"]["unique_repositories"] == len(coverage_rows) == len({r["repository"] for r in coverage_rows})
+assert coverage["coverage"]["inferred_rows_counted_as_verified"] == 0
+assert all(r["evidence_grade"] in {"metadata", "inferred", "source-read", "adversarial-confirmed"} for r in coverage_rows)
+assert all(r["verticals"] and r["categories"] for r in coverage_rows)
+assert all("license" in r and "source_refs" in r and "analyzed" in r for r in coverage_rows)
+assert sum(r["application_row_count"] for r in coverage_rows) == 497
+assert sum(r["frontier_row_count"] for r in coverage_rows) == 30
+assert coverage["coverage"]["adversarial_confirmed_unique_repositories"] == sum(r["analyzed"]["adversarial_confirmed"] for r in coverage_rows)
+assert coverage["coverage"]["source_read_unique_repositories"] == sum(r["analyzed"]["source_read"] for r in coverage_rows)
+assert coverage["coverage"]["reusable_analysis_unique_repositories"] <= coverage["counts"]["unique_repositories"]
+assert coverage["coverage"]["source_read_candidate_application_rows"] == 89
+assert coverage["counts"]["multi_vertical_projects"] == sum(len(r["canonical_verticals"]) > 1 for r in coverage_rows)
+canonical = coverage["canonical_pillars"]
+assert len(canonical) == 12 and len(set(canonical)) == 12
+assert coverage["counts"]["unmapped_vertical_labels"] == 0
+assert set(coverage["vertical_coverage"]) == set(canonical)
+for row in coverage_rows:
+    assert row["canonical_verticals"] and set(row["canonical_verticals"]).issubset(set(canonical))
+    assert row["raw_vertical_labels"]
+expected_mappings = {
+    "knowledge-documents-files-legal": {"knowledge_research", "files_media_content", "legal_trust"},
+    "agent-infrastructure-deployment-ops": {"automation_agents", "deployment_operations"},
+    "marketing-growth-content-automation": {"marketing_growth", "automation_agents", "files_media_content"},
+}
+for raw, expected in expected_mappings.items():
+    matching = [r for r in coverage_rows if raw in r["raw_vertical_labels"]]
+    assert matching and all(expected.issubset(set(r["canonical_verticals"])) for r in matching)
+for pillar, detail in coverage["vertical_coverage"].items():
+    assert detail["repository_count"] == len(detail["projects"]) == len(set(detail["projects"]))
+
 publication_patterns = [
     re.compile("/" + "Users" + "/"),
     re.compile("SISO_" + "Workspace"),
     re.compile("BEGIN (?:RSA |OPENSSH |EC |DSA )?" + "PRIVATE KEY"),
-    re.compile("(?:ghp|github_pat|sk)" + "-[A-Za-z0-9_-]{16,}"),
+    re.compile("(?<![A-Za-z0-9])(?:ghp|github_pat|sk)" + "-[A-Za-z0-9_-]{16,}"),
 ]
 for path in ROOT.rglob("*"):
     if IGNORED_PARTS.intersection(path.parts):

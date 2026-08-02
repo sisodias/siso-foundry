@@ -25,6 +25,8 @@ Agency need or industry problem
 
 This makes the Library the findable map, Foundry the source-intelligence engine, and Agency OS the product that applies the evidence. A repository with many stars is a candidate, not a product decision.
 
+See the deterministic [`coverage inventory`](COVERAGE.md) and [`machine-readable coverage rows`](coverage-inventory.json) for repository-level deduplication, canonical 12-pillar mapping, evidence splits, and reusable-analysis counts.
+
 ## Recovered intelligence
 
 The metadata snapshot at [`snapshot.json`](snapshot.json) records the observed shape of the external Foundry data plane without publishing the database or generated artifacts. It includes exact logical-source receipts, component timestamps, file sizes, and SHA-256 digests so later agents can reproduce the same population. As rechecked on 2026-08-02, the corpus includes:

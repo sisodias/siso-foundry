@@ -6,13 +6,40 @@ import run_campaign
 
 
 class CampaignContractTest(unittest.TestCase):
-    def test_public_agent_campaign_is_valid_and_unique(self):
-        path = Path(__file__).parent / "campaigns" / "agent-systems-v1.json"
-        campaign = json.loads(path.read_text())
-        run_campaign.validate_campaign(campaign)
-        self.assertEqual(len(campaign["query_families"]), 10)
-        self.assertEqual(len({item["key"] for item in campaign["query_families"]}), 10)
-        self.assertTrue(all(item["capability_tags"] for item in campaign["query_families"]))
+    def test_agency_business_software_contract_covers_all_pillars(self):
+        campaign_path = Path(__file__).parent / "campaigns" / "agency-business-software-v1.json"
+        contract_path = (
+            Path(__file__).parents[2]
+            / "packages"
+            / "business-application"
+            / "agency-os-routing-contract.json"
+        )
+        campaign = json.loads(campaign_path.read_text())
+        contract = json.loads(contract_path.read_text())
+        families = campaign["query_families"]
+
+        self.assertEqual(len(families), 12)
+        primary_pillars = {family["capability_tags"][0] for family in families}
+        self.assertEqual(primary_pillars, set(contract["pillars"]))
+        for family in families:
+            with self.subTest(query_family=family["key"]):
+                self.assertIn("stars:>=10000", family["query"])
+                self.assertIn("archived:false", family["query"])
+                self.assertIn("fork:false", family["query"])
+        self.assertTrue(campaign["rights_policy"])
+        self.assertTrue(campaign["promotion_gate"])
+        self.assertTrue(campaign["stop_conditions"])
+
+    def test_public_campaigns_are_valid_and_unique(self):
+        paths = sorted((Path(__file__).parent / "campaigns").glob("*.json"))
+        self.assertGreaterEqual(len(paths), 2)
+        for path in paths:
+            with self.subTest(campaign=path.name):
+                campaign = json.loads(path.read_text())
+                run_campaign.validate_campaign(campaign)
+                families = campaign["query_families"]
+                self.assertEqual(len({item["key"] for item in families}), len(families))
+                self.assertTrue(all(item["capability_tags"] for item in families))
 
     def test_candidate_merge_preserves_query_lineage(self):
         prior = [{

@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "agency-business-software-v1",
+  "title": "High-signal business software for SISO Agency OS",
+  "description": "A resumable refresh campaign for popular source that may support the common Agency OS, optional operational modules, infrastructure, or industry packs. The existing Foundry corpus remains the broad-universe source.",
+  "source": "github_repository_search",
+  "default_results_per_query": 20,
+  "rights_policy": "Metadata and public locators may be observed. Source reuse requires direct license and provenance review; discovery never grants promotion or redistribution rights.",
+  "promotion_gate": "business_application_direct_source_review",
+  "stop_conditions": ["GitHub search quota has fewer than two requests remaining.", "GitHub returns a rate-limit, abuse-detection, authentication, or access error.", "A response cannot be parsed or safely checkpointed.", "The configured query or output scope expands beyond public repository metadata."],
+  "query_families": [
+    {"key": "revenue-crm", "label": "Revenue and relationship systems", "query": "topic:crm stars:>=10000 archived:false fork:false", "capability_tags": ["revenue_relationships", "crm"]},
+    {"key": "work-delivery", "label": "Project and delivery systems", "query": "topic:project-management stars:>=10000 archived:false fork:false", "capability_tags": ["work_delivery", "project-management"]},
+    {"key": "knowledge-docs", "label": "Knowledge and document systems", "query": "topic:knowledge-base stars:>=10000 archived:false fork:false", "capability_tags": ["knowledge_research", "documents"]},
+    {"key": "communication-support", "label": "Customer communication and support", "query": "topic:customer-support stars:>=10000 archived:false fork:false", "capability_tags": ["communication_support", "support"]},
+    {"key": "marketing-growth", "label": "Marketing and growth systems", "query": "topic:marketing-automation stars:>=10000 archived:false fork:false", "capability_tags": ["marketing_growth", "marketing-automation"]},
+    {"key": "legal-trust", "label": "Legal, signature and trust systems", "query": "topic:digital-signature stars:>=10000 archived:false fork:false", "capability_tags": ["legal_trust", "electronic-signature"]},
+    {"key": "finance-administration", "label": "Finance and administration systems", "query": "topic:accounting stars:>=10000 archived:false fork:false", "capability_tags": ["finance_administration", "accounting"]},
+    {"key": "data-intelligence", "label": "Analytics and business intelligence", "query": "topic:business-intelligence stars:>=10000 archived:false fork:false", "capability_tags": ["data_intelligence", "analytics"]},
+    {"key": "automation-agents", "label": "Business automation and agent systems", "query": "topic:workflow-automation stars:>=10000 archived:false fork:false", "capability_tags": ["automation_agents", "workflow-automation"]},
+    {"key": "identity-governance", "label": "Identity and access systems", "query": "topic:identity-management stars:>=10000 archived:false fork:false", "capability_tags": ["identity_security_governance", "identity"]},
+    {"key": "files-content", "label": "Files, media and content systems", "query": "topic:file-sharing stars:>=10000 archived:false fork:false", "capability_tags": ["files_media_content", "file-storage"]},
+    {"key": "deployment-operations", "label": "Deployment and operations systems", "query": "topic:self-hosted stars:>=10000 archived:false fork:false", "capability_tags": ["deployment_operations", "self-hosting"]}
+  ]
+}

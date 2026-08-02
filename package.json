@@ -1,9 +1,10 @@
 {
   "name": "siso-foundry",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "description": "Source discovery, evidence, ranking, and reusable research knowledge.",
   "scripts": {
+    "build:agency-coverage": "python3 scripts/build_agency_coverage.py",
     "test": "python3 scripts/check.py"
   }
 }

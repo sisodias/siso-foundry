@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "siso-agency-os-business-application-routing-v1",
+  "purpose": "Route source evidence to a business application outcome without treating discovery or popularity as product approval.",
+  "pillars": ["revenue_relationships", "work_delivery", "knowledge_research", "communication_support", "marketing_growth", "legal_trust", "finance_administration", "data_intelligence", "automation_agents", "identity_security_governance", "files_media_content", "deployment_operations"],
+  "application_routes": ["agency_os_core", "optional_module", "managed_service", "connector_only", "infrastructure_primitive", "industry_pack", "pattern_reference", "client_specific", "watchlist", "reject"],
+  "ownership_paths": ["integrate_upstream", "operate_pinned_service", "maintain_source_owned_fork", "extract_licensed_module", "clean_room_pattern", "build_native_replacement", "no_adoption"],
+  "agent_capabilities": ["discover", "read", "search", "write", "action", "subscribe", "approve", "audit"],
+  "evaluation_dimensions": ["business_job_fit", "value_mechanism", "source_evidence", "agent_operability", "data_and_tenancy", "rights_and_provenance", "maintenance_and_security", "deployment_and_recovery", "integration_and_upgrade_cost", "portfolio_overlap", "industry_reuse"],
+  "value_mechanisms": ["revenue_increase", "labour_compression", "software_spend_reduction", "cycle_time_reduction", "risk_reduction", "quality_increase", "agent_action_enablement", "new_service_or_product"],
+  "industry_readiness": ["research", "validated", "packaged", "deployed", "proven"],
+  "required_decision_fields": ["candidate_id", "source_revision", "business_job", "target_users", "pillars", "industry_scope", "application_route", "ownership_path", "value_mechanisms", "agent_capability_coverage", "evidence_references", "rights_state", "maintenance_state", "data_owner", "deployment_profile", "overlap_decision", "proof_gates", "reviewed_at"],
+  "promotion_rule": "Discovery may create a review candidate. Product or Library promotion requires direct source, provenance, rights, business-fit, overlap, and operational review.",
+  "popularity_rule": "Stars and adoption are discovery priors only and never satisfy an evaluation or promotion gate."
+}
