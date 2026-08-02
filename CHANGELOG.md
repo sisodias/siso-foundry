@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Specify the Agency repository economic model: replacement value, captured source value, client outcome, commercial offer economics, portfolio value, ROI, evidence confidence, and pricing boundaries.
+- Add a machine-readable economic model, repository economic-card schema, and explicitly provisional AFFiNE/Teable calibration examples.
+- Record the coverage/value-matrix reconciliation defect and make exact union and evidence preservation the first gate before a 632+ project economic leaderboard.
+- Expand the Agency backlog from source ranking into offer catalogs, stack recipes, outcome receipts, and risk-adjusted value per engineering month.
+
 ## 0.5.1 — 2026-08-03
 
 - Correct Lane-B routing to map all 189 capabilities from their actual jobs to explicit canonical pillars; raw broad slices no longer fan out into project verticals.

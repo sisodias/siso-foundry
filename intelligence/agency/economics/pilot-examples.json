@@ -1,0 +1,58 @@
+{
+  "schema_version": "0.1.0",
+  "record_type": "agency_repo_economic_pilot_examples",
+  "status": "illustrative_not_audited",
+  "observed_at": "2026-08-03",
+  "currency": "GBP",
+  "warnings": [
+    "These examples demonstrate the model and are not audited valuations, client offers, legal conclusions, or revenue forecasts.",
+    "Every assumption requires direct source, rights, maintenance, delivery-cost, alternative-cost, and client-outcome review before promotion."
+  ],
+  "loaded_engineering_cost_per_month_gbp": 12000,
+  "examples": [
+    {
+      "repository": "toeverything/AFFiNE",
+      "siso_surface": "SISO Docs",
+      "current_matrix_priority": 66,
+      "assumptions": {
+        "estimated_engineer_months": { "low": 150, "base": 250, "high": 400 },
+        "relevant_functionality": 0.4,
+        "integration_maturity": 0.65,
+        "rights_factor": 0.65,
+        "maintainability_factor": 0.75,
+        "evidence_confidence": 0.85,
+        "remaining_productization_cost_gbp": { "low": 75000, "base": 130000, "high": 200000 },
+        "implementation_price_gbp": { "low": 8000, "base": 15000, "high": 25000 },
+        "monthly_managed_fee_gbp": { "low": 300, "base": 700, "high": 1200 }
+      },
+      "calculated": {
+        "full_replacement_value_gbp": { "low": 1800000, "base": 3000000, "high": 4800000 },
+        "captured_source_value_gbp": { "low": 193928, "base": 323213, "high": 517140 },
+        "three_year_gross_revenue_per_client_gbp": { "low": 18800, "base": 40200, "high": 68200 }
+      },
+      "next_proof": "Audit the exact SISO-used feature fraction, current rights route, backend ownership, production-hardening backlog, delivery cost, alternative cost, and client willingness to pay."
+    },
+    {
+      "repository": "teableio/teable",
+      "siso_surface": "SISO Tables",
+      "current_matrix_priority": 73,
+      "assumptions": {
+        "estimated_engineer_months": { "low": 120, "base": 200, "high": 320 },
+        "relevant_functionality": 0.7,
+        "integration_maturity": 0.75,
+        "rights_factor": 0.65,
+        "maintainability_factor": 0.85,
+        "evidence_confidence": 0.85,
+        "remaining_productization_cost_gbp": { "low": 100000, "base": 170000, "high": 250000 },
+        "implementation_price_gbp": { "low": 15000, "base": 25000, "high": 40000 },
+        "monthly_managed_fee_gbp": { "low": 600, "base": 1500, "high": 2500 }
+      },
+      "calculated": {
+        "full_replacement_value_gbp": { "low": 1440000, "base": 2400000, "high": 3840000 },
+        "captured_source_value_gbp": { "low": 355036, "base": 591727, "high": 946764 },
+        "three_year_gross_revenue_per_client_gbp": { "low": 36600, "base": 79000, "high": 130000 }
+      },
+      "next_proof": "Audit the exact Agency workflows, current rights and branding route, tenancy, backup and restore, capability-gateway writes, production-hardening cost, alternative cost, and client willingness to pay."
+    }
+  ]
+}

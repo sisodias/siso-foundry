@@ -8,6 +8,12 @@ Foundry answers three questions:
 2. What does the evidence say about adopting, adapting, integrating, or rejecting it?
 3. Which owning SISO Work should prove and release the resulting capability?
 
+The next economic layer adds a fourth:
+
+4. What can SISO save, sell, or compound because this source exists?
+
+The [`Agency repository economic valuation`](ECONOMIC-VALUATION.md) defines the risk-adjusted replacement, captured-source, client-outcome, offer, and portfolio-value model. Its machine-readable model, card schema, and provisional AFFiNE/Teable examples live under [`economics/`](economics/). The examples are planning demonstrations, not audited valuations or client prices.
+
 The Great Library of SISO records the stable identity, release, selection, and promotion lineage. It does not absorb this repository or the operational corpus. Foundry remains an independent Research Work and owns source discovery, reuse intelligence, and verification evidence.
 
 ## The operating loop
@@ -26,6 +32,8 @@ Agency need or industry problem
 This makes the Library the findable map, Foundry the source-intelligence engine, and Agency OS the product that applies the evidence. A repository with many stars is a candidate, not a product decision.
 
 See the deterministic [`coverage inventory`](COVERAGE.md) and [`machine-readable coverage rows`](coverage-inventory.json) for repository-level deduplication, canonical 12-pillar mapping, evidence splits, and reusable-analysis counts.
+
+The coverage inventory and value matrix are not yet a complete union: four decision-grade matrix repositories are absent and sixteen matrix evidence states were downgraded to `inferred` in coverage. The economic plan treats reconciliation as Phase 0 and forbids a complete leaderboard claim until the generator mechanically unions and validates every canonical intelligence source.
 
 ## Recovered intelligence
 

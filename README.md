@@ -68,6 +68,10 @@ The campaign is a reproducible discovery contract, not a claim that the resultin
 
 The deduplicated repository coverage and canonical 12-pillar evidence split are published in [`COVERAGE.md`](intelligence/agency/COVERAGE.md), with row-level data in [`coverage-inventory.json`](intelligence/agency/coverage-inventory.json).
 
+The [`Agency repository economic valuation`](intelligence/agency/ECONOMIC-VALUATION.md) specifies how Foundry will assign auditable low/base/high replacement, captured-source, client-outcome, offer, and three-year portfolio values to `repository × capability × client archetype × adoption route × commercial offer`. The current AFFiNE and Teable numbers are explicitly provisional calibration examples, not audited valuations or client prices.
+
+The economic specification also records a precondition for the next release: the coverage inventory and value matrix must be mechanically reconciled before either is described as complete. Four decision-grade projects are currently absent from coverage and sixteen stronger value-matrix evidence records were downgraded to `inferred`.
+
 Foundry remains the source-intelligence engine. The Great Library is the registry and discovery front door. Agency OS owns the product control plane and applies released capabilities to real business outcomes.
 
 ## Data layout

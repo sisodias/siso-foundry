@@ -1,0 +1,43 @@
+{
+  "schema_version": "0.1.0",
+  "record_type": "agency_repo_economic_model",
+  "status": "specification",
+  "observed_at": "2026-08-03",
+  "currency": "GBP",
+  "unit_of_analysis": "repository × capability × client_archetype × adoption_route × commercial_offer",
+  "formulas": {
+    "full_replacement_value": "estimated_engineer_months * loaded_engineering_cost_per_month",
+    "captured_source_value": "full_replacement_value * relevant_functionality * integration_maturity * rights_factor * maintainability_factor * evidence_confidence",
+    "annual_labor_savings": "hours_saved_per_month * loaded_hourly_cost * 12",
+    "annual_client_outcome_value": "annual_saas_displacement + annual_labor_savings + annual_attributable_revenue_gain + annual_expected_risk_reduction",
+    "three_year_gross_profit_per_deployment": "implementation_price - implementation_delivery_cost + 36 * (monthly_managed_fee - monthly_operating_cost)",
+    "three_year_portfolio_value": "captured_source_value + internal_operating_savings + expected_deployments * attach_rate * three_year_gross_profit_per_deployment - remaining_productization_cost",
+    "repo_investment_roi": "three_year_portfolio_value / remaining_productization_cost",
+    "price_floor": "delivery_cost / (1 - target_gross_margin)"
+  },
+  "evidence_confidence_defaults": {
+    "runtime_outcome": 0.95,
+    "runtime_proven": 0.9,
+    "host_integrated": 0.85,
+    "adversarial_confirmed": 0.8,
+    "source_read": 0.7,
+    "metadata": 0.4,
+    "inferred": 0.2
+  },
+  "rights_factor_planning_defaults": {
+    "permissive_verified": 0.95,
+    "reciprocal_workable_pending_offer_review": 0.65,
+    "review_required": 0.35,
+    "prohibited_for_route": 0.0
+  },
+  "rules": [
+    "Every monetary output is a low/base/high range with assumptions, evidence date, confidence, and next proof.",
+    "Rights factors are planning priors and never replace a recorded legal or license review.",
+    "Stars, source volume, commits, and forks are evidence inputs, not valuation formulas.",
+    "Source value, client outcome value, SISO revenue, and SISO gross profit remain separate fields.",
+    "Metadata and inferred cards are triage only and cannot authorize adoption or client pricing.",
+    "Stack recipes deduplicate shared primitives, costs, and client benefits.",
+    "Market anchors are time-sensitive and require current receipts.",
+    "Undefined ROI is emitted when remaining productization cost is zero."
+  ]
+}

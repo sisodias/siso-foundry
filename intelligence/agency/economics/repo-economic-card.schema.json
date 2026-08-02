@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://siso.internal/schemas/agency-repo-economic-card.schema.json",
+  "title": "SISO Agency repository economic card",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_type",
+    "card_id",
+    "repository",
+    "source_revision",
+    "capability",
+    "client_archetype",
+    "adoption_route",
+    "commercial_offer",
+    "evidence",
+    "rights",
+    "economics",
+    "next_proof"
+  ],
+  "properties": {
+    "schema_version": { "const": "0.1.0" },
+    "record_type": { "const": "agency_repo_economic_card" },
+    "card_id": { "type": "string", "minLength": 1 },
+    "repository": { "type": "string", "pattern": "^[^/]+/[^/]+$" },
+    "source_revision": { "type": "string", "minLength": 7 },
+    "capability": { "type": "string", "minLength": 1 },
+    "client_archetype": { "type": "string", "minLength": 1 },
+    "adoption_route": {
+      "enum": ["whole_app", "source_owned_fork", "api", "sidecar", "extract", "reference", "reject"]
+    },
+    "commercial_offer": { "type": "string", "minLength": 1 },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "observed_at", "confidence", "references"],
+      "properties": {
+        "state": {
+          "enum": ["runtime_outcome", "runtime_proven", "host_integrated", "adversarial_confirmed", "source_read", "metadata", "inferred"]
+        },
+        "observed_at": { "type": "string", "format": "date" },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "references": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "rights": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "factor", "review_required"],
+      "properties": {
+        "state": { "type": "string", "minLength": 1 },
+        "factor": { "type": "number", "minimum": 0, "maximum": 1 },
+        "review_required": { "type": "boolean" },
+        "references": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "economics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assumptions",
+        "full_replacement_value_gbp",
+        "captured_source_value_gbp",
+        "remaining_productization_cost_gbp",
+        "annual_client_outcome_value_gbp",
+        "implementation_price_gbp",
+        "monthly_managed_fee_gbp",
+        "three_year_gross_profit_per_deployment_gbp",
+        "three_year_portfolio_value_gbp"
+      ],
+      "properties": {
+        "assumptions": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "full_replacement_value_gbp": { "$ref": "#/$defs/range" },
+        "captured_source_value_gbp": { "$ref": "#/$defs/range" },
+        "remaining_productization_cost_gbp": { "$ref": "#/$defs/range" },
+        "annual_client_outcome_value_gbp": { "$ref": "#/$defs/range" },
+        "implementation_price_gbp": { "$ref": "#/$defs/range" },
+        "monthly_managed_fee_gbp": { "$ref": "#/$defs/range" },
+        "three_year_gross_profit_per_deployment_gbp": { "$ref": "#/$defs/range" },
+        "three_year_portfolio_value_gbp": { "$ref": "#/$defs/range" }
+      }
+    },
+    "next_proof": { "type": "string", "minLength": 1 }
+  },
+  "$defs": {
+    "range": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["low", "base", "high"],
+      "properties": {
+        "low": { "type": "number", "minimum": 0 },
+        "base": { "type": "number", "minimum": 0 },
+        "high": { "type": "number", "minimum": 0 }
+      }
+    }
+  }
+}
