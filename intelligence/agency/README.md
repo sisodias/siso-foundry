@@ -41,6 +41,8 @@ These numbers are timestamped observations from older source components, not a c
 
 ## Agency application map
 
+The application map below is the portfolio overview. The decision-grade, scored source of truth is the [`SISO Agency OS value matrix`](VALUE-MATRIX.md), backed by [`value-matrix.json`](value-matrix.json). Its unit is `repository × SISO use case × adoption route`, because a repository does not have one universal value or one universal reuse verdict.
+
 | Capability cluster | Candidate products | Default integration posture |
 |---|---|---|
 | Structured work and CRM | Teable | Source-owned module behind SISO identity, capability, policy, and audit adapters |

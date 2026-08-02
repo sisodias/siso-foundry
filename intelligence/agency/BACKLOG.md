@@ -4,6 +4,8 @@ This is the continuing evidence and promotion queue for Foundry's SISO Agency OS
 
 ## P0 — make the intelligence operable
 
+0. **Value-matrix expansion** — apply the `repository × use case × adoption route` contract to the existing source-read dossiers and 707 proof selections, record authority-group overlap, and stop only when every high-signal Agency capability has a scored row or an explicit rejection.
+
 1. **Source Oracle API** — expose read-only, tenant-neutral queries over repository identity, categories, adoption evidence, capability dependencies, contract cards, and verification receipts. Do not expose raw operational database access.
 2. **Snapshot receipts** — version external corpus snapshots with schema version, content hash, rights review, privacy review, generator revision, and at least two durable-copy receipts.
 3. **Adoption truth completion** — resolve the 879 unresolved adoption records and attach evidence dates, source revisions, and confidence to decisions.

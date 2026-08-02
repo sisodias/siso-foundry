@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0 — 2026-08-02
+
+- Promote the first cross-agency value matrix from the recovered 9,636-repository SISOCRM evidence universe.
+- Define `repository × SISO use case × adoption route` as the decision unit, with separate gross-value, feasibility, priority, evidence and proof-gate fields.
+- Publish twenty scored application entries, a God Source portfolio, authority groups, agent-operation surfaces, and a continuation contract for the remaining high-signal corpus.
+
 ## 0.3.0 — 2026-08-02
 
 - Promote the recovered Agency source intelligence into publication-safe human and machine artifacts.

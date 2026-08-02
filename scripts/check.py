@@ -100,6 +100,54 @@ assert agency_snapshot["agency_candidate_ideas"]["evidence_state"] == "operator_
 assert agency_snapshot["agency_candidate_ideas"]["clusters"]
 assert agency_snapshot["siso_control_plane_gaps"]
 
+value_matrix = json.loads((ROOT / "intelligence" / "agency" / "value-matrix.json").read_text())
+assert value_matrix["record_type"] == "agency_os_value_matrix"
+assert value_matrix["work_id"] == manifest["work_id"]
+assert value_matrix["unit_of_analysis"] == "repository_x_siso_use_case_x_adoption_route"
+assert value_matrix["source_universe"]["matrix_entries"] == len(value_matrix["entries"])
+assert value_matrix["source_universe"]["deduplicated_repositories"] >= len(value_matrix["entries"])
+
+value_weights = value_matrix["score_model"]["value_weights"]
+feasibility_weights = value_matrix["score_model"]["feasibility_weights"]
+assert sum(value_weights.values()) == 100
+assert sum(feasibility_weights.values()) == 100
+
+entry_ids = set()
+authority_groups = set()
+evidence_states = value_matrix["evidence_states"]
+evidence_rank = {state: index for index, state in enumerate(evidence_states)}
+for entry in value_matrix["entries"]:
+    assert entry["entry_id"] not in entry_ids
+    entry_ids.add(entry["entry_id"])
+    authority_groups.add(entry["authority_group"])
+    assert re.fullmatch(r"[^/\s]+/[^/\s]+", entry["repository"])
+    assert entry["evidence_state"] in evidence_rank
+    assert entry["agent_operations"]
+    assert entry["hard_gates"]
+    assert entry["evidence"]
+
+    value = entry["value"]
+    feasibility = entry["feasibility"]
+    assert set(value) == set(value_weights) | {"total"}
+    assert set(feasibility) == set(feasibility_weights) | {"total"}
+    assert all(isinstance(value[key], int) and 0 <= value[key] <= 5 for key in value_weights)
+    assert all(isinstance(feasibility[key], int) and 0 <= feasibility[key] <= 5 for key in feasibility_weights)
+    calculated_value = round(sum(value[key] * weight / 5 for key, weight in value_weights.items()))
+    calculated_feasibility = round(sum(feasibility[key] * weight / 5 for key, weight in feasibility_weights.items()))
+    assert value["total"] == calculated_value
+    assert feasibility["total"] == calculated_feasibility
+    assert entry["priority_index"] == round(calculated_value * calculated_feasibility / 100)
+
+    if entry["classification"] == "god_source":
+        assert value["total"] >= 85
+        assert feasibility["total"] >= 65
+        assert value["agent_leverage"] >= 4
+        assert value["agency_edition"] >= 4
+        assert value["client_delivery"] >= 4
+        assert evidence_rank[entry["evidence_state"]] >= evidence_rank["source_read"]
+
+assert len(authority_groups) == len(value_matrix["entries"])
+
 publication_patterns = [
     re.compile("/" + "Users" + "/"),
     re.compile("SISO_" + "Workspace"),

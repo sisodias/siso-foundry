@@ -62,7 +62,7 @@ GitHub authentication is supplied by the operator's existing `gh` CLI configurat
 
 ## Agency intelligence
 
-[`intelligence/agency/`](intelligence/agency/README.md) turns the recovered source corpus into a durable mission for SISO Agency OS: discover useful business software, choose an evidence-backed adoption mode, prove the integration, and promote the result to its owning SISO Work. The package includes a machine-readable metadata snapshot and a prioritized evidence backlog without publishing the private corpus.
+[`intelligence/agency/`](intelligence/agency/README.md) turns the recovered source corpus into a durable mission for SISO Agency OS: discover useful business software, choose an evidence-backed adoption mode, prove the integration, and promote the result to its owning SISO Work. The package includes a machine-readable metadata snapshot, the scored [`Agency OS value matrix`](intelligence/agency/VALUE-MATRIX.md), and a prioritized evidence backlog without publishing the private corpus.
 
 Foundry remains the source-intelligence engine. The Great Library is the registry and discovery front door. Agency OS owns the product control plane and applies released capabilities to real business outcomes.
 
