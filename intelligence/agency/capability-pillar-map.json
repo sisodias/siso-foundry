@@ -1,0 +1,1616 @@
+{
+  "canonical_pillars": [
+    "revenue_relationships",
+    "work_delivery",
+    "knowledge_research",
+    "communication_support",
+    "marketing_growth",
+    "legal_trust",
+    "finance_administration",
+    "data_intelligence",
+    "automation_agents",
+    "identity_security_governance",
+    "files_media_content",
+    "deployment_operations"
+  ],
+  "capabilities": [
+    {
+      "canonical_pillars": [
+        "automation_agents"
+      ],
+      "capability_id": "AGT-01",
+      "rationale": "Mapped primarily to automation agents because the capability job is: A single capability gateway brokers every agent tool/action invocation so no caller can reach a donor engine directly.",
+      "raw_slice": "agent-infrastructure-deployment-ops"
+    },
+    {
+      "canonical_pillars": [
+        "automation_agents",
+        "identity_security_governance"
+      ],
+      "capability_id": "AGT-02",
+      "rationale": "Mapped primarily to automation agents because the capability job is: Per-agent permission grants with explicit delegation chain (who acts for whom, scope, expiry).",
+      "raw_slice": "agent-infrastructure-deployment-ops"
+    },
+    {
+      "canonical_pillars": [
+        "automation_agents"
+      ],
+      "capability_id": "AGT-03",
+      "rationale": "Mapped primarily to automation agents because the capability job is: Dry-run / preview of any consequential agent action before approval.",
+      "raw_slice": "agent-infrastructure-deployment-ops"
+    },
+    {
+      "canonical_pillars": [
+        "automation_agents"
+      ],
+      "capability_id": "AGT-04",
+      "rationale": "Mapped primarily to automation agents because the capability job is: Approval queue with risk-band policies (R0\u2013R3) and human-in-the-loop review surface.",
+      "raw_slice": "agent-infrastructure-deployment-ops"
+    },
+    {
+      "canonical_pillars": [
+        "automation_agents"
+      ],
+      "capability_id": "AGT-05",
+      "rationale": "Mapped primarily to automation agents because the capability job is: Idempotency keys and replay protection on every write/action.",
+      "raw_slice": "agent-infrastructure-deployment-ops"
+    },
+    {
+      "canonical_pillars": [
+        "automation_agents"
+      ],
+      "capability_id": "AGT-06",
+      "rationale": "Mapped primarily to automation agents because the capability job is: Event outbox with delivery guarantees, dead-letter, retry policy, and replay window.",
+      "raw_slice": "agent-infrastructure-deployment-ops"
+    },
+    {
+      "canonical_pillars": [
+        "automation_agents",
+        "identity_security_governance"
+      ],
+      "capability_id": "AGT-07",
+      "rationale": "Mapped primarily to automation agents because the capability job is: Webhook signing and verification for inbound webhooks from donor modules.",
+      "raw_slice": "agent-infrastructure-deployment-ops"
+    },
+    {
+      "canonical_pillars": [
+        "automation_agents"
+      ],
+      "capability_id": "AGT-08",
+      "rationale": "Mapped primarily to automation agents because the capability job is: Correlation IDs propagated across every cross-module hop with replay-friendly context envelopes.",
+      "raw_slice": "agent-infrastructure-deployment-ops"
+    },
+    {
+      "canonical_pillars": [
+        "automation_agents",
+        "legal_trust"
+      ],
+      "capability_id": "AGT-09",
+      "rationale": "Mapped primarily to automation agents because the capability job is: Immutable audit trail of every agent write/action/approval decision with tamper-evidence.",
+      "raw_slice": "agent-infrastructure-deployment-ops"
+    },
+    {
+      "canonical_pillars": [
+        "automation_agents"
+      ],
+      "capability_id": "AGT-10",
+      "rationale": "Mapped primarily to automation agents because the capability job is: Action rollback / compensation primitives registered at action-emit time, invoked when downstream rejects.",
+      "raw_slice": "agent-infrastructure-deployment-ops"
+    },
+    {
+      "canonical_pillars": [
+        "automation_agents",
+        "knowledge_research"
+      ],
+      "capability_id": "AGT-11",
+      "rationale": "Mapped primarily to automation agents because the capability job is: Agent memory and context assembly \u2014 MCP-class retrieval, scoped to workspace and ACL.",
+      "raw_slice": "agent-infrastructure-deployment-ops"
+    },
+    {
+      "canonical_pillars": [
+        "automation_agents"
+      ],
+      "capability_id": "AGT-12",
+      "rationale": "Mapped primarily to automation agents because the capability job is: Prompt and tool versioning with diff/replay across revisions.",
+      "raw_slice": "agent-infrastructure-deployment-ops"
+    },
+    {
+      "canonical_pillars": [
+        "automation_agents",
+        "data_intelligence"
+      ],
+      "capability_id": "AGT-13",
+      "rationale": "Mapped primarily to automation agents because the capability job is: Agent observability and cost tracking \u2014 token spend, latency, tool-call volume per agent per workspace.",
+      "raw_slice": "agent-infrastructure-deployment-ops"
+    },
+    {
+      "canonical_pillars": [
+        "automation_agents"
+      ],
+      "capability_id": "AGT-14",
+      "rationale": "Mapped primarily to automation agents because the capability job is: Rate limiting and circuit breaking per agent / per module / per workspace.",
+      "raw_slice": "agent-infrastructure-deployment-ops"
+    },
+    {
+      "canonical_pillars": [
+        "automation_agents",
+        "identity_security_governance"
+      ],
+      "capability_id": "AGT-15",
+      "rationale": "Mapped primarily to automation agents because the capability job is: Sandboxing untrusted agent output (HTML / Markdown / shell) before surfacing to humans or executing.",
+      "raw_slice": "agent-infrastructure-deployment-ops"
+    },
+    {
+      "canonical_pillars": [
+        "automation_agents",
+        "identity_security_governance"
+      ],
+      "capability_id": "AGT-16",
+      "rationale": "Mapped primarily to automation agents because the capability job is: Secret brokering \u2014 agents never see raw credentials; gateway mints short-lived tokens scoped to the action.",
+      "raw_slice": "agent-infrastructure-deployment-ops"
+    },
+    {
+      "canonical_pillars": [
+        "automation_agents",
+        "deployment_operations"
+      ],
+      "capability_id": "AGT-17",
+      "rationale": "Mapped primarily to automation agents because the capability job is: Module deployment and pinning \u2014 one source of truth for each module's exact pin, install, health.",
+      "raw_slice": "agent-infrastructure-deployment-ops"
+    },
+    {
+      "canonical_pillars": [
+        "automation_agents",
+        "deployment_operations"
+      ],
+      "capability_id": "AGT-18",
+      "rationale": "Mapped primarily to automation agents because the capability job is: Environment promotion \u2014 dev \u2192 staging \u2192 prod with config diff and freeze windows.",
+      "raw_slice": "agent-infrastructure-deployment-ops"
+    },
+    {
+      "canonical_pillars": [
+        "automation_agents",
+        "deployment_operations"
+      ],
+      "capability_id": "AGT-19",
+      "rationale": "Mapped primarily to automation agents because the capability job is: Backup and verified restore across all module schemas and donor objects.",
+      "raw_slice": "agent-infrastructure-deployment-ops"
+    },
+    {
+      "canonical_pillars": [
+        "automation_agents",
+        "deployment_operations"
+      ],
+      "capability_id": "AGT-20",
+      "rationale": "Mapped primarily to automation agents because the capability job is: Upgrade rehearsal of pinned sources against a clone, before touching production.",
+      "raw_slice": "agent-infrastructure-deployment-ops"
+    },
+    {
+      "canonical_pillars": [
+        "automation_agents",
+        "deployment_operations"
+      ],
+      "capability_id": "AGT-21",
+      "rationale": "Mapped primarily to automation agents because the capability job is: Health checks and uptime \u2014 continuous, per-module, with synthetic end-user probes.",
+      "raw_slice": "agent-infrastructure-deployment-ops"
+    },
+    {
+      "canonical_pillars": [
+        "automation_agents",
+        "deployment_operations"
+      ],
+      "capability_id": "AGT-22",
+      "rationale": "Mapped primarily to automation agents because the capability job is: Incident response \u2014 runbooks, on-call, automated mitigation, post-mortem artifacts.",
+      "raw_slice": "agent-infrastructure-deployment-ops"
+    },
+    {
+      "canonical_pillars": [
+        "automation_agents",
+        "identity_security_governance"
+      ],
+      "capability_id": "AGT-23",
+      "rationale": "Mapped primarily to automation agents because the capability job is: Per-tenant resource isolation \u2014 every module call scoped to a tenant boundary.",
+      "raw_slice": "agent-infrastructure-deployment-ops"
+    },
+    {
+      "canonical_pillars": [
+        "automation_agents",
+        "deployment_operations"
+      ],
+      "capability_id": "AGT-24",
+      "rationale": "Mapped primarily to automation agents because the capability job is: Log aggregation across all modules, searchable, with tenant scoping and PII redaction.",
+      "raw_slice": "agent-infrastructure-deployment-ops"
+    },
+    {
+      "canonical_pillars": [
+        "communication_support"
+      ],
+      "capability_id": "COM-01",
+      "rationale": "Mapped primarily to communication support because the capability job is: Provide a shared team inbox that consolidates email, web chat, and social channels into one agent-routable conversation stream per client.",
+      "raw_slice": "communication-inbox-support-calendar"
+    },
+    {
+      "canonical_pillars": [
+        "communication_support"
+      ],
+      "capability_id": "COM-02",
+      "rationale": "Mapped primarily to communication support because the capability job is: Send and receive email on behalf of the agency and its clients via SMTP/IMAP/JMAP so a thread is a durable, attributable communication record.",
+      "raw_slice": "communication-inbox-support-calendar"
+    },
+    {
+      "canonical_pillars": [
+        "communication_support",
+        "revenue_relationships"
+      ],
+      "capability_id": "COM-03",
+      "rationale": "Mapped primarily to communication support because the capability job is: Thread every email, chat, and meeting to the canonical client record so conversation history travels with the deal and the workspace.",
+      "raw_slice": "communication-inbox-support-calendar"
+    },
+    {
+      "canonical_pillars": [
+        "communication_support"
+      ],
+      "capability_id": "COM-04",
+      "rationale": "Mapped primarily to communication support because the capability job is: Operate a ticketing system with first-touch SLA, response-time, and resolution-time policies that the agent cannot bypass.",
+      "raw_slice": "communication-inbox-support-calendar"
+    },
+    {
+      "canonical_pillars": [
+        "communication_support"
+      ],
+      "capability_id": "COM-05",
+      "rationale": "Mapped primarily to communication support because the capability job is: Embed a live web chat widget on client/agency sites and route the resulting conversations into the shared inbox.",
+      "raw_slice": "communication-inbox-support-calendar"
+    },
+    {
+      "canonical_pillars": [
+        "communication_support"
+      ],
+      "capability_id": "COM-06",
+      "rationale": "Mapped primarily to communication support because the capability job is: Expose a client-facing messaging portal so a logged-in client can send/receive messages and attachments tied to their record.",
+      "raw_slice": "communication-inbox-support-calendar"
+    },
+    {
+      "canonical_pillars": [
+        "communication_support"
+      ],
+      "capability_id": "COM-07",
+      "rationale": "Mapped primarily to communication support because the capability job is: Provide an internal team chat with channels, threads, DMs, and file sharing that integrates with the rest of the comms rails.",
+      "raw_slice": "communication-inbox-support-calendar"
+    },
+    {
+      "canonical_pillars": [
+        "communication_support"
+      ],
+      "capability_id": "COM-08",
+      "rationale": "Mapped primarily to communication support because the capability job is: Run a calendar engine with per-user availability, working hours, event types, and multi-team scheduling that booking flows consume.",
+      "raw_slice": "communication-inbox-support-calendar"
+    },
+    {
+      "canonical_pillars": [
+        "communication_support"
+      ],
+      "capability_id": "COM-09",
+      "rationale": "Mapped primarily to communication support because the capability job is: Run a UI calendar widget (day/week/month/agenda, drag, resize) embeddable in agency and client portals.",
+      "raw_slice": "communication-inbox-support-calendar"
+    },
+    {
+      "canonical_pillars": [
+        "communication_support"
+      ],
+      "capability_id": "COM-10",
+      "rationale": "Mapped primarily to communication support because the capability job is: Capture video meetings (room, recording, participant presence) for client-facing and internal meetings.",
+      "raw_slice": "communication-inbox-support-calendar"
+    },
+    {
+      "canonical_pillars": [
+        "communication_support",
+        "work_delivery"
+      ],
+      "capability_id": "COM-11",
+      "rationale": "Mapped primarily to communication support because the capability job is: Transcribe meetings, extract decisions and action items, and route them into the agency work/project record.",
+      "raw_slice": "communication-inbox-support-calendar"
+    },
+    {
+      "canonical_pillars": [
+        "communication_support"
+      ],
+      "capability_id": "COM-12",
+      "rationale": "Mapped primarily to communication support because the capability job is: Route notifications across email, push, SMS, in-app and feed them into a unified digests/escalations surface that respects on-call policy.",
+      "raw_slice": "communication-inbox-support-calendar"
+    },
+    {
+      "canonical_pillars": [
+        "communication_support"
+      ],
+      "capability_id": "COM-13",
+      "rationale": "Mapped primarily to communication support because the capability job is: Provide a templated-reply / canned-response library tied to each conversation type, brand voice, and approval posture.",
+      "raw_slice": "communication-inbox-support-calendar"
+    },
+    {
+      "canonical_pillars": [
+        "communication_support",
+        "identity_security_governance"
+      ],
+      "capability_id": "COM-14",
+      "rationale": "Mapped primarily to communication support because the capability job is: Send approval requests to a human reviewer inside chat, escalate automatically on timeout, and record the decision in audit.",
+      "raw_slice": "communication-inbox-support-calendar"
+    },
+    {
+      "canonical_pillars": [
+        "communication_support"
+      ],
+      "capability_id": "COM-15",
+      "rationale": "Mapped primarily to communication support because the capability job is: Manage WhatsApp, SMS, and other mobile messaging channels for client outreach and reply capture.",
+      "raw_slice": "communication-inbox-support-calendar"
+    },
+    {
+      "canonical_pillars": [
+        "communication_support"
+      ],
+      "capability_id": "COM-16",
+      "rationale": "Mapped primarily to communication support because the capability job is: Route contact-form submissions from any web property into the agency inbox with source attribution and consent capture.",
+      "raw_slice": "communication-inbox-support-calendar"
+    },
+    {
+      "canonical_pillars": [
+        "communication_support",
+        "marketing_growth"
+      ],
+      "capability_id": "COM-17",
+      "rationale": "Mapped primarily to communication support because the capability job is: Track email open/click/reply signals, enforce unsubscribe preferences, and surface engagement metrics per thread.",
+      "raw_slice": "communication-inbox-support-calendar"
+    },
+    {
+      "canonical_pillars": [
+        "communication_support",
+        "identity_security_governance"
+      ],
+      "capability_id": "COM-18",
+      "rationale": "Mapped primarily to communication support because the capability job is: Filter spam and abuse, run DMARC/reverse-DNS/SPF/DKIM checks, and quarantine malicious messages before they reach agents.",
+      "raw_slice": "communication-inbox-support-calendar"
+    },
+    {
+      "canonical_pillars": [
+        "communication_support",
+        "legal_trust"
+      ],
+      "capability_id": "COM-19",
+      "rationale": "Mapped primarily to communication support because the capability job is: Archive all agency communications (email, chat, meeting notes) for e-discovery, compliance, and legal-hold, with retention rules and tenant-scoped deletion.",
+      "raw_slice": "communication-inbox-support-calendar"
+    },
+    {
+      "canonical_pillars": [
+        "revenue_relationships"
+      ],
+      "capability_id": "CRM-01",
+      "rationale": "Mapped primarily to revenue relationships because the capability job is: Maintain a unified contact and organisation record for every person and company the agency touches, with role, ownership, tags, and external IDs.",
+      "raw_slice": "crm-revenue-relationships"
+    },
+    {
+      "canonical_pillars": [
+        "revenue_relationships"
+      ],
+      "capability_id": "CRM-02",
+      "rationale": "Mapped primarily to revenue relationships because the capability job is: Capture inbound leads from forms, referrers, and DMs and qualify them into pipeline-ready opportunities.",
+      "raw_slice": "crm-revenue-relationships"
+    },
+    {
+      "canonical_pillars": [
+        "revenue_relationships"
+      ],
+      "capability_id": "CRM-03",
+      "rationale": "Mapped primarily to revenue relationships because the capability job is: Run a multi-stage sales pipeline with deal stages, weighted value, and stage-gate criteria for an agency's new-business pitch process.",
+      "raw_slice": "crm-revenue-relationships"
+    },
+    {
+      "canonical_pillars": [
+        "revenue_relationships",
+        "legal_trust"
+      ],
+      "capability_id": "CRM-04",
+      "rationale": "Mapped primarily to revenue relationships because the capability job is: Generate quotes, proposals, and estimates from a deal that track status from draft to sent to accepted to declined.",
+      "raw_slice": "crm-revenue-relationships"
+    },
+    {
+      "canonical_pillars": [
+        "revenue_relationships",
+        "legal_trust"
+      ],
+      "capability_id": "CRM-05",
+      "rationale": "Mapped primarily to revenue relationships because the capability job is: Move a signed proposal through Documenso, store the executed contract, and bind it back to the deal and the contact record.",
+      "raw_slice": "crm-revenue-relationships"
+    },
+    {
+      "canonical_pillars": [
+        "revenue_relationships"
+      ],
+      "capability_id": "CRM-06",
+      "rationale": "Mapped primarily to revenue relationships because the capability job is: Manage an active client's engagement \u2014 health signals, activity, scope, renewal dates \u2014 over the lifetime of the relationship.",
+      "raw_slice": "crm-revenue-relationships"
+    },
+    {
+      "canonical_pillars": [
+        "revenue_relationships"
+      ],
+      "capability_id": "CRM-07",
+      "rationale": "Mapped primarily to revenue relationships because the capability job is: Track renewals, upsell signals, and contract anniversaries so the agency knows which accounts need attention and when.",
+      "raw_slice": "crm-revenue-relationships"
+    },
+    {
+      "canonical_pillars": [
+        "revenue_relationships",
+        "finance_administration"
+      ],
+      "capability_id": "CRM-08",
+      "rationale": "Mapped primarily to revenue relationships because the capability job is: Forecast revenue by stage, by owner, by client, by close date so capacity and cash can be planned.",
+      "raw_slice": "crm-revenue-relationships"
+    },
+    {
+      "canonical_pillars": [
+        "revenue_relationships",
+        "finance_administration"
+      ],
+      "capability_id": "CRM-09",
+      "rationale": "Mapped primarily to revenue relationships because the capability job is: Track commissions, margins, and revenue attribution by deal, by partner, by source.",
+      "raw_slice": "crm-revenue-relationships"
+    },
+    {
+      "canonical_pillars": [
+        "revenue_relationships"
+      ],
+      "capability_id": "CRM-10",
+      "rationale": "Mapped primarily to revenue relationships because the capability job is: Apply territory / assignment rules so the right lead or account lands with the right owner based on region, vertical, deal size, or language.",
+      "raw_slice": "crm-revenue-relationships"
+    },
+    {
+      "canonical_pillars": [
+        "revenue_relationships"
+      ],
+      "capability_id": "CRM-11",
+      "rationale": "Mapped primarily to revenue relationships because the capability job is: Log calls, meetings, emails, and notes against the contact, deal, and account record so the agency's memory of the relationship is durable.",
+      "raw_slice": "crm-revenue-relationships"
+    },
+    {
+      "canonical_pillars": [
+        "revenue_relationships"
+      ],
+      "capability_id": "CRM-12",
+      "rationale": "Mapped primarily to revenue relationships because the capability job is: Capture meeting notes tied to records with structured outcomes, decisions, and action items that close the loop on the deal or account.",
+      "raw_slice": "crm-revenue-relationships"
+    },
+    {
+      "canonical_pillars": [
+        "revenue_relationships"
+      ],
+      "capability_id": "CRM-13",
+      "rationale": "Mapped primarily to revenue relationships because the capability job is: Maintain a relationship graph across contacts \u2014 who knows whom, warm intro paths, referral chains.",
+      "raw_slice": "crm-revenue-relationships"
+    },
+    {
+      "canonical_pillars": [
+        "revenue_relationships"
+      ],
+      "capability_id": "CRM-14",
+      "rationale": "Mapped primarily to revenue relationships because the capability job is: Track referral and partner attribution so the agency knows which sources produced which closed revenue.",
+      "raw_slice": "crm-revenue-relationships"
+    },
+    {
+      "canonical_pillars": [
+        "revenue_relationships",
+        "work_delivery"
+      ],
+      "capability_id": "CRM-15",
+      "rationale": "Mapped primarily to revenue relationships because the capability job is: Onboard a new client with a structured sequence \u2014 kickoff, paperwork, access provisioning, kickoff-doc binding.",
+      "raw_slice": "crm-revenue-relationships"
+    },
+    {
+      "canonical_pillars": [
+        "revenue_relationships",
+        "finance_administration"
+      ],
+      "capability_id": "CRM-16",
+      "rationale": "Mapped primarily to revenue relationships because the capability job is: Manage retainers \u2014 recurring billing cycle, scope-bound hours, scope-change tracking, true-up billing.",
+      "raw_slice": "crm-revenue-relationships"
+    },
+    {
+      "canonical_pillars": [
+        "revenue_relationships"
+      ],
+      "capability_id": "CRM-17",
+      "rationale": "Mapped primarily to revenue relationships because the capability job is: Run win/loss analysis so the agency improves its new-business pitch process with structured post-mortems on every closed deal.",
+      "raw_slice": "crm-revenue-relationships"
+    },
+    {
+      "canonical_pillars": [
+        "revenue_relationships",
+        "finance_administration"
+      ],
+      "capability_id": "CRM-18",
+      "rationale": "Mapped primarily to revenue relationships because the capability job is: Maintain pricing and rate cards by service line, role, and seniority so quotes and proposals are priced consistently.",
+      "raw_slice": "crm-revenue-relationships"
+    },
+    {
+      "canonical_pillars": [
+        "revenue_relationships",
+        "marketing_growth"
+      ],
+      "capability_id": "CRM-19",
+      "rationale": "Mapped primarily to revenue relationships because the capability job is: Produce client-facing reports \u2014 campaign performance, retainer hours, deliverables shipped \u2014 so the agency demonstrates value on a cadence.",
+      "raw_slice": "crm-revenue-relationships"
+    },
+    {
+      "canonical_pillars": [
+        "revenue_relationships"
+      ],
+      "capability_id": "CRM-20",
+      "rationale": "Mapped primarily to revenue relationships because the capability job is: Capture client satisfaction and NPS so the agency tracks relationship health over time.",
+      "raw_slice": "crm-revenue-relationships"
+    },
+    {
+      "canonical_pillars": [
+        "revenue_relationships"
+      ],
+      "capability_id": "CRM-21",
+      "rationale": "Mapped primarily to revenue relationships because the capability job is: Run the agency's new-business pitch process \u2014 intake \u2192 qualification \u2192 proposal \u2192 pitch \u2192 negotiation \u2192 close \u2014 with structured artefacts at each gate.",
+      "raw_slice": "crm-revenue-relationships"
+    },
+    {
+      "canonical_pillars": [
+        "revenue_relationships"
+      ],
+      "capability_id": "CRM-22",
+      "rationale": "Mapped primarily to revenue relationships because the capability job is: Handle inbound RFPs with structured intake, fit scoring, response authoring, and proposal submission tracking.",
+      "raw_slice": "crm-revenue-relationships"
+    },
+    {
+      "canonical_pillars": [
+        "work_delivery"
+      ],
+      "capability_id": "DEL-01",
+      "rationale": "Mapped primarily to work delivery because the capability job is: Create and track the agency workspace / project / milestone tree with roadmap links to client-deliverable contracts.",
+      "raw_slice": "work-delivery-resourcing"
+    },
+    {
+      "canonical_pillars": [
+        "work_delivery"
+      ],
+      "capability_id": "DEL-02",
+      "rationale": "Mapped primarily to work delivery because the capability job is: Run an internal task/issue tracker with sub-items, assignees, labels, states, and relations on every project.",
+      "raw_slice": "work-delivery-resourcing"
+    },
+    {
+      "canonical_pillars": [
+        "work_delivery"
+      ],
+      "capability_id": "DEL-03",
+      "rationale": "Mapped primarily to work delivery because the capability job is: Plan sprints/cycles with capacity, automatic rollovers, and burn-up vs. commitment reporting.",
+      "raw_slice": "work-delivery-resourcing"
+    },
+    {
+      "canonical_pillars": [
+        "work_delivery"
+      ],
+      "capability_id": "DEL-04",
+      "rationale": "Mapped primarily to work delivery because the capability job is: Render Kanban, List, Calendar, Spreadsheet and Timeline/Gantt views from the same work-item set with shared filters/saved views.",
+      "raw_slice": "work-delivery-resourcing"
+    },
+    {
+      "canonical_pillars": [
+        "work_delivery"
+      ],
+      "capability_id": "DEL-05",
+      "rationale": "Mapped primarily to work delivery because the capability job is: Model dependencies between work items and compute the critical path / blockers on a project.",
+      "raw_slice": "work-delivery-resourcing"
+    },
+    {
+      "canonical_pillars": [
+        "work_delivery"
+      ],
+      "capability_id": "DEL-06",
+      "rationale": "Mapped primarily to work delivery because the capability job is: Manage capacity and resource allocation across projects for each team member and skill.",
+      "raw_slice": "work-delivery-resourcing"
+    },
+    {
+      "canonical_pillars": [
+        "work_delivery"
+      ],
+      "capability_id": "DEL-07",
+      "rationale": "Mapped primarily to work delivery because the capability job is: Staff projects with bench planning (which employees are available next week/month).",
+      "raw_slice": "work-delivery-resourcing"
+    },
+    {
+      "canonical_pillars": [
+        "work_delivery"
+      ],
+      "capability_id": "DEL-08",
+      "rationale": "Mapped primarily to work delivery because the capability job is: Maintain a skills matrix per employee and match against project role requirements.",
+      "raw_slice": "work-delivery-resourcing"
+    },
+    {
+      "canonical_pillars": [
+        "work_delivery",
+        "finance_administration"
+      ],
+      "capability_id": "DEL-09",
+      "rationale": "Mapped primarily to work delivery because the capability job is: Capture time entries against work items and reconcile to a billable / non-billable split.",
+      "raw_slice": "work-delivery-resourcing"
+    },
+    {
+      "canonical_pillars": [
+        "work_delivery",
+        "finance_administration"
+      ],
+      "capability_id": "DEL-10",
+      "rationale": "Mapped primarily to work delivery because the capability job is: Run a timesheet review and approval workflow before timesheets post to invoicing.",
+      "raw_slice": "work-delivery-resourcing"
+    },
+    {
+      "canonical_pillars": [
+        "work_delivery",
+        "finance_administration"
+      ],
+      "capability_id": "DEL-11",
+      "rationale": "Mapped primarily to work delivery because the capability job is: Report utilisation, billable vs non-billable hours, and forecast per project.",
+      "raw_slice": "work-delivery-resourcing"
+    },
+    {
+      "canonical_pillars": [
+        "work_delivery",
+        "finance_administration"
+      ],
+      "capability_id": "DEL-12",
+      "rationale": "Mapped primarily to work delivery because the capability job is: Track project budgets vs. actuals (cost, hours, vendor spend) and burn-rate per project.",
+      "raw_slice": "work-delivery-resourcing"
+    },
+    {
+      "canonical_pillars": [
+        "work_delivery",
+        "finance_administration"
+      ],
+      "capability_id": "DEL-13",
+      "rationale": "Mapped primarily to work delivery because the capability job is: Track margin per project after fixed cost, vendor, and subcontractor spend.",
+      "raw_slice": "work-delivery-resourcing"
+    },
+    {
+      "canonical_pillars": [
+        "work_delivery",
+        "legal_trust"
+      ],
+      "capability_id": "DEL-14",
+      "rationale": "Mapped primarily to work delivery because the capability job is: Manage change requests against an SOW with approval workflow and client-visible status.",
+      "raw_slice": "work-delivery-resourcing"
+    },
+    {
+      "canonical_pillars": [
+        "work_delivery",
+        "communication_support"
+      ],
+      "capability_id": "DEL-15",
+      "rationale": "Mapped primarily to work delivery because the capability job is: Provide client-visible project status with read-only share links and milestone progress.",
+      "raw_slice": "work-delivery-resourcing"
+    },
+    {
+      "canonical_pillars": [
+        "work_delivery"
+      ],
+      "capability_id": "DEL-16",
+      "rationale": "Mapped primarily to work delivery because the capability job is: Run iteration / review / QA gates on a deliverable before sign-off.",
+      "raw_slice": "work-delivery-resourcing"
+    },
+    {
+      "canonical_pillars": [
+        "work_delivery"
+      ],
+      "capability_id": "DEL-17",
+      "rationale": "Mapped primarily to work delivery because the capability job is: Bootstrap templated project blueprints (marketing site, brand sprint, integration) for repeat client engagements.",
+      "raw_slice": "work-delivery-resourcing"
+    },
+    {
+      "canonical_pillars": [
+        "work_delivery"
+      ],
+      "capability_id": "DEL-18",
+      "rationale": "Mapped primarily to work delivery because the capability job is: Manage recurring retainer work at a fixed monthly cadence with predictable deliverable scope.",
+      "raw_slice": "work-delivery-resourcing"
+    },
+    {
+      "canonical_pillars": [
+        "work_delivery",
+        "files_media_content"
+      ],
+      "capability_id": "DEL-19",
+      "rationale": "Mapped primarily to work delivery because the capability job is: Track and hand off deliverables / assets between internal teams and the client with checksum and owner.",
+      "raw_slice": "work-delivery-resourcing"
+    },
+    {
+      "canonical_pillars": [
+        "work_delivery"
+      ],
+      "capability_id": "DEL-20",
+      "rationale": "Mapped primarily to work delivery because the capability job is: Run a structured post-mortem on a project close and surface lessons learned.",
+      "raw_slice": "work-delivery-resourcing"
+    },
+    {
+      "canonical_pillars": [
+        "work_delivery",
+        "identity_security_governance"
+      ],
+      "capability_id": "DEL-21",
+      "rationale": "Mapped primarily to work delivery because the capability job is: Coordinate subcontractors and external contributors with gated access to specific projects.",
+      "raw_slice": "work-delivery-resourcing"
+    },
+    {
+      "canonical_pillars": [
+        "work_delivery"
+      ],
+      "capability_id": "DEL-22",
+      "rationale": "Mapped primarily to work delivery because the capability job is: Coordinate PTO / availability across the team and reflect it in cycle planning.",
+      "raw_slice": "work-delivery-resourcing"
+    },
+    {
+      "canonical_pillars": [
+        "work_delivery"
+      ],
+      "capability_id": "DEL-23",
+      "rationale": "Mapped primarily to work delivery because the capability job is: Surface a workload / capacity balance view across the team for the next 4 weeks.",
+      "raw_slice": "work-delivery-resourcing"
+    },
+    {
+      "canonical_pillars": [
+        "work_delivery",
+        "communication_support"
+      ],
+      "capability_id": "DEL-24",
+      "rationale": "Mapped primarily to work delivery because the capability job is: Run an intake / triage queue for incoming client requests with SLA and routing.",
+      "raw_slice": "work-delivery-resourcing"
+    },
+    {
+      "canonical_pillars": [
+        "finance_administration"
+      ],
+      "capability_id": "FIN-01",
+      "rationale": "Mapped primarily to finance administration because the capability job is: Generate and send branded client invoices from CRM won-deals with line items, tax/VAT handling, and per-client payment terms.",
+      "raw_slice": "finance-hr-admin"
+    },
+    {
+      "canonical_pillars": [
+        "finance_administration"
+      ],
+      "capability_id": "FIN-02",
+      "rationale": "Mapped primarily to finance administration because the capability job is: Bill recurring retainers and project milestones on a schedule with proration, dunning, and overdue chasing.",
+      "raw_slice": "finance-hr-admin"
+    },
+    {
+      "canonical_pillars": [
+        "finance_administration"
+      ],
+      "capability_id": "FIN-03",
+      "rationale": "Mapped primarily to finance administration because the capability job is: Collect payments against issued invoices and reconcile them against bank/PSP deposits and CRM deal records.",
+      "raw_slice": "finance-hr-admin"
+    },
+    {
+      "canonical_pillars": [
+        "finance_administration"
+      ],
+      "capability_id": "FIN-04",
+      "rationale": "Mapped primarily to finance administration because the capability job is: Recognise revenue per period using accrual or cash rules tied to client engagement, project, and contract milestones.",
+      "raw_slice": "finance-hr-admin"
+    },
+    {
+      "canonical_pillars": [
+        "finance_administration"
+      ],
+      "capability_id": "FIN-05",
+      "rationale": "Mapped primarily to finance administration because the capability job is: Run double-entry bookkeeping and accounting export (P&L, balance sheet, cash flow) for the agency itself.",
+      "raw_slice": "finance-hr-admin"
+    },
+    {
+      "canonical_pillars": [
+        "finance_administration"
+      ],
+      "capability_id": "FIN-06",
+      "rationale": "Mapped primarily to finance administration because the capability job is: Track and approve business expenses, capture receipts, and post into the general ledger for reimbursement and tax purposes.",
+      "raw_slice": "finance-hr-admin"
+    },
+    {
+      "canonical_pillars": [
+        "finance_administration"
+      ],
+      "capability_id": "FIN-07",
+      "rationale": "Mapped primarily to finance administration because the capability job is: Receive and approve supplier/subcontractor invoices and pay them via the right bank/payment rail on schedule.",
+      "raw_slice": "finance-hr-admin"
+    },
+    {
+      "canonical_pillars": [
+        "finance_administration"
+      ],
+      "capability_id": "FIN-08",
+      "rationale": "Mapped primarily to finance administration because the capability job is: Approve purchases, manage procurement thresholds, and maintain a vendor and contract register.",
+      "raw_slice": "finance-hr-admin"
+    },
+    {
+      "canonical_pillars": [
+        "finance_administration"
+      ],
+      "capability_id": "FIN-09",
+      "rationale": "Mapped primarily to finance administration because the capability job is: Hold budgets per department/project/quarter, track actuals, and forecast variance for cash-flow visibility.",
+      "raw_slice": "finance-hr-admin"
+    },
+    {
+      "canonical_pillars": [
+        "finance_administration"
+      ],
+      "capability_id": "FIN-10",
+      "rationale": "Mapped primarily to finance administration because the capability job is: Manage multi-currency clients and suppliers with FX rates, conversion on invoice/expense, and base-currency reporting.",
+      "raw_slice": "finance-hr-admin"
+    },
+    {
+      "canonical_pillars": [
+        "finance_administration"
+      ],
+      "capability_id": "FIN-11",
+      "rationale": "Mapped primarily to finance administration because the capability job is: Run payroll for SISO employees (salary structure, payslips, tax, statutory deductions) on a monthly cycle.",
+      "raw_slice": "finance-hr-admin"
+    },
+    {
+      "canonical_pillars": [
+        "finance_administration"
+      ],
+      "capability_id": "FIN-12",
+      "rationale": "Mapped primarily to finance administration because the capability job is: Maintain employee records (personal data, role, department, employment dates, documents) for the agency.",
+      "raw_slice": "finance-hr-admin"
+    },
+    {
+      "canonical_pillars": [
+        "finance_administration"
+      ],
+      "capability_id": "FIN-13",
+      "rationale": "Mapped primarily to finance administration because the capability job is: Run onboarding and offboarding checklists (accounts, access, equipment, training) for every new joiner and leaver.",
+      "raw_slice": "finance-hr-admin"
+    },
+    {
+      "canonical_pillars": [
+        "finance_administration"
+      ],
+      "capability_id": "FIN-14",
+      "rationale": "Mapped primarily to finance administration because the capability job is: Track leave applications, balances, approvals, and team availability for project staffing.",
+      "raw_slice": "finance-hr-admin"
+    },
+    {
+      "canonical_pillars": [
+        "finance_administration"
+      ],
+      "capability_id": "FIN-15",
+      "rationale": "Mapped primarily to finance administration because the capability job is: Track recruitment pipeline, applicants, interviews, offers, and offer-to-employee conversion.",
+      "raw_slice": "finance-hr-admin"
+    },
+    {
+      "canonical_pillars": [
+        "finance_administration"
+      ],
+      "capability_id": "FIN-16",
+      "rationale": "Mapped primarily to finance administration because the capability job is: Maintain an asset register of equipment, devices, and licenses assigned to employees with custody tracking.",
+      "raw_slice": "finance-hr-admin"
+    },
+    {
+      "canonical_pillars": [
+        "finance_administration"
+      ],
+      "capability_id": "FIN-17",
+      "rationale": "Mapped primarily to finance administration because the capability job is: Manage software subscriptions and licences: renewals, seats, owners, costs, and SSO assignments.",
+      "raw_slice": "finance-hr-admin"
+    },
+    {
+      "canonical_pillars": [
+        "finance_administration"
+      ],
+      "capability_id": "FIN-18",
+      "rationale": "Mapped primarily to finance administration because the capability job is: Hold vendor master, insurance certificates, compliance documents, and company policies in one place with renewal alerts.",
+      "raw_slice": "finance-hr-admin"
+    },
+    {
+      "canonical_pillars": [
+        "marketing_growth"
+      ],
+      "capability_id": "GRW-01",
+      "rationale": "Mapped primarily to marketing growth because the capability job is: Campaign planning and editorial calendar across client and agency channels with scheduled slots, owners, and approvals.",
+      "raw_slice": "marketing-growth-content-automation"
+    },
+    {
+      "canonical_pillars": [
+        "marketing_growth",
+        "communication_support"
+      ],
+      "capability_id": "GRW-02",
+      "rationale": "Mapped primarily to marketing growth because the capability job is: Email marketing and newsletter production, list management, and broadcast delivery for client and agency audiences.",
+      "raw_slice": "marketing-growth-content-automation"
+    },
+    {
+      "canonical_pillars": [
+        "marketing_growth"
+      ],
+      "capability_id": "GRW-03",
+      "rationale": "Mapped primarily to marketing growth because the capability job is: Drip and nurture sequences with branching, wait steps, and behavioural triggers tied to CRM segments.",
+      "raw_slice": "marketing-growth-content-automation"
+    },
+    {
+      "canonical_pillars": [
+        "marketing_growth",
+        "files_media_content"
+      ],
+      "capability_id": "GRW-04",
+      "rationale": "Mapped primarily to marketing growth because the capability job is: Landing page authoring and hosting for client campaigns with custom domains and previews.",
+      "raw_slice": "marketing-growth-content-automation"
+    },
+    {
+      "canonical_pillars": [
+        "marketing_growth"
+      ],
+      "capability_id": "GRW-05",
+      "rationale": "Mapped primarily to marketing growth because the capability job is: Form authoring, embed, and response capture for lead-gen, NPS, and intake.",
+      "raw_slice": "marketing-growth-content-automation"
+    },
+    {
+      "canonical_pillars": [
+        "marketing_growth"
+      ],
+      "capability_id": "GRW-06",
+      "rationale": "Mapped primarily to marketing growth because the capability job is: A/B testing and feature flags for marketing surfaces and product funnels.",
+      "raw_slice": "marketing-growth-content-automation"
+    },
+    {
+      "canonical_pillars": [
+        "marketing_growth"
+      ],
+      "capability_id": "GRW-07",
+      "rationale": "Mapped primarily to marketing growth because the capability job is: SEO auditing, site crawl, and on-page metadata scoring for client sites.",
+      "raw_slice": "marketing-growth-content-automation"
+    },
+    {
+      "canonical_pillars": [
+        "marketing_growth",
+        "files_media_content"
+      ],
+      "capability_id": "GRW-08",
+      "rationale": "Mapped primarily to marketing growth because the capability job is: Content planning, briefs, and editorial workflow with multi-stage approvals.",
+      "raw_slice": "marketing-growth-content-automation"
+    },
+    {
+      "canonical_pillars": [
+        "marketing_growth",
+        "files_media_content"
+      ],
+      "capability_id": "GRW-09",
+      "rationale": "Mapped primarily to marketing growth because the capability job is: Headless CMS for client websites and blog surfaces with structured content types.",
+      "raw_slice": "marketing-growth-content-automation"
+    },
+    {
+      "canonical_pillars": [
+        "marketing_growth",
+        "communication_support"
+      ],
+      "capability_id": "GRW-10",
+      "rationale": "Mapped primarily to marketing growth because the capability job is: Social scheduling and publishing across Twitter/X, LinkedIn, Instagram, Facebook, etc.",
+      "raw_slice": "marketing-growth-content-automation"
+    },
+    {
+      "canonical_pillars": [
+        "marketing_growth",
+        "communication_support"
+      ],
+      "capability_id": "GRW-11",
+      "rationale": "Mapped primarily to marketing growth because the capability job is: Social listening and brand mention monitoring across platforms.",
+      "raw_slice": "marketing-growth-content-automation"
+    },
+    {
+      "canonical_pillars": [
+        "marketing_growth"
+      ],
+      "capability_id": "GRW-12",
+      "rationale": "Mapped primarily to marketing growth because the capability job is: Ad account management and reporting (Google/Meta/LinkedIn Ads).",
+      "raw_slice": "marketing-growth-content-automation"
+    },
+    {
+      "canonical_pillars": [
+        "marketing_growth"
+      ],
+      "capability_id": "GRW-13",
+      "rationale": "Mapped primarily to marketing growth because the capability job is: UTM and attribution plumbing with short-links and conversion tracking.",
+      "raw_slice": "marketing-growth-content-automation"
+    },
+    {
+      "canonical_pillars": [
+        "marketing_growth",
+        "deployment_operations"
+      ],
+      "capability_id": "GRW-14",
+      "rationale": "Mapped primarily to marketing growth because the capability job is: Client website hosting with deploy previews and custom domains.",
+      "raw_slice": "marketing-growth-content-automation"
+    },
+    {
+      "canonical_pillars": [
+        "marketing_growth",
+        "files_media_content"
+      ],
+      "capability_id": "GRW-15",
+      "rationale": "Mapped primarily to marketing growth because the capability job is: Brand and asset templating library (logos, colours, copy blocks) shared across client work.",
+      "raw_slice": "marketing-growth-content-automation"
+    },
+    {
+      "canonical_pillars": [
+        "marketing_growth",
+        "files_media_content"
+      ],
+      "capability_id": "GRW-16",
+      "rationale": "Mapped primarily to marketing growth because the capability job is: Case-study production pipeline from raw client work to published asset.",
+      "raw_slice": "marketing-growth-content-automation"
+    },
+    {
+      "canonical_pillars": [
+        "marketing_growth"
+      ],
+      "capability_id": "GRW-17",
+      "rationale": "Mapped primarily to marketing growth because the capability job is: Referral programme management for client acquisition.",
+      "raw_slice": "marketing-growth-content-automation"
+    },
+    {
+      "canonical_pillars": [
+        "marketing_growth",
+        "communication_support"
+      ],
+      "capability_id": "GRW-18",
+      "rationale": "Mapped primarily to marketing growth because the capability job is: Webinar and event management with registration, reminders, and replay hosting.",
+      "raw_slice": "marketing-growth-content-automation"
+    },
+    {
+      "canonical_pillars": [
+        "marketing_growth",
+        "communication_support"
+      ],
+      "capability_id": "GRW-19",
+      "rationale": "Mapped primarily to marketing growth because the capability job is: Community management (forum, threads, member directory) for client communities.",
+      "raw_slice": "marketing-growth-content-automation"
+    },
+    {
+      "canonical_pillars": [
+        "marketing_growth"
+      ],
+      "capability_id": "GRW-20",
+      "rationale": "Mapped primarily to marketing growth because the capability job is: Influencer and partner outreach with pipeline and ROI tracking.",
+      "raw_slice": "marketing-growth-content-automation"
+    },
+    {
+      "canonical_pillars": [
+        "marketing_growth",
+        "communication_support"
+      ],
+      "capability_id": "GRW-21",
+      "rationale": "Mapped primarily to marketing growth because the capability job is: Review and reputation management across Google, G2, Capterra, Trustpilot.",
+      "raw_slice": "marketing-growth-content-automation"
+    },
+    {
+      "canonical_pillars": [
+        "marketing_growth",
+        "files_media_content"
+      ],
+      "capability_id": "GRW-22",
+      "rationale": "Mapped primarily to marketing growth because the capability job is: Podcast and video distribution with RSS, transcripts, and platform syndication.",
+      "raw_slice": "marketing-growth-content-automation"
+    },
+    {
+      "canonical_pillars": [
+        "marketing_growth",
+        "automation_agents"
+      ],
+      "capability_id": "GRW-23",
+      "rationale": "Mapped primarily to marketing growth because the capability job is: Workflow automation connecting CRM, marketing, and ops tools (the runtime layer).",
+      "raw_slice": "marketing-growth-content-automation"
+    },
+    {
+      "canonical_pillars": [
+        "marketing_growth"
+      ],
+      "capability_id": "GRW-24",
+      "rationale": "Mapped primarily to marketing growth because the capability job is: Agency's own new-business marketing \u2014 outreach, lead-gen, and brand presence for the agency itself.",
+      "raw_slice": "marketing-growth-content-automation"
+    },
+    {
+      "canonical_pillars": [
+        "identity_security_governance"
+      ],
+      "capability_id": "IDN-01",
+      "rationale": "Mapped primarily to identity security governance because the capability job is: Federate enterprise customer identity (SAML/OIDC/SCIM) into the host shell so a single sign-on tenant signs in once and gets signed into every module.",
+      "raw_slice": "identity-tenancy-permissions"
+    },
+    {
+      "canonical_pillars": [
+        "identity_security_governance"
+      ],
+      "capability_id": "IDN-02",
+      "rationale": "Mapped primarily to identity security governance because the capability job is: Run an authorization decision point (RBAC/ABAC/ReBAC) that every module consults on every read and write to enforce tenant scope, role, and record-level policy.",
+      "raw_slice": "identity-tenancy-permissions"
+    },
+    {
+      "canonical_pillars": [
+        "identity_security_governance"
+      ],
+      "capability_id": "IDN-03",
+      "rationale": "Mapped primarily to identity security governance because the capability job is: Manage users, teams, and roles inside a SISO workspace with invites, de-provisioning, group sync, and role assignment policies.",
+      "raw_slice": "identity-tenancy-permissions"
+    },
+    {
+      "canonical_pillars": [
+        "identity_security_governance"
+      ],
+      "capability_id": "IDN-04",
+      "rationale": "Mapped primarily to identity security governance because the capability job is: Enforce multi-tenant workspace isolation at the data layer so a row in any module cannot be read by a user in another tenant, and tenants cannot collide on slug or id.",
+      "raw_slice": "identity-tenancy-permissions"
+    },
+    {
+      "canonical_pillars": [
+        "identity_security_governance"
+      ],
+      "capability_id": "IDN-05",
+      "rationale": "Mapped primarily to identity security governance because the capability job is: Issue per-field and per-record permissions so a record owner can grant access to one collaborator without broadcasting it to a role.",
+      "raw_slice": "identity-tenancy-permissions"
+    },
+    {
+      "canonical_pillars": [
+        "identity_security_governance"
+      ],
+      "capability_id": "IDN-06",
+      "rationale": "Mapped primarily to identity security governance because the capability job is: Provide a guest / client-portal identity so an external client can sign in to a bounded view of one project without becoming a workspace member.",
+      "raw_slice": "identity-tenancy-permissions"
+    },
+    {
+      "canonical_pillars": [
+        "identity_security_governance"
+      ],
+      "capability_id": "IDN-07",
+      "rationale": "Mapped primarily to identity security governance because the capability job is: Manage API keys and service accounts so integrations and agents can act under a service identity with scoped grants and rotating credentials.",
+      "raw_slice": "identity-tenancy-permissions"
+    },
+    {
+      "canonical_pillars": [
+        "identity_security_governance"
+      ],
+      "capability_id": "IDN-08",
+      "rationale": "Mapped primarily to identity security governance because the capability job is: Manage secrets (DB passwords, OAuth client secrets, signing keys, encryption keys) centrally with envelope encryption, rotation, and audit.",
+      "raw_slice": "identity-tenancy-permissions"
+    },
+    {
+      "canonical_pillars": [
+        "identity_security_governance"
+      ],
+      "capability_id": "IDN-09",
+      "rationale": "Mapped primarily to identity security governance because the capability job is: Manage login sessions across host and modules with sliding timeouts, revocation, concurrent-session limits, and device binding.",
+      "raw_slice": "identity-tenancy-permissions"
+    },
+    {
+      "canonical_pillars": [
+        "identity_security_governance"
+      ],
+      "capability_id": "IDN-10",
+      "rationale": "Mapped primarily to identity security governance because the capability job is: Enforce step-up MFA / passkey / WebAuthn / TOTP on high-risk actions (admin, export, delete, role grant) and on first login from a new device.",
+      "raw_slice": "identity-tenancy-permissions"
+    },
+    {
+      "canonical_pillars": [
+        "identity_security_governance",
+        "legal_trust"
+      ],
+      "capability_id": "IDN-11",
+      "rationale": "Mapped primarily to identity security governance because the capability job is: Manage consent and data-subject requests (DSR) \u2014 access, export, deletion, restriction \u2014 for GDPR/CCPA and equivalent regimes.",
+      "raw_slice": "identity-tenancy-permissions"
+    },
+    {
+      "canonical_pillars": [
+        "identity_security_governance",
+        "legal_trust"
+      ],
+      "capability_id": "IDN-12",
+      "rationale": "Mapped primarily to identity security governance because the capability job is: Produce an immutable, tamper-evident audit trail of every security-relevant event (login, role change, policy change, export, delete, high-risk action) with cryptographic chain-of-custody.",
+      "raw_slice": "identity-tenancy-permissions"
+    },
+    {
+      "canonical_pillars": [
+        "identity_security_governance",
+        "automation_agents"
+      ],
+      "capability_id": "IDN-13",
+      "rationale": "Mapped primarily to identity security governance because the capability job is: Run an approval workflow engine so high-risk actions (R2/R3) route through human approvers with delegation, escalation, and time-bounded grants.",
+      "raw_slice": "identity-tenancy-permissions"
+    },
+    {
+      "canonical_pillars": [
+        "identity_security_governance",
+        "legal_trust"
+      ],
+      "capability_id": "IDN-14",
+      "rationale": "Mapped primarily to identity security governance because the capability job is: Prove SOC 2 / GDPR / ISO 27001 readiness by collecting evidence \u2014 config baselines, access reviews, signed audit trails, retention proofs \u2014 on demand.",
+      "raw_slice": "identity-tenancy-permissions"
+    },
+    {
+      "canonical_pillars": [
+        "identity_security_governance"
+      ],
+      "capability_id": "IDN-15",
+      "rationale": "Mapped primarily to identity security governance because the capability job is: Tenant provisioning and deprovisioning \u2014 automated onboarding/offboarding channels, marketing-driven signup, and account suspension with cascade rules.",
+      "raw_slice": "identity-tenancy-permissions"
+    },
+    {
+      "canonical_pillars": [
+        "identity_security_governance"
+      ],
+      "capability_id": "IDN-16",
+      "rationale": "Mapped primarily to identity security governance because the capability job is: Policy-as-code authorizing every action with subject, resource, action, context \u2014 versioning, testing, and rollback for policy changes.",
+      "raw_slice": "identity-tenancy-permissions"
+    },
+    {
+      "canonical_pillars": [
+        "identity_security_governance",
+        "legal_trust"
+      ],
+      "capability_id": "IDN-17",
+      "rationale": "Mapped primarily to identity security governance because the capability job is: Define and enforce data retention, archival, and erasure policies per record class with proof-of-deletion evidence.",
+      "raw_slice": "identity-tenancy-permissions"
+    },
+    {
+      "canonical_pillars": [
+        "identity_security_governance",
+        "automation_agents"
+      ],
+      "capability_id": "IDN-18",
+      "rationale": "Mapped primarily to identity security governance because the capability job is: Issue delegated and break-glass credentials so a named human can act on behalf of another identity for a bounded time with full audit trail.",
+      "raw_slice": "identity-tenancy-permissions"
+    },
+    {
+      "canonical_pillars": [
+        "identity_security_governance",
+        "legal_trust"
+      ],
+      "capability_id": "IDN-19",
+      "rationale": "Mapped primarily to identity security governance because the capability job is: Run periodic access reviews / recertification so role and entitlement grants are re-confirmed by an owner on a schedule, with auto-revocation on no-response.",
+      "raw_slice": "identity-tenancy-permissions"
+    },
+    {
+      "canonical_pillars": [
+        "identity_security_governance"
+      ],
+      "capability_id": "IDN-20",
+      "rationale": "Mapped primarily to identity security governance because the capability job is: Provide a developer-facing audit trail query and replay surface so an engineer can reconstruct who did what across modules during an incident.",
+      "raw_slice": "identity-tenancy-permissions"
+    },
+    {
+      "canonical_pillars": [
+        "data_intelligence"
+      ],
+      "capability_id": "DAS-01",
+      "rationale": "Mapped primarily to data intelligence because the capability job is: Global cross-module lexical search (full-text and faceted) over every SISO module's text-bearing records so an operator can find a client mention across Teable rows, SISO Docs documents, Plane issues, Chatwoot conversations and emails in one query.",
+      "raw_slice": "data-analytics-search-memory"
+    },
+    {
+      "canonical_pillars": [
+        "data_intelligence",
+        "knowledge_research"
+      ],
+      "capability_id": "DAS-02",
+      "rationale": "Mapped primarily to data intelligence because the capability job is: Semantic / vector retrieval over client knowledge (SISO Docs documents, Chatwoot conversation threads, e-mail threads, SISO Notes pages) with the same per-record ACL as the source module, so an agent can ground a reply on the right paragraph.",
+      "raw_slice": "data-analytics-search-memory"
+    },
+    {
+      "canonical_pillars": [
+        "data_intelligence",
+        "knowledge_research"
+      ],
+      "capability_id": "DAS-03",
+      "rationale": "Mapped primarily to data intelligence because the capability job is: Embedding and re-embedding pipeline that turns each source-module text payload into vectors stored under DAS-02 with versioning so a model swap doesn't strand historical chunks.",
+      "raw_slice": "data-analytics-search-memory"
+    },
+    {
+      "canonical_pillars": [
+        "data_intelligence",
+        "knowledge_research"
+      ],
+      "capability_id": "DAS-04",
+      "rationale": "Mapped primarily to data intelligence because the capability job is: RAG over client knowledge \u2014 citation-required answer synthesis that returns answer text plus source-module, source-record-id, chunk pointer, and ACL token used, so an agent's claim is auditable and a human can replay the retrieval.",
+      "raw_slice": "data-analytics-search-memory"
+    },
+    {
+      "canonical_pillars": [
+        "data_intelligence",
+        "knowledge_research"
+      ],
+      "capability_id": "DAS-05",
+      "rationale": "Mapped primarily to data intelligence because the capability job is: Agent long-term memory \u2014 per-agent/per-workspace memory store with the same ACL and provenance discipline as DAS-02 so an agent can recall facts about a client across sessions and threads.",
+      "raw_slice": "data-analytics-search-memory"
+    },
+    {
+      "canonical_pillars": [
+        "data_intelligence"
+      ],
+      "capability_id": "DAS-06",
+      "rationale": "Mapped primarily to data intelligence because the capability job is: BI / dashboard layer \u2014 pre-built dashboards and ad-hoc query UI over the approved read models that each module exposes, so an account manager can see pipeline, retention, SLAs without writing SQL.",
+      "raw_slice": "data-analytics-search-memory"
+    },
+    {
+      "canonical_pillars": [
+        "data_intelligence"
+      ],
+      "capability_id": "DAS-07",
+      "rationale": "Mapped primarily to data intelligence because the capability job is: Data warehouse / read-model layer that materialises a tenant-scoped, ACL-filtered view per source module so BI tools and agents query one canonical place rather than ten upstream databases.",
+      "raw_slice": "data-analytics-search-memory"
+    },
+    {
+      "canonical_pillars": [
+        "data_intelligence"
+      ],
+      "capability_id": "DAS-08",
+      "rationale": "Mapped primarily to data intelligence because the capability job is: KPI / metric layer \u2014 semantic definitions (active client, MRR, retention) shared between BI, agent reasoning and client-facing reports, so 'active client' means the same thing everywhere.",
+      "raw_slice": "data-analytics-search-memory"
+    },
+    {
+      "canonical_pillars": [
+        "data_intelligence"
+      ],
+      "capability_id": "DAS-09",
+      "rationale": "Mapped primarily to data intelligence because the capability job is: ETL / ELT pipelines that move records from each source module into the warehouse read models, preserving ACL and provenance metadata.",
+      "raw_slice": "data-analytics-search-memory"
+    },
+    {
+      "canonical_pillars": [
+        "data_intelligence"
+      ],
+      "capability_id": "DAS-10",
+      "rationale": "Mapped primarily to data intelligence because the capability job is: Change-data-capture (CDC) and event streaming so the search index, vector index, and warehouse reflect source-module changes within seconds rather than on a 24h batch.",
+      "raw_slice": "data-analytics-search-memory"
+    },
+    {
+      "canonical_pillars": [
+        "data_intelligence"
+      ],
+      "capability_id": "DAS-11",
+      "rationale": "Mapped primarily to data intelligence because the capability job is: Product / web analytics so the agency can see feature adoption, funnel drop-off, and event-level behaviour on client portals and dashboards without shipping JS into every page by hand.",
+      "raw_slice": "data-analytics-search-memory"
+    },
+    {
+      "canonical_pillars": [
+        "data_intelligence"
+      ],
+      "capability_id": "DAS-12",
+      "rationale": "Mapped primarily to data intelligence because the capability job is: Funnel, cohort, retention analysis so the agency can answer 'how many leads closed within 30 days' or 'what is 90-day retention on the partner portal' from one place.",
+      "raw_slice": "data-analytics-search-memory"
+    },
+    {
+      "canonical_pillars": [
+        "data_intelligence"
+      ],
+      "capability_id": "DAS-13",
+      "rationale": "Mapped primarily to data intelligence because the capability job is: Anomaly detection and alerting on warehouse + operational metrics (Teable space errors, Documenso signing failures, Chatwoot SLA breaches) so the agency knows about a degradation before a client does.",
+      "raw_slice": "data-analytics-search-memory"
+    },
+    {
+      "canonical_pillars": [
+        "data_intelligence"
+      ],
+      "capability_id": "DAS-14",
+      "rationale": "Mapped primarily to data intelligence because the capability job is: Data quality / deduplication / entity resolution across modules so the same client isn't a Teable row, a SISO Docs doc, a Plane issue and a Chatwoot contact with four slightly different spellings.",
+      "raw_slice": "data-analytics-search-memory"
+    },
+    {
+      "canonical_pillars": [
+        "data_intelligence",
+        "communication_support"
+      ],
+      "capability_id": "DAS-15",
+      "rationale": "Mapped primarily to data intelligence because the capability job is: Scheduled client-facing reports \u2014 weekly performance, monthly retainer usage, signed-contract digest \u2014 delivered to a client's inbox/portal on a schedule with citations back to source modules.",
+      "raw_slice": "data-analytics-search-memory"
+    },
+    {
+      "canonical_pillars": [
+        "data_intelligence"
+      ],
+      "capability_id": "DAS-16",
+      "rationale": "Mapped primarily to data intelligence because the capability job is: Forecasting (revenue, churn, capacity) so the agency can plan retainer pricing, hiring, and infra without spreadsheet theatre.",
+      "raw_slice": "data-analytics-search-memory"
+    },
+    {
+      "canonical_pillars": [
+        "data_intelligence",
+        "legal_trust"
+      ],
+      "capability_id": "DAS-17",
+      "rationale": "Mapped primarily to data intelligence because the capability job is: Data export / portability \u2014 client can take 'their' data out in a portable form, satisfying right-to-export and simplifying hand-off at offboarding.",
+      "raw_slice": "data-analytics-search-memory"
+    },
+    {
+      "canonical_pillars": [
+        "data_intelligence",
+        "deployment_operations"
+      ],
+      "capability_id": "DAS-18",
+      "rationale": "Mapped primarily to data intelligence because the capability job is: Log aggregation and observability \u2014 a single place to search logs across Teable, SISO Docs, Documenso, Chatwoot, Cal.com, Activepieces so an SRE can answer 'what happened at 14:32' in one query.",
+      "raw_slice": "data-analytics-search-memory"
+    },
+    {
+      "canonical_pillars": [
+        "data_intelligence",
+        "revenue_relationships"
+      ],
+      "capability_id": "DAS-19",
+      "rationale": "Mapped primarily to data intelligence because the capability job is: Master data management (MDM) \u2014 golden records for client, contact, product that every module shares, so 'Acme Corp' in Teable, 'Acme Co.' in Chatwoot, and 'acme.com' in Cal.com all resolve to one entity.",
+      "raw_slice": "data-analytics-search-memory"
+    },
+    {
+      "canonical_pillars": [
+        "data_intelligence"
+      ],
+      "capability_id": "DAS-20",
+      "rationale": "Mapped primarily to data intelligence because the capability job is: Benchmark / industry comparison so a client report can say 'your CAC is X, agency median is Y' without leaking other clients' data.",
+      "raw_slice": "data-analytics-search-memory"
+    },
+    {
+      "canonical_pillars": [
+        "data_intelligence",
+        "knowledge_research"
+      ],
+      "capability_id": "DAS-21",
+      "rationale": "Mapped primarily to data intelligence because the capability job is: Open-source topology / sub-agent recall \u2014 when an agent needs to read a 'known good' answer from another agent's prior session, a discoverable, ACL-scoped trace of past reasoning it can cite.",
+      "raw_slice": "data-analytics-search-memory"
+    },
+    {
+      "canonical_pillars": [
+        "knowledge_research"
+      ],
+      "capability_id": "KNW-01",
+      "rationale": "Mapped primarily to knowledge research because the capability job is: Author, version, and collaborate on long-form documents (SOPs, playbooks, briefs) with rich blocks, comments, and revision history.",
+      "raw_slice": "knowledge-documents-files-legal"
+    },
+    {
+      "canonical_pillars": [
+        "knowledge_research"
+      ],
+      "capability_id": "KNW-02",
+      "rationale": "Mapped primarily to knowledge research because the capability job is: Operate a workspace-level wiki/internal knowledge base (spaces, templates, full-text search) that spans projects and clients.",
+      "raw_slice": "knowledge-documents-files-legal"
+    },
+    {
+      "canonical_pillars": [
+        "knowledge_research",
+        "legal_trust"
+      ],
+      "capability_id": "KNW-03",
+      "rationale": "Mapped primarily to knowledge research because the capability job is: Run client-facing data rooms (folder-scoped shares, per-recipient analytics, watermark/expiry) for proposals, due-diligence, and SOW reviews.",
+      "raw_slice": "knowledge-documents-files-legal"
+    },
+    {
+      "canonical_pillars": [
+        "legal_trust",
+        "knowledge_research"
+      ],
+      "capability_id": "KNW-04",
+      "rationale": "Mapped primarily to legal trust because the capability job is: Send, sign, and audit contracts/SOWs/NDAs through Documenso with envelope-level audit trails.",
+      "raw_slice": "knowledge-documents-files-legal"
+    },
+    {
+      "canonical_pillars": [
+        "files_media_content"
+      ],
+      "capability_id": "KNW-05",
+      "rationale": "Mapped primarily to files media content because the capability job is: Operate shared file storage and sync for agency internal teams (binary files, project attachments, ops dumps) without the AGPL second-app overhead.",
+      "raw_slice": "knowledge-documents-files-legal"
+    },
+    {
+      "canonical_pillars": [
+        "files_media_content"
+      ],
+      "capability_id": "KNW-06",
+      "rationale": "Mapped primarily to files media content because the capability job is: Manage large media assets (video, design files, brand assets, photography) with metadata, search, and per-asset access control \u2014 the DAM capability A10 does not list.",
+      "raw_slice": "knowledge-documents-files-legal"
+    },
+    {
+      "canonical_pillars": [
+        "knowledge_research",
+        "communication_support"
+      ],
+      "capability_id": "KNW-07",
+      "rationale": "Mapped primarily to knowledge research because the capability job is: Capture, transcribe, and search meeting recordings (video + audio) so the agency can mine client calls for decisions, action items, and provenance.",
+      "raw_slice": "knowledge-documents-files-legal"
+    },
+    {
+      "canonical_pillars": [
+        "knowledge_research"
+      ],
+      "capability_id": "KNW-08",
+      "rationale": "Mapped primarily to knowledge research because the capability job is: Provide diagramming and whiteboard blocks (Mermaid, Excalidraw, Draw.io style) inside documents for SOPs, architecture pages, and client briefs.",
+      "raw_slice": "knowledge-documents-files-legal"
+    },
+    {
+      "canonical_pillars": [
+        "knowledge_research",
+        "revenue_relationships"
+      ],
+      "capability_id": "KNW-09",
+      "rationale": "Mapped primarily to knowledge research because the capability job is: Generate document templates and SOW/proposal artefacts from structured data (client info, deal stage, services catalog) so that contracts start as data, not as Word docs.",
+      "raw_slice": "knowledge-documents-files-legal"
+    },
+    {
+      "canonical_pillars": [
+        "knowledge_research",
+        "data_intelligence"
+      ],
+      "capability_id": "KNW-10",
+      "rationale": "Mapped primarily to knowledge research because the capability job is: Run OCR + structured extraction on inbound PDFs (signed SOWs, vendor invoices, scanned client intake forms) so they become first-class records.",
+      "raw_slice": "knowledge-documents-files-legal"
+    },
+    {
+      "canonical_pillars": [
+        "knowledge_research",
+        "work_delivery"
+      ],
+      "capability_id": "KNW-11",
+      "rationale": "Mapped primarily to knowledge research because the capability job is: Capture client deliverable approvals with a reversible proof-of-acceptance record (sign-off, comments, timestamp, actor, link back to document version).",
+      "raw_slice": "knowledge-documents-files-legal"
+    },
+    {
+      "canonical_pillars": [
+        "files_media_content",
+        "identity_security_governance"
+      ],
+      "capability_id": "KNW-12",
+      "rationale": "Mapped primarily to files media content because the capability job is: Apply watermarks and access-expiry to client-facing documents so confidential material cannot leak via screenshot or stale link.",
+      "raw_slice": "knowledge-documents-files-legal"
+    },
+    {
+      "canonical_pillars": [
+        "knowledge_research",
+        "data_intelligence"
+      ],
+      "capability_id": "KNW-13",
+      "rationale": "Mapped primarily to knowledge research because the capability job is: Provide document search across systems (SISO Docs/Notes, Documenso, Papermark, Nextcloud when wired) with ACL filtering and citation-grade provenance.",
+      "raw_slice": "knowledge-documents-files-legal"
+    },
+    {
+      "canonical_pillars": [
+        "legal_trust",
+        "knowledge_research"
+      ],
+      "capability_id": "KNW-14",
+      "rationale": "Mapped primarily to legal trust because the capability job is: Manage document retention and legal-hold lifecycle (eDiscovery export, hold attach/release, retention window) on documents owned by SISO Docs/Notes, Papermark, and Documenso.",
+      "raw_slice": "knowledge-documents-files-legal"
+    },
+    {
+      "canonical_pillars": [
+        "files_media_content"
+      ],
+      "capability_id": "KNW-15",
+      "rationale": "Mapped primarily to files media content because the capability job is: Operate PDF manipulation at scale (merge/split/watermark/redact/convert) on agency deliverables without paying Adobe.",
+      "raw_slice": "knowledge-documents-files-legal"
+    },
+    {
+      "canonical_pillars": [
+        "files_media_content",
+        "communication_support"
+      ],
+      "capability_id": "KNW-16",
+      "rationale": "Mapped primarily to files media content because the capability job is: Capture screen recordings and visual feedback for async client review (replaces ad-hoc Loom/CloudApp workflows).",
+      "raw_slice": "knowledge-documents-files-legal"
+    },
+    {
+      "canonical_pillars": [
+        "knowledge_research"
+      ],
+      "capability_id": "KNW-17",
+      "rationale": "Mapped primarily to knowledge research because the capability job is: Provide a personal/team note-taking surface with backlinks and transclusion that complements the workspace wiki (SISO Docs/Notes already covers the team wiki; this is the personal PKM layer).",
+      "raw_slice": "knowledge-documents-files-legal"
+    }
+  ],
+  "counts": {
+    "capabilities": 189,
+    "multi_pillar_capabilities": 79
+  },
+  "mapping_method": "Each Lane-B capability is mapped from its one-sentence job to the smallest materially spanning set of canonical Agency OS pillars; raw slice names are preserved for provenance and never used for routing.",
+  "record_type": "agency_os_capability_pillar_map",
+  "schema_version": "1.0.0"
+}

@@ -23,7 +23,7 @@
       "source-read": 79
     },
     "frontier_rows": 30,
-    "multi_vertical_projects": 103,
+    "multi_vertical_projects": 114,
     "unique_repositories": 628,
     "unmapped_vertical_labels": 0
   },
@@ -1193,7 +1193,8 @@
       "application_row_count": 1,
       "atlas_reference_count": 2,
       "canonical_verticals": [
-        "communication_support"
+        "communication_support",
+        "marketing_growth"
       ],
       "categories": [
         "Reference for self-hosted email marketing and newsletter delivery",
@@ -1213,7 +1214,8 @@
         ]
       },
       "pillars": [
-        "communication_support"
+        "communication_support",
+        "marketing_growth"
       ],
       "raw_vertical_labels": [
         "communication-inbox-support-calendar",
@@ -1232,7 +1234,8 @@
         "frontier_lines": []
       },
       "verticals": [
-        "communication_support"
+        "communication_support",
+        "marketing_growth"
       ]
     },
     {
@@ -1526,9 +1529,9 @@
       "application_row_count": 0,
       "atlas_reference_count": 2,
       "canonical_verticals": [
+        "communication_support",
         "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "knowledge_research"
       ],
       "categories": [
         "knowledge-documents-files-legal"
@@ -1542,9 +1545,9 @@
         "statuses": []
       },
       "pillars": [
+        "communication_support",
         "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "knowledge_research"
       ],
       "raw_vertical_labels": [
         "knowledge-documents-files-legal"
@@ -1560,9 +1563,9 @@
         "frontier_lines": []
       },
       "verticals": [
+        "communication_support",
         "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "knowledge_research"
       ]
     },
     {
@@ -2373,9 +2376,8 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "data_intelligence",
+        "knowledge_research"
       ],
       "categories": [
         "knowledge-documents-files-legal"
@@ -2389,9 +2391,8 @@
         "statuses": []
       },
       "pillars": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "data_intelligence",
+        "knowledge_research"
       ],
       "raw_vertical_labels": [
         "knowledge-documents-files-legal"
@@ -2406,9 +2407,8 @@
         "frontier_lines": []
       },
       "verticals": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "data_intelligence",
+        "knowledge_research"
       ]
     },
     {
@@ -2442,6 +2442,7 @@
       "application_row_count": 1,
       "atlas_reference_count": 1,
       "canonical_verticals": [
+        "finance_administration",
         "revenue_relationships"
       ],
       "categories": [
@@ -2462,6 +2463,7 @@
         ]
       },
       "pillars": [
+        "finance_administration",
         "revenue_relationships"
       ],
       "raw_vertical_labels": [
@@ -2480,6 +2482,7 @@
         "frontier_lines": []
       },
       "verticals": [
+        "finance_administration",
         "revenue_relationships"
       ]
     },
@@ -3103,7 +3106,7 @@
       "canonical_verticals": [
         "automation_agents",
         "data_intelligence",
-        "deployment_operations"
+        "knowledge_research"
       ],
       "categories": [
         "agent-infrastructure-deployment-ops",
@@ -3120,7 +3123,7 @@
       "pillars": [
         "automation_agents",
         "data_intelligence",
-        "deployment_operations"
+        "knowledge_research"
       ],
       "raw_vertical_labels": [
         "agent-infrastructure-deployment-ops",
@@ -3140,7 +3143,7 @@
       "verticals": [
         "automation_agents",
         "data_intelligence",
-        "deployment_operations"
+        "knowledge_research"
       ]
     },
     {
@@ -3240,8 +3243,7 @@
       "application_row_count": 1,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "automation_agents",
-        "files_media_content",
+        "communication_support",
         "marketing_growth",
         "work_delivery"
       ],
@@ -3263,8 +3265,7 @@
         ]
       },
       "pillars": [
-        "automation_agents",
-        "files_media_content",
+        "communication_support",
         "marketing_growth",
         "work_delivery"
       ],
@@ -3284,8 +3285,7 @@
         "frontier_lines": []
       },
       "verticals": [
-        "automation_agents",
-        "files_media_content",
+        "communication_support",
         "marketing_growth",
         "work_delivery"
       ]
@@ -3446,7 +3446,6 @@
       "atlas_reference_count": 4,
       "canonical_verticals": [
         "automation_agents",
-        "deployment_operations",
         "identity_security_governance"
       ],
       "categories": [
@@ -3463,7 +3462,6 @@
       },
       "pillars": [
         "automation_agents",
-        "deployment_operations",
         "identity_security_governance"
       ],
       "raw_vertical_labels": [
@@ -3484,7 +3482,6 @@
       },
       "verticals": [
         "automation_agents",
-        "deployment_operations",
         "identity_security_governance"
       ]
     },
@@ -4636,7 +4633,6 @@
       "application_row_count": 1,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "files_media_content",
         "knowledge_research",
         "legal_trust"
       ],
@@ -4658,7 +4654,6 @@
         ]
       },
       "pillars": [
-        "files_media_content",
         "knowledge_research",
         "legal_trust"
       ],
@@ -4678,7 +4673,6 @@
         "frontier_lines": []
       },
       "verticals": [
-        "files_media_content",
         "knowledge_research",
         "legal_trust"
       ]
@@ -5861,9 +5855,7 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "files_media_content"
       ],
       "categories": [
         "knowledge-documents-files-legal"
@@ -5877,9 +5869,7 @@
         "statuses": []
       },
       "pillars": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "files_media_content"
       ],
       "raw_vertical_labels": [
         "knowledge-documents-files-legal"
@@ -5894,9 +5884,7 @@
         "frontier_lines": []
       },
       "verticals": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "files_media_content"
       ]
     },
     {
@@ -6389,9 +6377,7 @@
       "application_row_count": 1,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "knowledge_research"
       ],
       "categories": [
         "Personal note-taking with scripting; AGPL sum-of-knowledge graph",
@@ -6410,9 +6396,7 @@
         ]
       },
       "pillars": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "knowledge_research"
       ],
       "raw_vertical_labels": [
         "knowledge-documents-files-legal",
@@ -6430,9 +6414,7 @@
         "frontier_lines": []
       },
       "verticals": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "knowledge_research"
       ]
     },
     {
@@ -6466,9 +6448,7 @@
       "application_row_count": 1,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "automation_agents",
         "communication_support",
-        "files_media_content",
         "marketing_growth"
       ],
       "categories": [
@@ -6489,9 +6469,7 @@
         ]
       },
       "pillars": [
-        "automation_agents",
         "communication_support",
-        "files_media_content",
         "marketing_growth"
       ],
       "raw_vertical_labels": [
@@ -6512,9 +6490,7 @@
         ]
       },
       "verticals": [
-        "automation_agents",
         "communication_support",
-        "files_media_content",
         "marketing_growth"
       ]
     },
@@ -7204,7 +7180,8 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "communication_support"
+        "communication_support",
+        "work_delivery"
       ],
       "categories": [
         "communication-inbox-support-calendar"
@@ -7218,7 +7195,8 @@
         "statuses": []
       },
       "pillars": [
-        "communication_support"
+        "communication_support",
+        "work_delivery"
       ],
       "raw_vertical_labels": [
         "communication-inbox-support-calendar"
@@ -7233,7 +7211,8 @@
         "frontier_lines": []
       },
       "verticals": [
-        "communication_support"
+        "communication_support",
+        "work_delivery"
       ]
     },
     {
@@ -7344,13 +7323,13 @@
       "atlas_reference_count": 9,
       "canonical_verticals": [
         "automation_agents",
+        "communication_support",
         "data_intelligence",
-        "files_media_content",
         "finance_administration",
         "knowledge_research",
-        "legal_trust",
         "marketing_growth",
-        "revenue_relationships"
+        "revenue_relationships",
+        "work_delivery"
       ],
       "categories": [
         "crm-revenue-relationships",
@@ -7369,13 +7348,13 @@
       },
       "pillars": [
         "automation_agents",
+        "communication_support",
         "data_intelligence",
-        "files_media_content",
         "finance_administration",
         "knowledge_research",
-        "legal_trust",
         "marketing_growth",
-        "revenue_relationships"
+        "revenue_relationships",
+        "work_delivery"
       ],
       "raw_vertical_labels": [
         "crm-revenue-relationships",
@@ -7403,13 +7382,13 @@
       },
       "verticals": [
         "automation_agents",
+        "communication_support",
         "data_intelligence",
-        "files_media_content",
         "finance_administration",
         "knowledge_research",
-        "legal_trust",
         "marketing_growth",
-        "revenue_relationships"
+        "revenue_relationships",
+        "work_delivery"
       ]
     },
     {
@@ -7830,8 +7809,7 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "automation_agents",
-        "deployment_operations"
+        "automation_agents"
       ],
       "categories": [
         "agent-infrastructure-deployment-ops"
@@ -7845,8 +7823,7 @@
         "statuses": []
       },
       "pillars": [
-        "automation_agents",
-        "deployment_operations"
+        "automation_agents"
       ],
       "raw_vertical_labels": [
         "agent-infrastructure-deployment-ops"
@@ -7861,8 +7838,7 @@
         "frontier_lines": []
       },
       "verticals": [
-        "automation_agents",
-        "deployment_operations"
+        "automation_agents"
       ]
     },
     {
@@ -7894,7 +7870,7 @@
       "atlas_reference_count": 2,
       "canonical_verticals": [
         "automation_agents",
-        "deployment_operations"
+        "identity_security_governance"
       ],
       "categories": [
         "agent-infrastructure-deployment-ops"
@@ -7909,7 +7885,7 @@
       },
       "pillars": [
         "automation_agents",
-        "deployment_operations"
+        "identity_security_governance"
       ],
       "raw_vertical_labels": [
         "agent-infrastructure-deployment-ops"
@@ -7926,7 +7902,7 @@
       },
       "verticals": [
         "automation_agents",
-        "deployment_operations"
+        "identity_security_governance"
       ]
     },
     {
@@ -8816,7 +8792,6 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "automation_agents",
         "files_media_content",
         "marketing_growth"
       ],
@@ -8832,7 +8807,6 @@
         "statuses": []
       },
       "pillars": [
-        "automation_agents",
         "files_media_content",
         "marketing_growth"
       ],
@@ -8849,7 +8823,6 @@
         "frontier_lines": []
       },
       "verticals": [
-        "automation_agents",
         "files_media_content",
         "marketing_growth"
       ]
@@ -10256,7 +10229,9 @@
       "application_row_count": 1,
       "atlas_reference_count": 6,
       "canonical_verticals": [
-        "identity_security_governance"
+        "automation_agents",
+        "identity_security_governance",
+        "legal_trust"
       ],
       "categories": [
         "Enforce fine-grained tenant, staff, client, and agent permissions across every Agency OS module from one authorization service.",
@@ -10276,7 +10251,9 @@
         ]
       },
       "pillars": [
-        "identity_security_governance"
+        "automation_agents",
+        "identity_security_governance",
+        "legal_trust"
       ],
       "raw_vertical_labels": [
         "identity-tenancy-permissions",
@@ -10301,7 +10278,9 @@
         ]
       },
       "verticals": [
-        "identity_security_governance"
+        "automation_agents",
+        "identity_security_governance",
+        "legal_trust"
       ]
     },
     {
@@ -11253,9 +11232,7 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "knowledge_research"
       ],
       "categories": [
         "knowledge-documents-files-legal"
@@ -11269,9 +11246,7 @@
         "statuses": []
       },
       "pillars": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "knowledge_research"
       ],
       "raw_vertical_labels": [
         "knowledge-documents-files-legal"
@@ -11286,9 +11261,7 @@
         "frontier_lines": []
       },
       "verticals": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "knowledge_research"
       ]
     },
     {
@@ -11318,8 +11291,7 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "automation_agents",
-        "deployment_operations"
+        "automation_agents"
       ],
       "categories": [
         "agent-infrastructure-deployment-ops"
@@ -11333,8 +11305,7 @@
         "statuses": []
       },
       "pillars": [
-        "automation_agents",
-        "deployment_operations"
+        "automation_agents"
       ],
       "raw_vertical_labels": [
         "agent-infrastructure-deployment-ops"
@@ -11349,8 +11320,7 @@
         "frontier_lines": []
       },
       "verticals": [
-        "automation_agents",
-        "deployment_operations"
+        "automation_agents"
       ]
     },
     {
@@ -11578,7 +11548,8 @@
       "application_row_count": 0,
       "atlas_reference_count": 2,
       "canonical_verticals": [
-        "data_intelligence"
+        "data_intelligence",
+        "revenue_relationships"
       ],
       "categories": [
         "data-analytics-search-memory"
@@ -11592,7 +11563,8 @@
         "statuses": []
       },
       "pillars": [
-        "data_intelligence"
+        "data_intelligence",
+        "revenue_relationships"
       ],
       "raw_vertical_labels": [
         "data-analytics-search-memory"
@@ -11608,7 +11580,8 @@
         "frontier_lines": []
       },
       "verticals": [
-        "data_intelligence"
+        "data_intelligence",
+        "revenue_relationships"
       ]
     },
     {
@@ -11699,7 +11672,8 @@
       "atlas_reference_count": 2,
       "canonical_verticals": [
         "communication_support",
-        "revenue_relationships"
+        "revenue_relationships",
+        "work_delivery"
       ],
       "categories": [
         "communication-inbox-support-calendar",
@@ -11715,7 +11689,8 @@
       },
       "pillars": [
         "communication_support",
-        "revenue_relationships"
+        "revenue_relationships",
+        "work_delivery"
       ],
       "raw_vertical_labels": [
         "communication-inbox-support-calendar",
@@ -11733,7 +11708,8 @@
       },
       "verticals": [
         "communication_support",
-        "revenue_relationships"
+        "revenue_relationships",
+        "work_delivery"
       ]
     },
     {
@@ -11906,7 +11882,6 @@
       "atlas_reference_count": 5,
       "canonical_verticals": [
         "automation_agents",
-        "deployment_operations",
         "identity_security_governance"
       ],
       "categories": [
@@ -11923,7 +11898,6 @@
       },
       "pillars": [
         "automation_agents",
-        "deployment_operations",
         "identity_security_governance"
       ],
       "raw_vertical_labels": [
@@ -11945,7 +11919,6 @@
       },
       "verticals": [
         "automation_agents",
-        "deployment_operations",
         "identity_security_governance"
       ]
     },
@@ -12313,6 +12286,7 @@
       "atlas_reference_count": 8,
       "canonical_verticals": [
         "communication_support",
+        "identity_security_governance",
         "revenue_relationships"
       ],
       "categories": [
@@ -12329,6 +12303,7 @@
       },
       "pillars": [
         "communication_support",
+        "identity_security_governance",
         "revenue_relationships"
       ],
       "raw_vertical_labels": [
@@ -12353,6 +12328,7 @@
       },
       "verticals": [
         "communication_support",
+        "identity_security_governance",
         "revenue_relationships"
       ]
     },
@@ -12515,7 +12491,8 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "data_intelligence"
+        "data_intelligence",
+        "knowledge_research"
       ],
       "categories": [
         "data-analytics-search-memory"
@@ -12529,7 +12506,8 @@
         "statuses": []
       },
       "pillars": [
-        "data_intelligence"
+        "data_intelligence",
+        "knowledge_research"
       ],
       "raw_vertical_labels": [
         "data-analytics-search-memory"
@@ -12544,7 +12522,8 @@
         "frontier_lines": []
       },
       "verticals": [
-        "data_intelligence"
+        "data_intelligence",
+        "knowledge_research"
       ]
     },
     {
@@ -12898,7 +12877,7 @@
       "atlas_reference_count": 1,
       "canonical_verticals": [
         "automation_agents",
-        "deployment_operations"
+        "data_intelligence"
       ],
       "categories": [
         "agent-infrastructure-deployment-ops"
@@ -12913,7 +12892,7 @@
       },
       "pillars": [
         "automation_agents",
-        "deployment_operations"
+        "data_intelligence"
       ],
       "raw_vertical_labels": [
         "agent-infrastructure-deployment-ops"
@@ -12929,7 +12908,7 @@
       },
       "verticals": [
         "automation_agents",
-        "deployment_operations"
+        "data_intelligence"
       ]
     },
     {
@@ -12960,8 +12939,7 @@
       "application_row_count": 0,
       "atlas_reference_count": 2,
       "canonical_verticals": [
-        "automation_agents",
-        "deployment_operations"
+        "automation_agents"
       ],
       "categories": [
         "agent-infrastructure-deployment-ops"
@@ -12975,8 +12953,7 @@
         "statuses": []
       },
       "pillars": [
-        "automation_agents",
-        "deployment_operations"
+        "automation_agents"
       ],
       "raw_vertical_labels": [
         "agent-infrastructure-deployment-ops"
@@ -12992,8 +12969,7 @@
         "frontier_lines": []
       },
       "verticals": [
-        "automation_agents",
-        "deployment_operations"
+        "automation_agents"
       ]
     },
     {
@@ -13620,7 +13596,7 @@
       "atlas_reference_count": 3,
       "canonical_verticals": [
         "automation_agents",
-        "deployment_operations"
+        "identity_security_governance"
       ],
       "categories": [
         "agent-infrastructure-deployment-ops"
@@ -13635,7 +13611,7 @@
       },
       "pillars": [
         "automation_agents",
-        "deployment_operations"
+        "identity_security_governance"
       ],
       "raw_vertical_labels": [
         "agent-infrastructure-deployment-ops"
@@ -13653,7 +13629,7 @@
       },
       "verticals": [
         "automation_agents",
-        "deployment_operations"
+        "identity_security_governance"
       ]
     },
     {
@@ -14121,7 +14097,8 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "data_intelligence"
+        "data_intelligence",
+        "knowledge_research"
       ],
       "categories": [
         "data-analytics-search-memory"
@@ -14135,7 +14112,8 @@
         "statuses": []
       },
       "pillars": [
-        "data_intelligence"
+        "data_intelligence",
+        "knowledge_research"
       ],
       "raw_vertical_labels": [
         "data-analytics-search-memory"
@@ -14150,7 +14128,8 @@
         "frontier_lines": []
       },
       "verticals": [
-        "data_intelligence"
+        "data_intelligence",
+        "knowledge_research"
       ]
     },
     {
@@ -14449,10 +14428,10 @@
       "application_row_count": 1,
       "atlas_reference_count": 2,
       "canonical_verticals": [
-        "automation_agents",
         "data_intelligence",
         "files_media_content",
-        "marketing_growth"
+        "marketing_growth",
+        "revenue_relationships"
       ],
       "categories": [
         "Expose governed data APIs and admin surfaces over client databases for delivery applications.",
@@ -14473,10 +14452,10 @@
         ]
       },
       "pillars": [
-        "automation_agents",
         "data_intelligence",
         "files_media_content",
-        "marketing_growth"
+        "marketing_growth",
+        "revenue_relationships"
       ],
       "raw_vertical_labels": [
         "data-analytics-search-memory",
@@ -14496,10 +14475,10 @@
         "frontier_lines": []
       },
       "verticals": [
-        "automation_agents",
         "data_intelligence",
         "files_media_content",
-        "marketing_growth"
+        "marketing_growth",
+        "revenue_relationships"
       ]
     },
     {
@@ -14793,7 +14772,8 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "communication_support"
+        "communication_support",
+        "identity_security_governance"
       ],
       "categories": [
         "communication-inbox-support-calendar"
@@ -14807,7 +14787,8 @@
         "statuses": []
       },
       "pillars": [
-        "communication_support"
+        "communication_support",
+        "identity_security_governance"
       ],
       "raw_vertical_labels": [
         "communication-inbox-support-calendar"
@@ -14822,7 +14803,8 @@
         "frontier_lines": []
       },
       "verticals": [
-        "communication_support"
+        "communication_support",
+        "identity_security_governance"
       ]
     },
     {
@@ -14857,9 +14839,7 @@
       "application_row_count": 1,
       "atlas_reference_count": 2,
       "canonical_verticals": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "knowledge_research"
       ],
       "categories": [
         "Open-source collaborative wiki for SISO internal and Agency Edition clients",
@@ -14879,9 +14859,7 @@
         ]
       },
       "pillars": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "knowledge_research"
       ],
       "raw_vertical_labels": [
         "knowledge-documents-files-legal",
@@ -14900,9 +14878,7 @@
         "frontier_lines": []
       },
       "verticals": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "knowledge_research"
       ]
     },
     {
@@ -14939,7 +14915,7 @@
       "application_row_count": 0,
       "atlas_reference_count": 8,
       "canonical_verticals": [
-        "files_media_content",
+        "identity_security_governance",
         "knowledge_research",
         "legal_trust",
         "revenue_relationships",
@@ -14959,7 +14935,7 @@
         "statuses": []
       },
       "pillars": [
-        "files_media_content",
+        "identity_security_governance",
         "knowledge_research",
         "legal_trust",
         "revenue_relationships",
@@ -14987,7 +14963,7 @@
         "frontier_lines": []
       },
       "verticals": [
-        "files_media_content",
+        "identity_security_governance",
         "knowledge_research",
         "legal_trust",
         "revenue_relationships",
@@ -15025,7 +15001,6 @@
       "application_row_count": 1,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "files_media_content",
         "knowledge_research",
         "legal_trust"
       ],
@@ -15047,7 +15022,6 @@
         ]
       },
       "pillars": [
-        "files_media_content",
         "knowledge_research",
         "legal_trust"
       ],
@@ -15067,7 +15041,6 @@
         "frontier_lines": []
       },
       "verticals": [
-        "files_media_content",
         "knowledge_research",
         "legal_trust"
       ]
@@ -15500,8 +15473,6 @@
       "application_row_count": 1,
       "atlas_reference_count": 2,
       "canonical_verticals": [
-        "automation_agents",
-        "files_media_content",
         "finance_administration",
         "marketing_growth"
       ],
@@ -15523,8 +15494,6 @@
         ]
       },
       "pillars": [
-        "automation_agents",
-        "files_media_content",
         "finance_administration",
         "marketing_growth"
       ],
@@ -15545,8 +15514,6 @@
         "frontier_lines": []
       },
       "verticals": [
-        "automation_agents",
-        "files_media_content",
         "finance_administration",
         "marketing_growth"
       ]
@@ -15637,8 +15604,7 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "automation_agents",
-        "deployment_operations"
+        "automation_agents"
       ],
       "categories": [
         "agent-infrastructure-deployment-ops"
@@ -15652,8 +15618,7 @@
         "statuses": []
       },
       "pillars": [
-        "automation_agents",
-        "deployment_operations"
+        "automation_agents"
       ],
       "raw_vertical_labels": [
         "agent-infrastructure-deployment-ops"
@@ -15668,8 +15633,7 @@
         "frontier_lines": []
       },
       "verticals": [
-        "automation_agents",
-        "deployment_operations"
+        "automation_agents"
       ]
     },
     {
@@ -15699,8 +15663,7 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "automation_agents",
-        "deployment_operations"
+        "automation_agents"
       ],
       "categories": [
         "agent-infrastructure-deployment-ops"
@@ -15714,8 +15677,7 @@
         "statuses": []
       },
       "pillars": [
-        "automation_agents",
-        "deployment_operations"
+        "automation_agents"
       ],
       "raw_vertical_labels": [
         "agent-infrastructure-deployment-ops"
@@ -15730,8 +15692,7 @@
         "frontier_lines": []
       },
       "verticals": [
-        "automation_agents",
-        "deployment_operations"
+        "automation_agents"
       ]
     },
     {
@@ -16754,9 +16715,7 @@
       "application_row_count": 1,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "files_media_content",
         "knowledge_research",
-        "legal_trust",
         "work_delivery"
       ],
       "categories": [
@@ -16777,9 +16736,7 @@
         ]
       },
       "pillars": [
-        "files_media_content",
         "knowledge_research",
-        "legal_trust",
         "work_delivery"
       ],
       "raw_vertical_labels": [
@@ -16798,9 +16755,7 @@
         "frontier_lines": []
       },
       "verticals": [
-        "files_media_content",
         "knowledge_research",
-        "legal_trust",
         "work_delivery"
       ]
     },
@@ -16897,6 +16852,7 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
+        "finance_administration",
         "revenue_relationships"
       ],
       "categories": [
@@ -16911,6 +16867,7 @@
         "statuses": []
       },
       "pillars": [
+        "finance_administration",
         "revenue_relationships"
       ],
       "raw_vertical_labels": [
@@ -16926,6 +16883,7 @@
         "frontier_lines": []
       },
       "verticals": [
+        "finance_administration",
         "revenue_relationships"
       ]
     },
@@ -17154,9 +17112,7 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "files_media_content"
       ],
       "categories": [
         "knowledge-documents-files-legal"
@@ -17170,9 +17126,7 @@
         "statuses": []
       },
       "pillars": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "files_media_content"
       ],
       "raw_vertical_labels": [
         "knowledge-documents-files-legal"
@@ -17187,9 +17141,7 @@
         "frontier_lines": []
       },
       "verticals": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "files_media_content"
       ]
     },
     {
@@ -17493,8 +17445,6 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "automation_agents",
-        "files_media_content",
         "marketing_growth"
       ],
       "categories": [
@@ -17509,8 +17459,6 @@
         "statuses": []
       },
       "pillars": [
-        "automation_agents",
-        "files_media_content",
         "marketing_growth"
       ],
       "raw_vertical_labels": [
@@ -17526,8 +17474,6 @@
         "frontier_lines": []
       },
       "verticals": [
-        "automation_agents",
-        "files_media_content",
         "marketing_growth"
       ]
     },
@@ -17564,10 +17510,9 @@
       "application_row_count": 1,
       "atlas_reference_count": 3,
       "canonical_verticals": [
-        "files_media_content",
+        "automation_agents",
         "identity_security_governance",
         "knowledge_research",
-        "legal_trust",
         "work_delivery"
       ],
       "categories": [
@@ -17590,10 +17535,9 @@
         ]
       },
       "pillars": [
-        "files_media_content",
+        "automation_agents",
         "identity_security_governance",
         "knowledge_research",
-        "legal_trust",
         "work_delivery"
       ],
       "raw_vertical_labels": [
@@ -17616,10 +17560,9 @@
         "frontier_lines": []
       },
       "verticals": [
-        "files_media_content",
+        "automation_agents",
         "identity_security_governance",
         "knowledge_research",
-        "legal_trust",
         "work_delivery"
       ]
     },
@@ -17717,7 +17660,7 @@
       "atlas_reference_count": 1,
       "canonical_verticals": [
         "automation_agents",
-        "deployment_operations"
+        "knowledge_research"
       ],
       "categories": [
         "agent-infrastructure-deployment-ops"
@@ -17732,7 +17675,7 @@
       },
       "pillars": [
         "automation_agents",
-        "deployment_operations"
+        "knowledge_research"
       ],
       "raw_vertical_labels": [
         "agent-infrastructure-deployment-ops"
@@ -17748,7 +17691,7 @@
       },
       "verticals": [
         "automation_agents",
-        "deployment_operations"
+        "knowledge_research"
       ]
     },
     {
@@ -17919,9 +17862,7 @@
       "application_row_count": 1,
       "atlas_reference_count": 6,
       "canonical_verticals": [
-        "automation_agents",
         "communication_support",
-        "files_media_content",
         "finance_administration",
         "marketing_growth",
         "revenue_relationships"
@@ -17947,9 +17888,7 @@
         ]
       },
       "pillars": [
-        "automation_agents",
         "communication_support",
-        "files_media_content",
         "finance_administration",
         "marketing_growth",
         "revenue_relationships"
@@ -17978,9 +17917,7 @@
         "frontier_lines": []
       },
       "verticals": [
-        "automation_agents",
         "communication_support",
-        "files_media_content",
         "finance_administration",
         "marketing_growth",
         "revenue_relationships"
@@ -18221,6 +18158,7 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
+        "files_media_content",
         "work_delivery"
       ],
       "categories": [
@@ -18235,6 +18173,7 @@
         "statuses": []
       },
       "pillars": [
+        "files_media_content",
         "work_delivery"
       ],
       "raw_vertical_labels": [
@@ -18250,6 +18189,7 @@
         "frontier_lines": []
       },
       "verticals": [
+        "files_media_content",
         "work_delivery"
       ]
     },
@@ -18597,6 +18537,7 @@
       "application_row_count": 0,
       "atlas_reference_count": 2,
       "canonical_verticals": [
+        "finance_administration",
         "work_delivery"
       ],
       "categories": [
@@ -18611,6 +18552,7 @@
         "statuses": []
       },
       "pillars": [
+        "finance_administration",
         "work_delivery"
       ],
       "raw_vertical_labels": [
@@ -18627,6 +18569,7 @@
         "frontier_lines": []
       },
       "verticals": [
+        "finance_administration",
         "work_delivery"
       ]
     },
@@ -19345,7 +19288,7 @@
       "atlas_reference_count": 1,
       "canonical_verticals": [
         "automation_agents",
-        "deployment_operations"
+        "identity_security_governance"
       ],
       "categories": [
         "agent-infrastructure-deployment-ops"
@@ -19360,7 +19303,7 @@
       },
       "pillars": [
         "automation_agents",
-        "deployment_operations"
+        "identity_security_governance"
       ],
       "raw_vertical_labels": [
         "agent-infrastructure-deployment-ops"
@@ -19376,7 +19319,7 @@
       },
       "verticals": [
         "automation_agents",
-        "deployment_operations"
+        "identity_security_governance"
       ]
     },
     {
@@ -19410,8 +19353,7 @@
       "application_row_count": 1,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "automation_agents",
-        "files_media_content",
+        "communication_support",
         "marketing_growth"
       ],
       "categories": [
@@ -19432,8 +19374,7 @@
         ]
       },
       "pillars": [
-        "automation_agents",
-        "files_media_content",
+        "communication_support",
         "marketing_growth"
       ],
       "raw_vertical_labels": [
@@ -19454,8 +19395,7 @@
         ]
       },
       "verticals": [
-        "automation_agents",
-        "files_media_content",
+        "communication_support",
         "marketing_growth"
       ]
     },
@@ -19624,6 +19564,7 @@
       "application_row_count": 1,
       "atlas_reference_count": 3,
       "canonical_verticals": [
+        "automation_agents",
         "identity_security_governance"
       ],
       "categories": [
@@ -19644,6 +19585,7 @@
         ]
       },
       "pillars": [
+        "automation_agents",
         "identity_security_governance"
       ],
       "raw_vertical_labels": [
@@ -19664,6 +19606,7 @@
         "frontier_lines": []
       },
       "verticals": [
+        "automation_agents",
         "identity_security_governance"
       ]
     },
@@ -20024,7 +19967,8 @@
       "application_row_count": 0,
       "atlas_reference_count": 2,
       "canonical_verticals": [
-        "data_intelligence"
+        "data_intelligence",
+        "deployment_operations"
       ],
       "categories": [
         "data-analytics-search-memory"
@@ -20038,7 +19982,8 @@
         "statuses": []
       },
       "pillars": [
-        "data_intelligence"
+        "data_intelligence",
+        "deployment_operations"
       ],
       "raw_vertical_labels": [
         "data-analytics-search-memory"
@@ -20054,7 +19999,8 @@
         "frontier_lines": []
       },
       "verticals": [
-        "data_intelligence"
+        "data_intelligence",
+        "deployment_operations"
       ]
     },
     {
@@ -20236,7 +20182,8 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "communication_support"
+        "communication_support",
+        "identity_security_governance"
       ],
       "categories": [
         "communication-inbox-support-calendar"
@@ -20250,7 +20197,8 @@
         "statuses": []
       },
       "pillars": [
-        "communication_support"
+        "communication_support",
+        "identity_security_governance"
       ],
       "raw_vertical_labels": [
         "communication-inbox-support-calendar"
@@ -20265,7 +20213,8 @@
         "frontier_lines": []
       },
       "verticals": [
-        "communication_support"
+        "communication_support",
+        "identity_security_governance"
       ]
     },
     {
@@ -20295,8 +20244,6 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "automation_agents",
-        "files_media_content",
         "marketing_growth"
       ],
       "categories": [
@@ -20311,8 +20258,6 @@
         "statuses": []
       },
       "pillars": [
-        "automation_agents",
-        "files_media_content",
         "marketing_growth"
       ],
       "raw_vertical_labels": [
@@ -20328,8 +20273,6 @@
         "frontier_lines": []
       },
       "verticals": [
-        "automation_agents",
-        "files_media_content",
         "marketing_growth"
       ]
     },
@@ -20495,9 +20438,7 @@
       "application_row_count": 1,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "files_media_content"
       ],
       "categories": [
         "Self-hosted file sync with library metadata for client document repositories",
@@ -20517,9 +20458,7 @@
         ]
       },
       "pillars": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "files_media_content"
       ],
       "raw_vertical_labels": [
         "files_media_and_content",
@@ -20537,9 +20476,7 @@
         "frontier_lines": []
       },
       "verticals": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "files_media_content"
       ]
     },
     {
@@ -20798,7 +20735,7 @@
       "atlas_reference_count": 2,
       "canonical_verticals": [
         "automation_agents",
-        "deployment_operations"
+        "identity_security_governance"
       ],
       "categories": [
         "agent-infrastructure-deployment-ops"
@@ -20813,7 +20750,7 @@
       },
       "pillars": [
         "automation_agents",
-        "deployment_operations"
+        "identity_security_governance"
       ],
       "raw_vertical_labels": [
         "agent-infrastructure-deployment-ops"
@@ -20830,7 +20767,7 @@
       },
       "verticals": [
         "automation_agents",
-        "deployment_operations"
+        "identity_security_governance"
       ]
     },
     {
@@ -21124,7 +21061,8 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "data_intelligence"
+        "data_intelligence",
+        "knowledge_research"
       ],
       "categories": [
         "data-analytics-search-memory"
@@ -21138,7 +21076,8 @@
         "statuses": []
       },
       "pillars": [
-        "data_intelligence"
+        "data_intelligence",
+        "knowledge_research"
       ],
       "raw_vertical_labels": [
         "data-analytics-search-memory"
@@ -21153,7 +21092,8 @@
         "frontier_lines": []
       },
       "verticals": [
-        "data_intelligence"
+        "data_intelligence",
+        "knowledge_research"
       ]
     },
     {
@@ -21248,8 +21188,7 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "automation_agents",
-        "deployment_operations"
+        "automation_agents"
       ],
       "categories": [
         "agent-infrastructure-deployment-ops"
@@ -21263,8 +21202,7 @@
         "statuses": []
       },
       "pillars": [
-        "automation_agents",
-        "deployment_operations"
+        "automation_agents"
       ],
       "raw_vertical_labels": [
         "agent-infrastructure-deployment-ops"
@@ -21279,8 +21217,7 @@
         "frontier_lines": []
       },
       "verticals": [
-        "automation_agents",
-        "deployment_operations"
+        "automation_agents"
       ]
     },
     {
@@ -21376,6 +21313,7 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
+        "finance_administration",
         "revenue_relationships"
       ],
       "categories": [
@@ -21390,6 +21328,7 @@
         "statuses": []
       },
       "pillars": [
+        "finance_administration",
         "revenue_relationships"
       ],
       "raw_vertical_labels": [
@@ -21405,6 +21344,7 @@
         "frontier_lines": []
       },
       "verticals": [
+        "finance_administration",
         "revenue_relationships"
       ]
     },
@@ -21437,7 +21377,7 @@
       "atlas_reference_count": 2,
       "canonical_verticals": [
         "automation_agents",
-        "deployment_operations"
+        "legal_trust"
       ],
       "categories": [
         "agent-infrastructure-deployment-ops"
@@ -21452,7 +21392,7 @@
       },
       "pillars": [
         "automation_agents",
-        "deployment_operations"
+        "legal_trust"
       ],
       "raw_vertical_labels": [
         "agent-infrastructure-deployment-ops"
@@ -21469,7 +21409,7 @@
       },
       "verticals": [
         "automation_agents",
-        "deployment_operations"
+        "legal_trust"
       ]
     },
     {
@@ -21631,9 +21571,7 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "files_media_content"
       ],
       "categories": [
         "knowledge-documents-files-legal"
@@ -21647,9 +21585,7 @@
         "statuses": []
       },
       "pillars": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "files_media_content"
       ],
       "raw_vertical_labels": [
         "knowledge-documents-files-legal"
@@ -21664,9 +21600,7 @@
         "frontier_lines": []
       },
       "verticals": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "files_media_content"
       ]
     },
     {
@@ -21763,7 +21697,7 @@
       "atlas_reference_count": 1,
       "canonical_verticals": [
         "automation_agents",
-        "deployment_operations"
+        "legal_trust"
       ],
       "categories": [
         "agent-infrastructure-deployment-ops"
@@ -21778,7 +21712,7 @@
       },
       "pillars": [
         "automation_agents",
-        "deployment_operations"
+        "legal_trust"
       ],
       "raw_vertical_labels": [
         "agent-infrastructure-deployment-ops"
@@ -21794,7 +21728,7 @@
       },
       "verticals": [
         "automation_agents",
-        "deployment_operations"
+        "legal_trust"
       ]
     },
     {
@@ -22565,7 +22499,8 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "communication_support"
+        "communication_support",
+        "work_delivery"
       ],
       "categories": [
         "communication-inbox-support-calendar"
@@ -22579,7 +22514,8 @@
         "statuses": []
       },
       "pillars": [
-        "communication_support"
+        "communication_support",
+        "work_delivery"
       ],
       "raw_vertical_labels": [
         "communication-inbox-support-calendar"
@@ -22594,7 +22530,8 @@
         "frontier_lines": []
       },
       "verticals": [
-        "communication_support"
+        "communication_support",
+        "work_delivery"
       ]
     },
     {
@@ -23028,8 +22965,7 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "automation_agents",
-        "deployment_operations"
+        "automation_agents"
       ],
       "categories": [
         "agent-infrastructure-deployment-ops"
@@ -23043,8 +22979,7 @@
         "statuses": []
       },
       "pillars": [
-        "automation_agents",
-        "deployment_operations"
+        "automation_agents"
       ],
       "raw_vertical_labels": [
         "agent-infrastructure-deployment-ops"
@@ -23059,8 +22994,7 @@
         "frontier_lines": []
       },
       "verticals": [
-        "automation_agents",
-        "deployment_operations"
+        "automation_agents"
       ]
     },
     {
@@ -23236,7 +23170,9 @@
       "application_row_count": 0,
       "atlas_reference_count": 15,
       "canonical_verticals": [
-        "identity_security_governance"
+        "automation_agents",
+        "identity_security_governance",
+        "legal_trust"
       ],
       "categories": [
         "identity-tenancy-permissions"
@@ -23250,7 +23186,9 @@
         "statuses": []
       },
       "pillars": [
-        "identity_security_governance"
+        "automation_agents",
+        "identity_security_governance",
+        "legal_trust"
       ],
       "raw_vertical_labels": [
         "identity-tenancy-permissions"
@@ -23279,7 +23217,9 @@
         "frontier_lines": []
       },
       "verticals": [
-        "identity_security_governance"
+        "automation_agents",
+        "identity_security_governance",
+        "legal_trust"
       ]
     },
     {
@@ -23599,9 +23539,7 @@
       "application_row_count": 0,
       "atlas_reference_count": 4,
       "canonical_verticals": [
-        "automation_agents",
         "communication_support",
-        "files_media_content",
         "marketing_growth",
         "revenue_relationships"
       ],
@@ -23619,9 +23557,7 @@
         "statuses": []
       },
       "pillars": [
-        "automation_agents",
         "communication_support",
-        "files_media_content",
         "marketing_growth",
         "revenue_relationships"
       ],
@@ -23643,9 +23579,7 @@
         "frontier_lines": []
       },
       "verticals": [
-        "automation_agents",
         "communication_support",
-        "files_media_content",
         "marketing_growth",
         "revenue_relationships"
       ]
@@ -23888,7 +23822,8 @@
       "atlas_reference_count": 3,
       "canonical_verticals": [
         "automation_agents",
-        "data_intelligence"
+        "data_intelligence",
+        "knowledge_research"
       ],
       "categories": [
         "Framework/SDK for composing LLM-powered applications and agents with tool integrations",
@@ -23909,7 +23844,8 @@
       },
       "pillars": [
         "automation_agents",
-        "data_intelligence"
+        "data_intelligence",
+        "knowledge_research"
       ],
       "raw_vertical_labels": [
         "automation_and_agents",
@@ -23930,7 +23866,8 @@
       },
       "verticals": [
         "automation_agents",
-        "data_intelligence"
+        "data_intelligence",
+        "knowledge_research"
       ]
     },
     {
@@ -24033,7 +23970,7 @@
       "canonical_verticals": [
         "automation_agents",
         "data_intelligence",
-        "deployment_operations"
+        "knowledge_research"
       ],
       "categories": [
         "Observe, evaluate, and manage prompts and datasets for production LLM and agent workflows.",
@@ -24056,7 +23993,7 @@
       "pillars": [
         "automation_agents",
         "data_intelligence",
-        "deployment_operations"
+        "knowledge_research"
       ],
       "raw_vertical_labels": [
         "agent-infrastructure-deployment-ops",
@@ -24080,7 +24017,7 @@
       "verticals": [
         "automation_agents",
         "data_intelligence",
-        "deployment_operations"
+        "knowledge_research"
       ]
     },
     {
@@ -24375,7 +24312,7 @@
       "atlas_reference_count": 1,
       "canonical_verticals": [
         "automation_agents",
-        "deployment_operations"
+        "identity_security_governance"
       ],
       "categories": [
         "agent-infrastructure-deployment-ops"
@@ -24390,7 +24327,7 @@
       },
       "pillars": [
         "automation_agents",
-        "deployment_operations"
+        "identity_security_governance"
       ],
       "raw_vertical_labels": [
         "agent-infrastructure-deployment-ops"
@@ -24406,7 +24343,7 @@
       },
       "verticals": [
         "automation_agents",
-        "deployment_operations"
+        "identity_security_governance"
       ]
     },
     {
@@ -24623,7 +24560,7 @@
       "canonical_verticals": [
         "automation_agents",
         "data_intelligence",
-        "deployment_operations"
+        "knowledge_research"
       ],
       "categories": [
         "agent-infrastructure-deployment-ops",
@@ -24640,7 +24577,7 @@
       "pillars": [
         "automation_agents",
         "data_intelligence",
-        "deployment_operations"
+        "knowledge_research"
       ],
       "raw_vertical_labels": [
         "agent-infrastructure-deployment-ops",
@@ -24659,7 +24596,7 @@
       "verticals": [
         "automation_agents",
         "data_intelligence",
-        "deployment_operations"
+        "knowledge_research"
       ]
     },
     {
@@ -25028,7 +24965,7 @@
       "atlas_reference_count": 1,
       "canonical_verticals": [
         "automation_agents",
-        "deployment_operations"
+        "data_intelligence"
       ],
       "categories": [
         "agent-infrastructure-deployment-ops"
@@ -25043,7 +24980,7 @@
       },
       "pillars": [
         "automation_agents",
-        "deployment_operations"
+        "data_intelligence"
       ],
       "raw_vertical_labels": [
         "agent-infrastructure-deployment-ops"
@@ -25059,7 +24996,7 @@
       },
       "verticals": [
         "automation_agents",
-        "deployment_operations"
+        "data_intelligence"
       ]
     },
     {
@@ -25155,9 +25092,7 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "knowledge_research"
       ],
       "categories": [
         "knowledge-documents-files-legal"
@@ -25171,9 +25106,7 @@
         "statuses": []
       },
       "pillars": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "knowledge_research"
       ],
       "raw_vertical_labels": [
         "knowledge-documents-files-legal"
@@ -25188,9 +25121,7 @@
         "frontier_lines": []
       },
       "verticals": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "knowledge_research"
       ]
     },
     {
@@ -25233,7 +25164,8 @@
       "application_row_count": 1,
       "atlas_reference_count": 10,
       "canonical_verticals": [
-        "identity_security_governance"
+        "identity_security_governance",
+        "legal_trust"
       ],
       "categories": [
         "Provide tenant-aware login, SSO, OAuth, OIDC, and RBAC for Agency OS and deployed client applications.",
@@ -25253,7 +25185,8 @@
         ]
       },
       "pillars": [
-        "identity_security_governance"
+        "identity_security_governance",
+        "legal_trust"
       ],
       "raw_vertical_labels": [
         "identity-tenancy-permissions",
@@ -25280,7 +25213,8 @@
         "frontier_lines": []
       },
       "verticals": [
-        "identity_security_governance"
+        "identity_security_governance",
+        "legal_trust"
       ]
     },
     {
@@ -25508,6 +25442,7 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
+        "communication_support",
         "data_intelligence"
       ],
       "categories": [
@@ -25522,6 +25457,7 @@
         "statuses": []
       },
       "pillars": [
+        "communication_support",
         "data_intelligence"
       ],
       "raw_vertical_labels": [
@@ -25537,6 +25473,7 @@
         "frontier_lines": []
       },
       "verticals": [
+        "communication_support",
         "data_intelligence"
       ]
     },
@@ -25778,8 +25715,9 @@
       "application_row_count": 0,
       "atlas_reference_count": 14,
       "canonical_verticals": [
-        "automation_agents",
-        "files_media_content",
+        "communication_support",
+        "identity_security_governance",
+        "legal_trust",
         "marketing_growth",
         "revenue_relationships",
         "work_delivery"
@@ -25798,8 +25736,9 @@
         "statuses": []
       },
       "pillars": [
-        "automation_agents",
-        "files_media_content",
+        "communication_support",
+        "identity_security_governance",
+        "legal_trust",
         "marketing_growth",
         "revenue_relationships",
         "work_delivery"
@@ -25832,8 +25771,9 @@
         "frontier_lines": []
       },
       "verticals": [
-        "automation_agents",
-        "files_media_content",
+        "communication_support",
+        "identity_security_governance",
+        "legal_trust",
         "marketing_growth",
         "revenue_relationships",
         "work_delivery"
@@ -26143,7 +26083,8 @@
       "application_row_count": 1,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "data_intelligence"
+        "data_intelligence",
+        "knowledge_research"
       ],
       "categories": [
         "data-analytics-search-memory",
@@ -26163,7 +26104,8 @@
         ]
       },
       "pillars": [
-        "data_intelligence"
+        "data_intelligence",
+        "knowledge_research"
       ],
       "raw_vertical_labels": [
         "data-analytics-search-memory",
@@ -26181,7 +26123,8 @@
         "frontier_lines": []
       },
       "verticals": [
-        "data_intelligence"
+        "data_intelligence",
+        "knowledge_research"
       ]
     },
     {
@@ -26605,9 +26548,7 @@
       "application_row_count": 1,
       "atlas_reference_count": 2,
       "canonical_verticals": [
-        "automation_agents",
         "communication_support",
-        "files_media_content",
         "marketing_growth"
       ],
       "categories": [
@@ -26629,9 +26570,7 @@
         ]
       },
       "pillars": [
-        "automation_agents",
         "communication_support",
-        "files_media_content",
         "marketing_growth"
       ],
       "raw_vertical_labels": [
@@ -26654,9 +26593,7 @@
         ]
       },
       "verticals": [
-        "automation_agents",
         "communication_support",
-        "files_media_content",
         "marketing_growth"
       ]
     },
@@ -26958,7 +26895,6 @@
       "canonical_verticals": [
         "communication_support",
         "data_intelligence",
-        "files_media_content",
         "knowledge_research",
         "legal_trust"
       ],
@@ -26978,7 +26914,6 @@
       "pillars": [
         "communication_support",
         "data_intelligence",
-        "files_media_content",
         "knowledge_research",
         "legal_trust"
       ],
@@ -27001,7 +26936,6 @@
       "verticals": [
         "communication_support",
         "data_intelligence",
-        "files_media_content",
         "knowledge_research",
         "legal_trust"
       ]
@@ -27163,6 +27097,8 @@
       "atlas_reference_count": 5,
       "canonical_verticals": [
         "data_intelligence",
+        "finance_administration",
+        "marketing_growth",
         "revenue_relationships",
         "work_delivery"
       ],
@@ -27181,6 +27117,8 @@
       },
       "pillars": [
         "data_intelligence",
+        "finance_administration",
+        "marketing_growth",
         "revenue_relationships",
         "work_delivery"
       ],
@@ -27204,6 +27142,8 @@
       },
       "verticals": [
         "data_intelligence",
+        "finance_administration",
+        "marketing_growth",
         "revenue_relationships",
         "work_delivery"
       ]
@@ -27367,7 +27307,6 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "files_media_content",
         "knowledge_research",
         "legal_trust"
       ],
@@ -27383,7 +27322,6 @@
         "statuses": []
       },
       "pillars": [
-        "files_media_content",
         "knowledge_research",
         "legal_trust"
       ],
@@ -27400,7 +27338,6 @@
         "frontier_lines": []
       },
       "verticals": [
-        "files_media_content",
         "knowledge_research",
         "legal_trust"
       ]
@@ -28043,8 +27980,7 @@
       "atlas_reference_count": 1,
       "canonical_verticals": [
         "automation_agents",
-        "data_intelligence",
-        "deployment_operations"
+        "data_intelligence"
       ],
       "categories": [
         "Track, evaluate, and monitor ML or agent experiments and model artifacts across delivery work.",
@@ -28065,8 +28001,7 @@
       },
       "pillars": [
         "automation_agents",
-        "data_intelligence",
-        "deployment_operations"
+        "data_intelligence"
       ],
       "raw_vertical_labels": [
         "agent-infrastructure-deployment-ops",
@@ -28087,8 +28022,7 @@
       },
       "verticals": [
         "automation_agents",
-        "data_intelligence",
-        "deployment_operations"
+        "data_intelligence"
       ]
     },
     {
@@ -28462,8 +28396,7 @@
       "atlas_reference_count": 2,
       "canonical_verticals": [
         "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "identity_security_governance"
       ],
       "categories": [
         "knowledge-documents-files-legal"
@@ -28478,8 +28411,7 @@
       },
       "pillars": [
         "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "identity_security_governance"
       ],
       "raw_vertical_labels": [
         "knowledge-documents-files-legal"
@@ -28496,8 +28428,7 @@
       },
       "verticals": [
         "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "identity_security_governance"
       ]
     },
     {
@@ -29328,9 +29259,7 @@
       "atlas_reference_count": 2,
       "canonical_verticals": [
         "files_media_content",
-        "finance_administration",
-        "knowledge_research",
-        "legal_trust"
+        "finance_administration"
       ],
       "categories": [
         "DMS",
@@ -29352,9 +29281,7 @@
       },
       "pillars": [
         "files_media_content",
-        "finance_administration",
-        "knowledge_research",
-        "legal_trust"
+        "finance_administration"
       ],
       "raw_vertical_labels": [
         "files_media_and_content",
@@ -29375,9 +29302,7 @@
       },
       "verticals": [
         "files_media_content",
-        "finance_administration",
-        "knowledge_research",
-        "legal_trust"
+        "finance_administration"
       ]
     },
     {
@@ -29801,6 +29726,7 @@
       "atlas_reference_count": 1,
       "canonical_verticals": [
         "data_intelligence",
+        "finance_administration",
         "revenue_relationships"
       ],
       "categories": [
@@ -29822,6 +29748,7 @@
       },
       "pillars": [
         "data_intelligence",
+        "finance_administration",
         "revenue_relationships"
       ],
       "raw_vertical_labels": [
@@ -29841,6 +29768,7 @@
       },
       "verticals": [
         "data_intelligence",
+        "finance_administration",
         "revenue_relationships"
       ]
     },
@@ -31077,7 +31005,8 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "data_intelligence"
+        "data_intelligence",
+        "knowledge_research"
       ],
       "categories": [
         "data-analytics-search-memory"
@@ -31091,7 +31020,8 @@
         "statuses": []
       },
       "pillars": [
-        "data_intelligence"
+        "data_intelligence",
+        "knowledge_research"
       ],
       "raw_vertical_labels": [
         "data-analytics-search-memory"
@@ -31106,7 +31036,8 @@
         "frontier_lines": []
       },
       "verticals": [
-        "data_intelligence"
+        "data_intelligence",
+        "knowledge_research"
       ]
     },
     {
@@ -31267,9 +31198,8 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "communication_support",
+        "knowledge_research"
       ],
       "categories": [
         "knowledge-documents-files-legal"
@@ -31283,9 +31213,8 @@
         "statuses": []
       },
       "pillars": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "communication_support",
+        "knowledge_research"
       ],
       "raw_vertical_labels": [
         "knowledge-documents-files-legal"
@@ -31300,9 +31229,8 @@
         "frontier_lines": []
       },
       "verticals": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "communication_support",
+        "knowledge_research"
       ]
     },
     {
@@ -31820,8 +31748,8 @@
       "atlas_reference_count": 8,
       "canonical_verticals": [
         "automation_agents",
-        "deployment_operations",
-        "identity_security_governance"
+        "identity_security_governance",
+        "legal_trust"
       ],
       "categories": [
         "Authentication / Identity",
@@ -31843,8 +31771,8 @@
       },
       "pillars": [
         "automation_agents",
-        "deployment_operations",
-        "identity_security_governance"
+        "identity_security_governance",
+        "legal_trust"
       ],
       "raw_vertical_labels": [
         "agent-infrastructure-deployment-ops",
@@ -31871,8 +31799,8 @@
       },
       "verticals": [
         "automation_agents",
-        "deployment_operations",
-        "identity_security_governance"
+        "identity_security_governance",
+        "legal_trust"
       ]
     },
     {
@@ -31906,9 +31834,7 @@
       "application_row_count": 1,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "knowledge_research"
       ],
       "categories": [
         "Real-time team knowledge base / wiki for SISO internal and Agency Edition clients",
@@ -31928,9 +31854,7 @@
         ]
       },
       "pillars": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "knowledge_research"
       ],
       "raw_vertical_labels": [
         "knowledge-documents-files-legal",
@@ -31948,9 +31872,7 @@
         "frontier_lines": []
       },
       "verticals": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "knowledge_research"
       ]
     },
     {
@@ -32047,7 +31969,9 @@
       "atlas_reference_count": 4,
       "canonical_verticals": [
         "communication_support",
+        "data_intelligence",
         "files_media_content",
+        "identity_security_governance",
         "knowledge_research",
         "legal_trust"
       ],
@@ -32071,7 +31995,9 @@
       },
       "pillars": [
         "communication_support",
+        "data_intelligence",
         "files_media_content",
+        "identity_security_governance",
         "knowledge_research",
         "legal_trust"
       ],
@@ -32096,7 +32022,9 @@
       },
       "verticals": [
         "communication_support",
+        "data_intelligence",
         "files_media_content",
+        "identity_security_governance",
         "knowledge_research",
         "legal_trust"
       ]
@@ -32132,7 +32060,6 @@
       "application_row_count": 1,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "files_media_content",
         "knowledge_research",
         "legal_trust",
         "marketing_growth"
@@ -32155,7 +32082,6 @@
         ]
       },
       "pillars": [
-        "files_media_content",
         "knowledge_research",
         "legal_trust",
         "marketing_growth"
@@ -32176,7 +32102,6 @@
         "frontier_lines": []
       },
       "verticals": [
-        "files_media_content",
         "knowledge_research",
         "legal_trust",
         "marketing_growth"
@@ -32343,9 +32268,8 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "files_media_content",
         "knowledge_research",
-        "legal_trust"
+        "revenue_relationships"
       ],
       "categories": [
         "knowledge-documents-files-legal"
@@ -32359,9 +32283,8 @@
         "statuses": []
       },
       "pillars": [
-        "files_media_content",
         "knowledge_research",
-        "legal_trust"
+        "revenue_relationships"
       ],
       "raw_vertical_labels": [
         "knowledge-documents-files-legal"
@@ -32376,9 +32299,8 @@
         "frontier_lines": []
       },
       "verticals": [
-        "files_media_content",
         "knowledge_research",
-        "legal_trust"
+        "revenue_relationships"
       ]
     },
     {
@@ -32413,6 +32335,8 @@
       "application_row_count": 1,
       "atlas_reference_count": 2,
       "canonical_verticals": [
+        "finance_administration",
+        "legal_trust",
         "revenue_relationships"
       ],
       "categories": [
@@ -32433,6 +32357,8 @@
         ]
       },
       "pillars": [
+        "finance_administration",
+        "legal_trust",
         "revenue_relationships"
       ],
       "raw_vertical_labels": [
@@ -32454,6 +32380,8 @@
         ]
       },
       "verticals": [
+        "finance_administration",
+        "legal_trust",
         "revenue_relationships"
       ]
     },
@@ -32615,7 +32543,8 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "data_intelligence"
+        "data_intelligence",
+        "deployment_operations"
       ],
       "categories": [
         "data-analytics-search-memory"
@@ -32629,7 +32558,8 @@
         "statuses": []
       },
       "pillars": [
-        "data_intelligence"
+        "data_intelligence",
+        "deployment_operations"
       ],
       "raw_vertical_labels": [
         "data-analytics-search-memory"
@@ -32644,7 +32574,8 @@
         "frontier_lines": []
       },
       "verticals": [
-        "data_intelligence"
+        "data_intelligence",
+        "deployment_operations"
       ]
     },
     {
@@ -32674,7 +32605,8 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "data_intelligence"
+        "data_intelligence",
+        "knowledge_research"
       ],
       "categories": [
         "data-analytics-search-memory"
@@ -32688,7 +32620,8 @@
         "statuses": []
       },
       "pillars": [
-        "data_intelligence"
+        "data_intelligence",
+        "knowledge_research"
       ],
       "raw_vertical_labels": [
         "data-analytics-search-memory"
@@ -32703,7 +32636,8 @@
         "frontier_lines": []
       },
       "verticals": [
-        "data_intelligence"
+        "data_intelligence",
+        "knowledge_research"
       ]
     },
     {
@@ -32733,9 +32667,7 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "files_media_content"
       ],
       "categories": [
         "knowledge-documents-files-legal"
@@ -32749,9 +32681,7 @@
         "statuses": []
       },
       "pillars": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "files_media_content"
       ],
       "raw_vertical_labels": [
         "knowledge-documents-files-legal"
@@ -32766,9 +32696,7 @@
         "frontier_lines": []
       },
       "verticals": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "files_media_content"
       ]
     },
     {
@@ -33913,9 +33841,7 @@
       "atlas_reference_count": 2,
       "canonical_verticals": [
         "data_intelligence",
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "knowledge_research"
       ],
       "categories": [
         "data-analytics-search-memory",
@@ -33931,9 +33857,7 @@
       },
       "pillars": [
         "data_intelligence",
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "knowledge_research"
       ],
       "raw_vertical_labels": [
         "data-analytics-search-memory",
@@ -33951,9 +33875,7 @@
       },
       "verticals": [
         "data_intelligence",
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "knowledge_research"
       ]
     },
     {
@@ -34580,9 +34502,7 @@
       "application_row_count": 1,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "knowledge_research"
       ],
       "categories": [
         "Wiki.js team documentation platform for client-facing knowledge bases",
@@ -34602,9 +34522,7 @@
         ]
       },
       "pillars": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "knowledge_research"
       ],
       "raw_vertical_labels": [
         "knowledge-documents-files-legal",
@@ -34622,9 +34540,7 @@
         "frontier_lines": []
       },
       "verticals": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "knowledge_research"
       ]
     },
     {
@@ -35242,7 +35158,8 @@
       "application_row_count": 0,
       "atlas_reference_count": 2,
       "canonical_verticals": [
-        "data_intelligence"
+        "data_intelligence",
+        "knowledge_research"
       ],
       "categories": [
         "data-analytics-search-memory"
@@ -35256,7 +35173,8 @@
         "statuses": []
       },
       "pillars": [
-        "data_intelligence"
+        "data_intelligence",
+        "knowledge_research"
       ],
       "raw_vertical_labels": [
         "data-analytics-search-memory"
@@ -35272,7 +35190,8 @@
         "frontier_lines": []
       },
       "verticals": [
-        "data_intelligence"
+        "data_intelligence",
+        "knowledge_research"
       ]
     },
     {
@@ -35632,6 +35551,7 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
+        "finance_administration",
         "revenue_relationships"
       ],
       "categories": [
@@ -35646,6 +35566,7 @@
         "statuses": []
       },
       "pillars": [
+        "finance_administration",
         "revenue_relationships"
       ],
       "raw_vertical_labels": [
@@ -35661,6 +35582,7 @@
         "frontier_lines": []
       },
       "verticals": [
+        "finance_administration",
         "revenue_relationships"
       ]
     },
@@ -36539,9 +36461,7 @@
       "application_row_count": 1,
       "atlas_reference_count": 2,
       "canonical_verticals": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "knowledge_research"
       ],
       "categories": [
         "Self-hosted personal knowledge management for SISO staff",
@@ -36560,9 +36480,7 @@
         ]
       },
       "pillars": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "knowledge_research"
       ],
       "raw_vertical_labels": [
         "knowledge-documents-files-legal",
@@ -36581,9 +36499,7 @@
         "frontier_lines": []
       },
       "verticals": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "knowledge_research"
       ]
     },
     {
@@ -36683,6 +36599,7 @@
       "application_row_count": 1,
       "atlas_reference_count": 1,
       "canonical_verticals": [
+        "finance_administration",
         "work_delivery"
       ],
       "categories": [
@@ -36703,6 +36620,7 @@
         ]
       },
       "pillars": [
+        "finance_administration",
         "work_delivery"
       ],
       "raw_vertical_labels": [
@@ -36721,6 +36639,7 @@
         "frontier_lines": []
       },
       "verticals": [
+        "finance_administration",
         "work_delivery"
       ]
     },
@@ -37081,9 +37000,7 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "files_media_content"
       ],
       "categories": [
         "knowledge-documents-files-legal"
@@ -37097,9 +37014,7 @@
         "statuses": []
       },
       "pillars": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "files_media_content"
       ],
       "raw_vertical_labels": [
         "knowledge-documents-files-legal"
@@ -37114,9 +37029,7 @@
         "frontier_lines": []
       },
       "verticals": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "files_media_content"
       ]
     },
     {
@@ -37151,6 +37064,7 @@
       "atlas_reference_count": 1,
       "canonical_verticals": [
         "files_media_content",
+        "marketing_growth",
         "revenue_relationships"
       ],
       "categories": [
@@ -37172,6 +37086,7 @@
       },
       "pillars": [
         "files_media_content",
+        "marketing_growth",
         "revenue_relationships"
       ],
       "raw_vertical_labels": [
@@ -37193,6 +37108,7 @@
       },
       "verticals": [
         "files_media_content",
+        "marketing_growth",
         "revenue_relationships"
       ]
     },
@@ -38231,9 +38147,8 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "data_intelligence",
+        "knowledge_research"
       ],
       "categories": [
         "knowledge-documents-files-legal"
@@ -38247,9 +38162,8 @@
         "statuses": []
       },
       "pillars": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "data_intelligence",
+        "knowledge_research"
       ],
       "raw_vertical_labels": [
         "knowledge-documents-files-legal"
@@ -38264,9 +38178,8 @@
         "frontier_lines": []
       },
       "verticals": [
-        "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "data_intelligence",
+        "knowledge_research"
       ]
     },
     {
@@ -38296,7 +38209,8 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "data_intelligence"
+        "data_intelligence",
+        "deployment_operations"
       ],
       "categories": [
         "data-analytics-search-memory"
@@ -38310,7 +38224,8 @@
         "statuses": []
       },
       "pillars": [
-        "data_intelligence"
+        "data_intelligence",
+        "deployment_operations"
       ],
       "raw_vertical_labels": [
         "data-analytics-search-memory"
@@ -38325,7 +38240,8 @@
         "frontier_lines": []
       },
       "verticals": [
-        "data_intelligence"
+        "data_intelligence",
+        "deployment_operations"
       ]
     },
     {
@@ -38623,9 +38539,7 @@
       "application_row_count": 1,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "files_media_content",
         "knowledge_research",
-        "legal_trust",
         "work_delivery"
       ],
       "categories": [
@@ -38646,9 +38560,7 @@
         ]
       },
       "pillars": [
-        "files_media_content",
         "knowledge_research",
-        "legal_trust",
         "work_delivery"
       ],
       "raw_vertical_labels": [
@@ -38667,9 +38579,7 @@
         "frontier_lines": []
       },
       "verticals": [
-        "files_media_content",
         "knowledge_research",
-        "legal_trust",
         "work_delivery"
       ]
     },
@@ -38898,8 +38808,7 @@
       "atlas_reference_count": 2,
       "canonical_verticals": [
         "automation_agents",
-        "data_intelligence",
-        "deployment_operations"
+        "data_intelligence"
       ],
       "categories": [
         "Instrument agent and LLM workloads with OpenTelemetry traces, metrics, and cost signals.",
@@ -38920,8 +38829,7 @@
       },
       "pillars": [
         "automation_agents",
-        "data_intelligence",
-        "deployment_operations"
+        "data_intelligence"
       ],
       "raw_vertical_labels": [
         "agent-infrastructure-deployment-ops",
@@ -38941,8 +38849,7 @@
       },
       "verticals": [
         "automation_agents",
-        "data_intelligence",
-        "deployment_operations"
+        "data_intelligence"
       ]
     },
     {
@@ -39110,6 +39017,7 @@
       "atlas_reference_count": 6,
       "canonical_verticals": [
         "communication_support",
+        "legal_trust",
         "revenue_relationships"
       ],
       "categories": [
@@ -39132,6 +39040,7 @@
       },
       "pillars": [
         "communication_support",
+        "legal_trust",
         "revenue_relationships"
       ],
       "raw_vertical_labels": [
@@ -39157,6 +39066,7 @@
       },
       "verticals": [
         "communication_support",
+        "legal_trust",
         "revenue_relationships"
       ]
     },
@@ -39246,6 +39156,7 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
+        "finance_administration",
         "revenue_relationships"
       ],
       "categories": [
@@ -39260,6 +39171,7 @@
         "statuses": []
       },
       "pillars": [
+        "finance_administration",
         "revenue_relationships"
       ],
       "raw_vertical_labels": [
@@ -39275,6 +39187,7 @@
         "frontier_lines": []
       },
       "verticals": [
+        "finance_administration",
         "revenue_relationships"
       ]
     },
@@ -40777,7 +40690,8 @@
       "application_row_count": 0,
       "atlas_reference_count": 1,
       "canonical_verticals": [
-        "data_intelligence"
+        "data_intelligence",
+        "knowledge_research"
       ],
       "categories": [
         "data-analytics-search-memory"
@@ -40791,7 +40705,8 @@
         "statuses": []
       },
       "pillars": [
-        "data_intelligence"
+        "data_intelligence",
+        "knowledge_research"
       ],
       "raw_vertical_labels": [
         "data-analytics-search-memory"
@@ -40806,7 +40721,8 @@
         "frontier_lines": []
       },
       "verticals": [
-        "data_intelligence"
+        "data_intelligence",
+        "knowledge_research"
       ]
     },
     {
@@ -41633,9 +41549,9 @@
       "application_row_count": 0,
       "atlas_reference_count": 2,
       "canonical_verticals": [
+        "communication_support",
         "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "knowledge_research"
       ],
       "categories": [
         "knowledge-documents-files-legal"
@@ -41649,9 +41565,9 @@
         "statuses": []
       },
       "pillars": [
+        "communication_support",
         "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "knowledge_research"
       ],
       "raw_vertical_labels": [
         "knowledge-documents-files-legal"
@@ -41667,9 +41583,9 @@
         "frontier_lines": []
       },
       "verticals": [
+        "communication_support",
         "files_media_content",
-        "knowledge_research",
-        "legal_trust"
+        "knowledge_research"
       ]
     },
     {
@@ -42036,7 +41952,8 @@
       "application_row_count": 0,
       "atlas_reference_count": 3,
       "canonical_verticals": [
-        "identity_security_governance"
+        "identity_security_governance",
+        "legal_trust"
       ],
       "categories": [
         "identity-tenancy-permissions"
@@ -42050,7 +41967,8 @@
         "statuses": []
       },
       "pillars": [
-        "identity_security_governance"
+        "identity_security_governance",
+        "legal_trust"
       ],
       "raw_vertical_labels": [
         "identity-tenancy-permissions"
@@ -42067,7 +41985,8 @@
         "frontier_lines": []
       },
       "verticals": [
-        "identity_security_governance"
+        "identity_security_governance",
+        "legal_trust"
       ]
     },
     {
@@ -42164,7 +42083,8 @@
       "application_row_count": 0,
       "atlas_reference_count": 2,
       "canonical_verticals": [
-        "communication_support"
+        "communication_support",
+        "identity_security_governance"
       ],
       "categories": [
         "communication-inbox-support-calendar"
@@ -42178,7 +42098,8 @@
         "statuses": []
       },
       "pillars": [
-        "communication_support"
+        "communication_support",
+        "identity_security_governance"
       ],
       "raw_vertical_labels": [
         "communication-inbox-support-calendar"
@@ -42194,7 +42115,8 @@
         "frontier_lines": []
       },
       "verticals": [
-        "communication_support"
+        "communication_support",
+        "identity_security_governance"
       ]
     }
   ],
@@ -42223,9 +42145,9 @@
   "vertical_coverage": {
     "automation_agents": {
       "evidence_split": {
-        "adversarial-confirmed": 4,
-        "inferred": 37,
-        "metadata": 30,
+        "adversarial-confirmed": 2,
+        "inferred": 33,
+        "metadata": 28,
         "source-read": 23
       },
       "projects": [
@@ -42235,21 +42157,19 @@
         "CopilotKit/CopilotKit",
         "FlowiseAI/Flowise",
         "Helicone/helicone",
-        "HiEventsDev/Hi.Events",
         "Infisical/infisical",
         "Minituff/nautical-backup",
         "PrefectHQ/prefect",
         "SigNoz/signoz",
         "StackStorm/st2",
-        "TwiN/gatus",
         "VoltAgent/voltagent",
         "activepieces/activepieces",
         "aelassas/wexflow",
         "aipotheosis-labs/aci",
         "aipotheosis-labs/gate22",
         "airweave-ai/airweave",
-        "ant-design/ant-design-landing",
         "argoproj-labs/argocd-image-updater",
+        "authzed/spicedb",
         "autokitteh/autokitteh",
         "automazeio/ccpm",
         "brexhq/substation",
@@ -42262,27 +42182,23 @@
         "coze-dev/coze-studio",
         "dapr/dapr",
         "deanpeters/Product-Manager-Skills",
-        "directus/directus",
         "dograh-hq/dograh",
-        "dubinc/dub",
         "duncatzat/vigils",
         "edwinkys/phantasm",
         "emcie-co/parlant",
         "firecmsco/firecms",
-        "flippercloud/flipper",
+        "flowable/flowable-engine",
         "flytohub/flyto-core",
-        "formbricks/formbricks",
         "gitleaks/gitleaks",
-        "gitroomhq/postiz-app",
+        "goauthentik/authentik",
         "grafana/grafana",
-        "growchief/growchief",
         "hookdeck/hookdeck-cli",
         "huginn/huginn",
         "ibm/mcp-context-forge",
         "iflytek/skillhub",
         "intuitem/ciso-assistant-community",
         "katanemo/plano",
-        "knadh/listmonk",
+        "keycloak/keycloak",
         "langchain-ai/langchain",
         "langchain-ai/langgraph",
         "langfuse/langfuse",
@@ -42292,8 +42208,6 @@
         "lmnr-ai/lmnr",
         "lobehub/lobehub",
         "makafeli/n8n-workflow-builder",
-        "makeplane/plane",
-        "mautic/mautic",
         "microsoft/playwright",
         "mindsdb/minds",
         "mindsdb/minds-platform",
@@ -42324,29 +42238,32 @@
         "windmill-labs/windmill",
         "x1xhlol/system-prompts-and-models-of-ai-tools"
       ],
-      "repository_count": 94
+      "repository_count": 86
     },
     "communication_support": {
       "evidence_split": {
         "adversarial-confirmed": 2,
-        "inferred": 26,
-        "metadata": 52,
-        "source-read": 8
+        "inferred": 32,
+        "metadata": 53,
+        "source-read": 9
       },
       "projects": [
         "1186258278/OpenClawChineseTranslation",
         "Arvo-AI/aurora",
         "Bahaaio/pomo",
         "Billionmail/BillionMail",
+        "CapSoftware/Cap",
         "Combodo/iTop",
         "DrDroidLab/PlayBooks",
         "FossifyOrg/Messages",
+        "HiEventsDev/Hi.Events",
         "Mailtrain-org/mailtrain",
         "Notifuse/notifuse",
         "RocketChat/Rocket.Chat",
         "TwiN/gatus",
         "ZapYap-com/note67",
         "abhinavxd/libredesk",
+        "activepieces/activepieces",
         "aluxnimm/outlookcaldavsynchronizer",
         "angular/angularfire",
         "ant-media/Ant-Media-Server",
@@ -42377,6 +42294,7 @@
         "freescout-help-desk/freescout",
         "fullcalendar/fullcalendar",
         "gitify-app/gitify",
+        "gitroomhq/postiz-app",
         "glpi-project/glpi",
         "grommunio/gromox",
         "hcengineering/platform",
@@ -42387,6 +42305,8 @@
         "leemunroe/responsive-html-email-template",
         "lennart-k/rustical",
         "liiight/notifiers",
+        "mahendrapaipuri/grafana-dashboard-reporter-app",
+        "makeplane/plane",
         "mattermost/mattermost",
         "mattmezza/vue-beautiful-chat",
         "mautic/mautic",
@@ -42401,6 +42321,7 @@
         "nikoksr/notify",
         "novuhq/novu",
         "nylas/nylas-mail",
+        "openrecall/openrecall",
         "papercups-io/papercups",
         "paperless-ngx/paperless-ngx",
         "parse-community/parse-server",
@@ -42420,16 +42341,17 @@
         "uvdesk/community-skeleton",
         "vernu/textbee",
         "wppconnect-team/wppconnect",
+        "wulkano/Kap",
         "zammad/zammad",
         "zulip/zulip"
       ],
-      "repository_count": 88
+      "repository_count": 96
     },
     "data_intelligence": {
       "evidence_split": {
         "adversarial-confirmed": 1,
-        "inferred": 40,
-        "metadata": 33,
+        "inferred": 44,
+        "metadata": 34,
         "source-read": 26
       },
       "projects": [
@@ -42438,6 +42360,7 @@
         "ClickHouse/ClickHouse",
         "ColorlibHQ/AdminLTE",
         "ColorlibHQ/gentelella",
+        "Docling/docling",
         "Helicone/helicone",
         "MultiQC/MultiQC",
         "PostHog/posthog",
@@ -42462,6 +42385,7 @@
         "brightmart/nlp_chinese_corpus",
         "bytebase/bytebase",
         "chroma-core/chroma",
+        "comet-ml/opik",
         "cube-js/cube",
         "d3/d3",
         "dataease/dataease",
@@ -42487,6 +42411,7 @@
         "langfuse/langfuse",
         "lfnovo/open-notebook",
         "lightdash/lightdash",
+        "lmnr-ai/lmnr",
         "mahendrapaipuri/grafana-dashboard-reporter-app",
         "marimo-team/marimo",
         "marmelab/react-admin",
@@ -42507,6 +42432,7 @@
         "nteract/semiotic",
         "openlit/openlit",
         "openobserve/openobserve",
+        "paperless-ngx/paperless-ngx",
         "perses/perses",
         "pgvector/pgvector",
         "plausible/plausible",
@@ -42527,6 +42453,7 @@
         "tabler/tabler",
         "temporalio/temporal",
         "terminusdb/terminusdb",
+        "tesseract-ocr/tesseract",
         "thanos-io/thanos",
         "traceloop/openllmetry",
         "typesense/typesense",
@@ -42534,23 +42461,20 @@
         "weaviate/weaviate",
         "zenstackhq/zenstack"
       ],
-      "repository_count": 100
+      "repository_count": 105
     },
     "deployment_operations": {
       "evidence_split": {
-        "adversarial-confirmed": 1,
-        "inferred": 31,
+        "inferred": 13,
         "metadata": 23,
-        "source-read": 9
+        "source-read": 6
       },
       "projects": [
         "3proxy/3proxy",
         "Atlas-OS/Atlas",
         "BarutSRB/OmniWM",
         "CodesWhat/drydock",
-        "Helicone/helicone",
         "HeyPuter/puter",
-        "Infisical/infisical",
         "Minituff/nautical-backup",
         "OpenNebula/one",
         "PrefectHQ/prefect",
@@ -42559,157 +42483,106 @@
         "StackStorm/st2",
         "UI5/openui5",
         "UI5/webcomponents",
-        "aipotheosis-labs/aci",
-        "aipotheosis-labs/gate22",
         "amalshaji/portr",
         "apache/hertzbeat",
         "argoproj-labs/argocd-image-updater",
-        "brexhq/substation",
-        "cerbos/cerbos",
-        "comet-ml/opik",
-        "cordum-io/cordum",
         "coroot/coroot",
-        "dapr/dapr",
-        "duncatzat/vigils",
-        "edwinkys/phantasm",
         "emqx/emqx",
         "fastlane/fastlane",
         "firecmsco/firecms",
-        "flytohub/flyto-core",
         "frappe/frappe_docker",
-        "gitleaks/gitleaks",
+        "grafana/alloy",
         "grafana/grafana",
-        "hookdeck/hookdeck-cli",
-        "ibm/mcp-context-forge",
-        "iflytek/skillhub",
-        "intuitem/ciso-assistant-community",
-        "katanemo/plano",
-        "langfuse/langfuse",
-        "leeguooooo/claude-code-usage-bar",
-        "lfnovo/open-notebook",
         "lissy93/dashy",
-        "lmnr-ai/lmnr",
         "mlabouardy/komiser",
-        "mlflow/mlflow",
         "mostafa-wahied/portracker",
         "nanomq/nanomq",
         "netdata/netdata",
         "openremote/openremote",
         "operacle/checkcle",
-        "ory/kratos",
+        "perses/perses",
         "restatedev/restate",
         "robscott/kube-capacity",
         "rtk-ai/rtk",
         "temporalio/temporal",
+        "thanos-io/thanos",
         "theonedev/onedev",
-        "traceloop/openllmetry",
         "tracer-cloud/opensre",
         "usebruno/bruno",
         "vernemq/vernemq",
         "windmill-labs/windmill",
         "yonahd/kor"
       ],
-      "repository_count": 64
+      "repository_count": 42
     },
     "files_media_content": {
       "evidence_split": {
-        "adversarial-confirmed": 2,
-        "inferred": 24,
-        "metadata": 49,
-        "source-read": 5
+        "inferred": 10,
+        "metadata": 36,
+        "source-read": 3
       },
       "projects": [
         "Anil-matcha/Open-Generative-AI",
         "CapSoftware/Cap",
         "ColorlibHQ/email-templates",
-        "Docling/docling",
-        "HiEventsDev/Hi.Events",
         "ONLYOFFICE/DocumentServer",
-        "OpenSignLabs/OpenSign",
         "Piwigo/Piwigo",
         "Stirling-Tools/Stirling-PDF",
         "TagStudioDev/TagStudio",
-        "TriliumNext/Trilium",
-        "TwiN/gatus",
         "Warzone2100/warzone2100",
-        "activepieces/activepieces",
         "alswl/excalidraw-collaboration",
         "ant-design/ant-design-landing",
-        "bookstack/bookstack",
         "collabst/collabst",
         "cryptpad/cryptpad",
         "directus/directus",
-        "docmost/docmost",
-        "documenso/documenso",
-        "docusealco/docuseal",
         "dream-num/univer",
-        "dubinc/dub",
-        "excalidraw/excalidraw",
         "files-community/Files",
-        "flippercloud/flipper",
-        "flowable/flowable-engine",
         "fontsource/fontsource",
-        "formbricks/formbricks",
-        "gitroomhq/postiz-app",
-        "growchief/growchief",
+        "frappe/drive",
         "hackjutsu/Lepton",
         "haiwen/seafile",
         "iamgio/quarkdown",
         "iib0011/omni-tools",
         "immich-app/immich",
-        "knadh/listmonk",
         "kujian/frontendDaily",
         "lightningpixel/modly",
-        "logseq/logseq",
         "maizzle/framework",
         "maizzle/maizzle",
-        "makeplane/plane",
-        "mautic/mautic",
-        "meilisearch/meilisearch",
-        "mfts/papermark-archived",
         "mozilla/pdf.js",
         "nextcloud/server",
         "nexu-io/open-design",
         "nocode-js/sequential-workflow-designer",
         "open-pencil/open-pencil",
-        "openrecall/openrecall",
-        "outline/outline",
         "paperless-ngx/paperless-ngx",
-        "papermark/papermark",
-        "pdfme/pdfme",
         "persepolisdm/persepolis",
         "photoview/photoview",
         "pixijs/pixijs",
         "projectsend/projectsend",
-        "qdrant/qdrant",
         "raysan5/raygui",
-        "requarks/wiki",
         "rommapp/romm",
         "rust-lang/this-week-in-rust",
         "sassanix/Warracker",
-        "siyuan-note/siyuan",
         "spacedriveapp/spacedrive",
         "stashapp/stash",
         "strapi/strapi",
         "surajverma/homehub",
         "tagspaces/tagspaces",
-        "tesseract-ocr/tesseract",
-        "tldraw/tldraw",
         "tonhowtf/omniget",
         "webadderallorg/Recordly",
         "wulkano/Kap",
         "xournalpp/xournalpp"
       ],
-      "repository_count": 80
+      "repository_count": 49
     },
     "finance_administration": {
       "evidence_split": {
         "adversarial-confirmed": 3,
-        "inferred": 5,
-        "metadata": 47,
-        "source-read": 2
+        "inferred": 11,
+        "metadata": 50,
+        "source-read": 3
       },
       "projects": [
+        "Dolibarr/dolibarr",
         "DyegoCosta/trabalhando-remoto",
         "FOSSBilling/FOSSBilling",
         "InvoicePlane/InvoicePlane",
@@ -42731,6 +42604,7 @@
         "dj-stripe/dj-stripe",
         "dubinc/dub",
         "ether/etherpad",
+        "facebook/prophet",
         "firefly-iii/firefly-iii",
         "flexprice/flexprice",
         "flowglad/flowglad",
@@ -42738,10 +42612,12 @@
         "frappe/books",
         "frappe/erpnext",
         "frappe/hrms",
+        "frappe/insights",
         "getlago/lago",
         "hcengineering/platform",
         "horilla/horilla-hr",
         "hql287/Manta",
+        "idurar/idurar-erp-crm",
         "invoiceninja/admin-portal",
         "invoiceninja/invoiceninja",
         "jishenghua/jshERP",
@@ -42755,25 +42631,31 @@
         "mauriceboe/TREK",
         "mayswind/ezbookkeeping",
         "medusajs/medusa",
+        "metabase/metabase",
         "meteroid-oss/meteroid",
         "nextcloud/server",
+        "nixtla/statsforecast",
         "nocobase/nocobase",
         "odoo/odoo",
         "openmeterio/openmeter",
+        "pdovhomilja/nextcrm-app",
         "rotki/rotki",
         "saleor/saleor",
+        "salesforce/merlion",
         "simonmichael/hledger",
+        "solidtime-io/solidtime",
         "srbhr/Resume-Matcher",
+        "unit8co/darts",
         "unopim/unopim",
         "uselotus/lotus",
         "vas3k/TaxHacker"
       ],
-      "repository_count": 57
+      "repository_count": 67
     },
     "identity_security_governance": {
       "evidence_split": {
-        "inferred": 8,
-        "metadata": 13,
+        "inferred": 20,
+        "metadata": 14,
         "source-read": 8
       },
       "projects": [
@@ -42781,6 +42663,7 @@
         "Permify/permify",
         "SAP/macOS-enterprise-privileges",
         "WeBankBlockchain/WeIdentity",
+        "aipotheosis-labs/gate22",
         "apache/casbin",
         "apache/casbin-jcasbin",
         "apache/casbin-node-casbin",
@@ -42789,29 +42672,42 @@
         "ballerine-io/ballerine",
         "beenuar/AiSOC",
         "cerbos/cerbos",
+        "chatwoot/chatwoot",
         "citusdata/activerecord-multi-tenant",
+        "dapr/dapr",
+        "dmarcguardhq/dmarcguard",
+        "documenso/documenso",
         "dromara/MaxKey",
         "flowable/flowable-engine",
+        "gitleaks/gitleaks",
         "goauthentik/authentik",
+        "grommunio/gromox",
         "hexclave/hexclave",
+        "hookdeck/hookdeck-cli",
         "kanidm/kanidm",
         "keycloak/keycloak",
+        "leeguooooo/claude-code-usage-bar",
         "logto-io/logto",
+        "makeplane/plane",
         "maqp/tfc",
+        "mozilla/pdf.js",
         "oauth2-proxy/oauth2-proxy",
         "openfga/openfga",
         "ory/hydra",
         "ory/keto",
         "ory/kratos",
+        "paperless-ngx/paperless-ngx",
         "permitio/opal",
         "unkeyed/unkey",
-        "zitadel/zitadel"
+        "zitadel/zitadel",
+        "zulip/zulip"
       ],
-      "repository_count": 29
+      "repository_count": 42
     },
     "knowledge_research": {
       "evidence_split": {
-        "inferred": 19,
+        "adversarial-confirmed": 1,
+        "inferred": 23,
         "metadata": 37,
         "source-read": 5
       },
@@ -42825,10 +42721,10 @@
         "Docling/docling",
         "Egonex-AI/Understand-Anything",
         "Erudika/scoold",
+        "Helicone/helicone",
         "Mintplex-Labs/anything-llm",
         "OpenSignLabs/OpenSign",
         "Panniantong/Agent-Reach",
-        "Stirling-Tools/Stirling-PDF",
         "TiddlyWiki/TiddiddlyWiki5",
         "TriliumNext/Trilium",
         "VectifyAI/OpenKB",
@@ -42838,103 +42734,93 @@
         "asgeirtj/system_prompts_leaks",
         "bookstack/bookstack",
         "chatchat-space/Langchain-Chatchat",
+        "chroma-core/chroma",
         "ctf-wiki/ctf-wiki",
+        "deepset-ai/haystack",
         "docmost/docmost",
         "documenso/documenso",
         "docusealco/docuseal",
         "excalidraw/excalidraw",
-        "files-community/Files",
         "flowable/flowable-engine",
+        "flytohub/flyto-core",
         "gollum/gollum",
-        "haiwen/seafile",
-        "immich-app/immich",
+        "iOfficeAI/AionUi",
         "iwe-org/iwe",
         "janhq/jan",
         "khoj-ai/khoj",
+        "langchain-ai/langchain",
+        "langfuse/langfuse",
+        "lfnovo/open-notebook",
         "linkwarden/linkwarden",
         "logseq/logseq",
+        "marqo-ai/marqo",
         "meilisearch/meilisearch",
         "mfts/papermark-archived",
         "microsoft/Data-Science-For-Beginners",
-        "mozilla/pdf.js",
-        "nextcloud/server",
+        "openlit/openlit",
         "openrecall/openrecall",
         "outline/outline",
         "paperless-ngx/paperless-ngx",
         "papermark/papermark",
         "pdfme/pdfme",
-        "photoview/photoview",
+        "pgvector/pgvector",
         "qdrant/qdrant",
         "requarks/wiki",
+        "run-llama/llama_index",
         "silverbulletmd/silverbullet",
         "siyuan-note/siyuan",
-        "stashapp/stash",
         "streetwriters/notesnook",
         "suitenumerique/docs",
         "tesseract-ocr/tesseract",
         "tldraw/tldraw",
         "tractorjuice/arc-kit",
         "vimwiki/vimwiki",
+        "weaviate/weaviate",
         "wikimedia/mediawiki",
         "wulkano/Kap"
       ],
-      "repository_count": 61
+      "repository_count": 66
     },
     "legal_trust": {
       "evidence_split": {
-        "inferred": 19,
-        "metadata": 15,
-        "source-read": 1
+        "inferred": 8,
+        "metadata": 6,
+        "source-read": 5
       },
       "projects": [
-        "CapSoftware/Cap",
-        "Docling/docling",
         "OpenSignLabs/OpenSign",
-        "Stirling-Tools/Stirling-PDF",
-        "TriliumNext/Trilium",
-        "activepieces/activepieces",
-        "bookstack/bookstack",
-        "docmost/docmost",
+        "authzed/spicedb",
         "documenso/documenso",
         "docusealco/docuseal",
-        "excalidraw/excalidraw",
-        "files-community/Files",
-        "flowable/flowable-engine",
-        "haiwen/seafile",
-        "immich-app/immich",
+        "iflytek/skillhub",
         "intoolswetrust/jsignpdf",
-        "logseq/logseq",
+        "intuitem/ciso-assistant-community",
+        "keycloak/keycloak",
+        "logto-io/logto",
+        "makeplane/plane",
         "meilisearch/meilisearch",
         "mfts/papermark-archived",
-        "mozilla/pdf.js",
-        "nextcloud/server",
-        "openrecall/openrecall",
-        "outline/outline",
+        "ory/kratos",
         "paperless-ngx/paperless-ngx",
         "papermark/papermark",
-        "pdfme/pdfme",
-        "photoview/photoview",
-        "qdrant/qdrant",
-        "requarks/wiki",
-        "siyuan-note/siyuan",
-        "stashapp/stash",
-        "tesseract-ocr/tesseract",
-        "tldraw/tldraw",
+        "pdovhomilja/nextcrm-app",
+        "twentyhq/twenty",
         "vxcontrol/pentagi",
-        "wulkano/Kap"
+        "zitadel/zitadel"
       ],
-      "repository_count": 35
+      "repository_count": 19
     },
     "marketing_growth": {
       "evidence_split": {
         "adversarial-confirmed": 4,
-        "inferred": 6,
-        "metadata": 20,
-        "source-read": 12
+        "inferred": 7,
+        "metadata": 21,
+        "source-read": 13
       },
       "projects": [
         "AgriciDaniel/claude-ads",
         "AgriciDaniel/claude-seo",
+        "Billionmail/BillionMail",
         "HiEventsDev/Hi.Events",
         "LeoYeAI/openclaw-marketing-skills",
         "LinkStackOrg/LinkStack",
@@ -42961,6 +42847,7 @@
         "mautic/mautic",
         "mediacms-io/mediacms",
         "mercurjs/mercur",
+        "metabase/metabase",
         "nocode-js/sequential-workflow-designer",
         "obsei/obsei",
         "opencart/opencart",
@@ -42969,6 +42856,7 @@
         "ponzu-cms/ponzu",
         "sadmann7/skateshop",
         "spatie/laravel-newsletter",
+        "strapi/strapi",
         "unlayer/react-email-editor",
         "usewaypoint/email-builder-js",
         "vladkens/twscrape",
@@ -42976,14 +42864,14 @@
         "webstudio-is/webstudio",
         "zubair-trabzada/ai-marketing-claude"
       ],
-      "repository_count": 42
+      "repository_count": 45
     },
     "revenue_relationships": {
       "evidence_split": {
         "adversarial-confirmed": 1,
-        "inferred": 14,
+        "inferred": 16,
         "metadata": 68,
-        "source-read": 3
+        "source-read": 4
       },
       "projects": [
         "1Panel-dev/CordysCRM",
@@ -43007,10 +42895,12 @@
         "akaunting/akaunting",
         "avo-hq/avo",
         "beikeshop/beikeshop",
+        "bytebase/bytebase",
         "calcom/cal.diy",
         "chatwoot/chatwoot",
         "civicrm/civicrm-core",
         "directus-labs/agency-os",
+        "directus/directus",
         "django-oscar/django-oscar",
         "documenso/documenso",
         "dromara/skyeye",
@@ -43051,6 +42941,7 @@
         "open-condo-software/condo",
         "oroinc/crm",
         "oroinc/crm-application",
+        "pdfme/pdfme",
         "pdovhomilja/nextcrm-app",
         "reactioncommerce/reaction",
         "salahlalami/idurar-erp-crm",
@@ -43073,11 +42964,11 @@
         "woocommerce/woocommerce",
         "wp-erp/wp-erp"
       ],
-      "repository_count": 86
+      "repository_count": 89
     },
     "work_delivery": {
       "evidence_split": {
-        "inferred": 7,
+        "inferred": 11,
         "metadata": 77,
         "source-read": 3
       },
@@ -43098,11 +42989,14 @@
         "StepanKropachev/obsidian-pm",
         "Worklenz/worklenz",
         "Yeachan-Heo/oh-my-claudecode",
+        "ZapYap-com/note67",
+        "activepieces/activepieces",
         "alainm23/planify",
         "amplication/amplication",
         "architecture-decision-record/architecture-decision-record",
         "basecamp/fizzy",
         "bbatsov/projectile",
+        "calcom/cal.diy",
         "changeweb/Unifiedtransform",
         "cheatsnake/backend-cheats",
         "chrisvel/tududi",
@@ -43132,6 +43026,7 @@
         "invoiceninja/invoiceninja",
         "jeecgboot/JeecgBoot",
         "jgraph/drawio",
+        "joinly-ai/joinly",
         "kanboard/kanboard",
         "kimai/kimai",
         "kizitonwose/Calendar",
@@ -43170,7 +43065,7 @@
         "wojtekmaj/react-date-picker",
         "wshobson/agents"
       ],
-      "repository_count": 87
+      "repository_count": 91
     }
   }
 }

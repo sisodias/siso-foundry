@@ -152,6 +152,15 @@ assert len(authority_groups) == len(value_matrix["entries"])
 # evidence gates.  This is deliberately checked against the lane receipt's
 # 497 application rows so aggregate percentages cannot silently drift.
 coverage = json.loads((ROOT / "intelligence" / "agency" / "coverage-inventory.json").read_text())
+cap_map = json.loads((ROOT / "intelligence" / "agency" / "capability-pillar-map.json").read_text())
+assert cap_map["record_type"] == "agency_os_capability_pillar_map"
+assert cap_map["counts"]["capabilities"] == 189
+assert len(cap_map["capabilities"]) == 189 == len({c["capability_id"] for c in cap_map["capabilities"]})
+assert all(c["canonical_pillars"] and set(c["canonical_pillars"]).issubset(set(cap_map["canonical_pillars"])) for c in cap_map["capabilities"])
+assert all(c["raw_slice"] and c["rationale"].endswith(".") for c in cap_map["capabilities"])
+atlas_path = ROOT.parents[2] / ".agents" / "runs" / "agency-os-god-source-expansion-20260802" / "lane-b-capability-atlas.jsonl"
+atlas_ids = {json.loads(line)["capability_id"] for line in atlas_path.read_text().splitlines() if line.strip()}
+assert {c["capability_id"] for c in cap_map["capabilities"]} == atlas_ids
 assert coverage["record_type"] == "agency_os_coverage_inventory"
 assert coverage["counts"]["candidate_application_rows"] == 497
 assert coverage["counts"]["frontier_rows"] == 30
@@ -176,14 +185,8 @@ assert set(coverage["vertical_coverage"]) == set(canonical)
 for row in coverage_rows:
     assert row["canonical_verticals"] and set(row["canonical_verticals"]).issubset(set(canonical))
     assert row["raw_vertical_labels"]
-expected_mappings = {
-    "knowledge-documents-files-legal": {"knowledge_research", "files_media_content", "legal_trust"},
-    "agent-infrastructure-deployment-ops": {"automation_agents", "deployment_operations"},
-    "marketing-growth-content-automation": {"marketing_growth", "automation_agents", "files_media_content"},
-}
-for raw, expected in expected_mappings.items():
-    matching = [r for r in coverage_rows if raw in r["raw_vertical_labels"]]
-    assert matching and all(expected.issubset(set(r["canonical_verticals"])) for r in matching)
+assert all("slice" not in r["canonical_verticals"] for r in coverage_rows)
+assert all(set(r["canonical_verticals"]).issubset(set(canonical)) for r in coverage_rows)
 for pillar, detail in coverage["vertical_coverage"].items():
     assert detail["repository_count"] == len(detail["projects"]) == len(set(detail["projects"]))
 

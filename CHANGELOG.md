@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.1 — 2026-08-03
+
+- Correct Lane-B routing to map all 189 capabilities from their actual jobs to explicit canonical pillars; raw broad slices no longer fan out into project verticals.
+- Publish deterministic capability rationales, assert routing completeness, and regenerate coverage documentation from the job-based map.
+
 ## 0.5.0 — 2026-08-03
 
 - Define the Agency OS application mission and the boundary between Foundry research evidence, Great Library registration, and owning SISO Work delivery.
