@@ -60,6 +60,12 @@ The first public campaign, [`agent-systems-v1`](pipelines/github/campaigns/agent
 
 GitHub authentication is supplied by the operator's existing `gh` CLI configuration. Tokens and API responses are never written to Git.
 
+## Agency intelligence
+
+[`intelligence/agency/`](intelligence/agency/README.md) turns the recovered source corpus into a durable mission for SISO Agency OS: discover useful business software, choose an evidence-backed adoption mode, prove the integration, and promote the result to its owning SISO Work. The package includes a machine-readable metadata snapshot and a prioritized evidence backlog without publishing the private corpus.
+
+Foundry remains the source-intelligence engine. The Great Library is the registry and discovery front door. Agency OS owns the product control plane and applies released capabilities to real business outcomes.
+
 ## Data layout
 
 Foundry resolves data through `FOUNDRY_DATA`. When it is unset, the portable default is:
@@ -85,7 +91,7 @@ Override the GitHub database alone with `FOUNDRY_GITHUB_DB`. Other explicit path
 npm test
 ```
 
-The check compiles every Python source file, syntax-checks JavaScript and shell entrypoints, exercises the research-topic registry against a disposable SQLite database, validates the dataset manifest, and scans the public surface for personal absolute paths and common credential forms.
+The check compiles every Python source file, syntax-checks JavaScript and shell entrypoints, exercises the research-topic registry against a disposable SQLite database, validates the dataset and Agency intelligence manifests, and scans the public surface for personal absolute paths and common credential forms.
 
 ## Great Library identity
 

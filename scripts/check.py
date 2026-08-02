@@ -53,6 +53,53 @@ for asset in manifest["assets"]:
     assert asset["publication_state"]
     assert asset["required_release_receipts"]
 
+agency_snapshot = json.loads((ROOT / "intelligence" / "agency" / "snapshot.json").read_text())
+assert agency_snapshot["record_type"] == "agency_intelligence_snapshot"
+assert agency_snapshot["work_id"] == manifest["work_id"]
+assert re.fullmatch(r"\d{4}-\d{2}-\d{2}", agency_snapshot["observed_at"])
+assert agency_snapshot["publication_state"] == "metadata_only"
+assert agency_snapshot["payload_materialization"] == "not_materialized"
+assert agency_snapshot["source_components"]
+database_receipt = agency_snapshot["source_components"][0]
+assert database_receipt["logical_asset_id"] == "foundry-github-identity-live"
+assert database_receipt["observed_bytes"] == 1879339008
+assert re.fullmatch(r"[0-9a-f]{64}", database_receipt["sha256"])
+assert database_receipt["wal_bytes"] == 0
+
+corpus = agency_snapshot["corpus"]
+adoption = corpus["adoption"]
+assert adoption["total"] == sum(adoption[key] for key in ("promote", "confirm", "demote", "unresolved"))
+adoption_receipt = database_receipt["query_receipts"]["adoption"]
+assert adoption["total"] == adoption_receipt["row_count"]
+assert adoption["promote"] == adoption_receipt["promote_rows"]
+assert adoption["confirm"] == adoption_receipt["confirm_rows"]
+assert adoption["demote"] == adoption_receipt["demote_rows"]
+assert adoption["unresolved"] == adoption_receipt["unresolved_rows"]
+proof = corpus["proof_selection"]
+assert proof["rows"] == sum(proof[key] for key in ("promote", "confirm", "demote"))
+proven_pick_receipt = agency_snapshot["source_components"][1]
+assert proof["rows"] == proven_pick_receipt["rows_excluding_header"]
+assert re.fullmatch(r"[0-9a-f]{64}", proven_pick_receipt["sha256"])
+graph = corpus["capability_graph"]
+assert graph["edges"] == graph["hard_edges"] + graph["soft_edges"]
+graph_receipt = database_receipt["query_receipts"]["capability_graph"]
+assert graph["nodes"] == graph_receipt["node_rows"]
+assert graph["edges"] == graph_receipt["edge_rows"]
+assert graph["hard_edges"] == graph_receipt["hard_edge_rows"]
+assert graph["soft_edges"] == graph_receipt["soft_edge_rows"]
+assert graph["closure_rows"] == graph_receipt["closure_rows"]
+cards = corpus["reuse_bank"]
+verified_cards = cards["verified_harness_subset"]
+assert cards["contract_cards_total"] >= verified_cards["total"]
+assert verified_cards["total"] == verified_cards["self_smoke"] + verified_cards["import_smoke"]
+assert verified_cards["total"] >= verified_cards["trust_rung_3"]
+card_receipt = database_receipt["query_receipts"]["contract_cards"]
+assert cards["contract_cards_total"] == card_receipt["row_count"]
+assert verified_cards["total"] == card_receipt["trust_and_smoke_populated_rows"]
+assert agency_snapshot["agency_candidate_ideas"]["evidence_state"] == "operator_nominated_pending_direct_source_review"
+assert agency_snapshot["agency_candidate_ideas"]["clusters"]
+assert agency_snapshot["siso_control_plane_gaps"]
+
 publication_patterns = [
     re.compile("/" + "Users" + "/"),
     re.compile("SISO_" + "Workspace"),

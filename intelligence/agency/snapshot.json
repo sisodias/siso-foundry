@@ -1,0 +1,164 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "agency_intelligence_snapshot",
+  "work_id": "gls:work:ec664d93-df93-48c5-be40-5d0165886c01",
+  "observed_at": "2026-08-02",
+  "publication_state": "metadata_only",
+  "payload_materialization": "not_materialized",
+  "mission": "Find, evaluate, prove, and promote source that can create business value through SISO Agency OS and future industry-specific operating systems.",
+  "evidence_basis": [
+    "Read-only review of the operational Foundry identity database and its derived adoption, contract-card, capability-graph, pattern, and source-signal tables.",
+    "Review of Foundry verification and composition harness metadata.",
+    "The underlying databases, raw observations, generated browsers, and run artifacts remain in the external data plane."
+  ],
+  "source_components": [
+    {
+      "component": "foundry_identity_database",
+      "logical_asset_id": "foundry-github-identity-live",
+      "logical_path": "domains/github/identity/identity.sqlite",
+      "observed_at": "2026-08-02T22:27:11+07:00",
+      "file_modified_at": "2026-07-12T23:11:31+07:00",
+      "observed_bytes": 1879339008,
+      "sha256": "cfb73b50405fcd71383440cfbcee3d4b896c549a206d3840194de26d50fb843c",
+      "wal_bytes": 0,
+      "query_method": "Read-only SQLite queries against the immutable database file.",
+      "content_build_window": "Repository and derived-table timestamps span 2026-06-23 through 2026-06-26; the file receipt records the later consolidated database state.",
+      "query_receipts": {
+        "contract_cards": {
+          "table": "bank_contractcard",
+          "row_count": 70,
+          "trust_and_smoke_populated_rows": 20,
+          "trust_rung_3_rows": 13,
+          "self_smoke_rows": 14,
+          "import_smoke_rows": 6
+        },
+        "capability_graph": {
+          "node_table": "bank_cap_graph_node",
+          "node_rows": 104,
+          "edge_table": "bank_cap_graph_edge",
+          "edge_rows": 124,
+          "hard_edge_rows": 52,
+          "soft_edge_rows": 72,
+          "closure_table": "bank_cap_closure",
+          "closure_rows": 102
+        },
+        "adoption": {
+          "table": "bank_adoption_v2",
+          "row_count": 2722,
+          "promote_rows": 429,
+          "confirm_rows": 1186,
+          "demote_rows": 228,
+          "unresolved_rows": 879
+        }
+      }
+    },
+    {
+      "component": "proven_pick_projection",
+      "logical_path": "research/wild/proven-pick/proven_pick.csv",
+      "observed_at": "2026-08-02T22:31:00+07:00",
+      "file_modified_at": "2026-06-26T03:56:02+07:00",
+      "observed_bytes": 91359,
+      "sha256": "e8bb5a97061eaa0de3fcbd813dd73920d2d1d79063bf5c300fc728447b05217b",
+      "rows_excluding_header": 707
+    },
+    {
+      "component": "agency_candidate_brief",
+      "reference": "operator-brief:agency-os-source-candidates:2026-08-02",
+      "observed_at": "2026-08-02",
+      "evidence_state": "operator_nominated_pending_direct_source_review"
+    }
+  ],
+  "corpus": {
+    "repository_identity": {
+      "repo_cards": 1358200,
+      "repo_category_placements": 226968,
+      "categories": 264
+    },
+    "reuse_bank": {
+      "bank_repositories": 23778,
+      "ranked_liftable_candidates": 32137,
+      "contract_cards_total": 70,
+      "verified_harness_subset": {
+        "total": 20,
+        "trust_rung_3": 13,
+        "self_smoke": 14,
+        "import_smoke": 6,
+        "verified_at": "2026-06-25T21:34:09+00:00"
+      }
+    },
+    "adoption": {
+      "total": 2722,
+      "promote": 429,
+      "confirm": 1186,
+      "demote": 228,
+      "unresolved": 879
+    },
+    "capability_graph": {
+      "nodes": 104,
+      "node_population": "bank_cap_graph_node",
+      "edges": 124,
+      "hard_edges": 52,
+      "soft_edges": 72,
+      "closure_rows": 102
+    },
+    "proof_selection": {
+      "rows": 707,
+      "unique_repositories": 704,
+      "groups": 119,
+      "promote": 153,
+      "confirm": 462,
+      "demote": 92
+    },
+    "agent_source_intelligence": {
+      "agent_patterns": 62,
+      "prompt_corpus_records": 26,
+      "repository_source_signals": 259
+    }
+  },
+  "composition_evidence": [
+    {
+      "experiment": "WILD-1",
+      "source_ref": "logical-source:foundry-operational:research/wild/WILD-compose-proof-rig.html",
+      "result": "Reference, card-guided, scratch, and web variants all completed 9 of 9 checks with no measured overall lift."
+    },
+    {
+      "experiment": "WILD-3",
+      "source_ref": "logical-source:foundry-operational:research/wild3/rig",
+      "result": "The A/B score tied at 12 of 12, while card-guided use of a proven validator rejected one invalid pattern accepted by a hand-rolled implementation."
+    }
+  ],
+  "agency_candidate_ideas": {
+    "evidence_state": "operator_nominated_pending_direct_source_review",
+    "source_ref": "operator-brief:agency-os-source-candidates:2026-08-02",
+    "clusters": [
+      {"cluster": "structured_work_crm", "candidates": ["Teable"], "modes": ["adopt_whole", "api", "sidecar"]},
+      {"cluster": "documents_knowledge", "candidates": ["AFFiNE", "Open Notebook"], "modes": ["adopt_whole", "api", "sidecar"]},
+      {"cluster": "delivery_projects", "candidates": ["Plane"], "modes": ["adopt_whole", "api"]},
+      {"cluster": "contracts_signing", "candidates": ["Documenso"], "modes": ["api", "sidecar"]},
+      {"cluster": "support_communications", "candidates": ["Chatwoot"], "modes": ["adopt_whole", "api"]},
+      {"cluster": "scheduling", "candidates": ["Cal.com"], "modes": ["api", "sidecar"]},
+      {"cluster": "automation", "candidates": ["Activepieces"], "modes": ["adopt_whole", "api", "sidecar"]},
+      {"cluster": "marketing", "candidates": ["Listmonk", "Postiz", "Formbricks"], "modes": ["adopt_whole", "api"]},
+      {"cluster": "analytics", "candidates": ["Metabase", "PostHog", "Superset"], "modes": ["adopt_whole", "api", "sidecar"]},
+      {"cluster": "search_ai_memory", "candidates": ["Meilisearch", "Qdrant", "RAGFlow"], "modes": ["api", "sidecar"]},
+      {"cluster": "hosting_data_movement", "candidates": ["Coolify", "Airbyte", "dlt", "Meltano"], "modes": ["adopt_whole", "api", "sidecar"]},
+      {"cluster": "agent_builders", "candidates": ["Langflow", "Coze", "Flowgram"], "modes": ["adopt_whole", "api", "reference"]}
+    ]
+  },
+  "siso_control_plane_gaps": [
+    "usage_metering",
+    "pricing_and_entitlements",
+    "multi_tenancy",
+    "append_only_business_audit",
+    "reliable_webhook_delivery",
+    "oauth_authority_server"
+  ],
+  "caveats": [
+    "The top-level observed_at records when metadata was rechecked; source-component modification and content-build times are older and recorded separately.",
+    "Counts are observations from the identified source components and are not current-forever claims.",
+    "Candidate products have not been accepted as Great Library Works by this snapshot.",
+    "Popularity and source availability do not establish license fit, security, maintenance, tenancy, operability, or business value.",
+    "No corpus payload is published by this file; data release requires schema, content-hash, rights, privacy, and durable-copy receipts.",
+    "Composition evidence supports narrow steering and verification leverage, not automatic application assembly."
+  ]
+}
