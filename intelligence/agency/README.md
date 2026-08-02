@@ -14,6 +14,8 @@ The next economic layer adds a fourth:
 
 The [`Agency repository economic valuation`](ECONOMIC-VALUATION.md) defines the risk-adjusted replacement, captured-source, client-outcome, offer, and portfolio-value model. Its machine-readable model, card schema, and provisional AFFiNE/Teable examples live under [`economics/`](economics/). The examples are planning demonstrations, not audited valuations or client prices.
 
+The current implementation and handoff contract is [`ECONOMIC-HANDOFF.md`](ECONOMIC-HANDOFF.md). It records the exact coverage/value-matrix defect, verified state, ordered continuation, and traps that the next agent must not re-derive.
+
 The Great Library of SISO records the stable identity, release, selection, and promotion lineage. It does not absorb this repository or the operational corpus. Foundry remains an independent Research Work and owns source discovery, reuse intelligence, and verification evidence.
 
 ## The operating loop

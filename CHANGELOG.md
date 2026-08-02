@@ -6,6 +6,7 @@
 - Add a machine-readable economic model, repository economic-card schema, and explicitly provisional AFFiNE/Teable calibration examples.
 - Record the coverage/value-matrix reconciliation defect and make exact union and evidence preservation the first gate before a 632+ project economic leaderboard.
 - Expand the Agency backlog from source ranking into offer catalogs, stack recipes, outcome receipts, and risk-adjusted value per engineering month.
+- Add a shutdown handoff with verified state, exact reconciliation commands, ordered continuation, and anti-regression rules.
 
 ## 0.5.1 — 2026-08-03
 
