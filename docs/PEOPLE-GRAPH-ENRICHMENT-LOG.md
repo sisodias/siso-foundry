@@ -1886,3 +1886,32 @@ population growth.
 
 **Standing follow-up when the enrich finishes:** re-run these two again. Both
 take seconds and pick up whatever resolved after this pass.
+
+### CORRECTION — the stitch retest number was stated imprecisely
+
+The entry above reports "0 exact matches against book-origin people" from
+29,672 names. That number is real but it describes the **filtered** population,
+and the entry does not say so clearly enough.
+
+Two tests were run and they measure different things:
+
+```
+filtered   (2+ words, no punctuation, <40 chars) -> 29,672 names -> 0 matches
+unfiltered (every real_name value)               -> all names    -> 9 matches
+```
+
+Both are correct. The 9 come from single-word or punctuated values, which is the
+same class as the round-1 false positives (`Gildas` matching a 6th-century monk,
+`Parallax` matching a 19th-century pseudonym) — a modern GitHub handle colliding
+with a historical mononym, not the same person.
+
+**The conclusion is unchanged: there is no usable github↔book identity stitch.**
+But "0" was the filtered figure presented without its qualifier, and the honest
+statement is "0 among plausible human names, 9 unfiltered and all of them
+handle-collisions". Recorded because a bare "0" in a log invites someone later
+to trust a stronger claim than the evidence supports.
+
+Also noted: this join is slow enough to time out repeatedly because
+`lower(person.name)` cannot use the `ix_person_name` index — the same
+function-on-indexed-column trap that made the first topic-bridge build 600×
+too slow. It is worth a generated column if identity matching is ever revisited.
