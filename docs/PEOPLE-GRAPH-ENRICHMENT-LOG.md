@@ -1328,3 +1328,96 @@ at 419 people. What remains is org-vs-human classification for GitHub — useful
 not transformative. Better: cap it at the top ~20k owners by rated value and
 drop the long tail.
 
+
+## Round 9 — 2026-08-04 — the 49-hour job was the wrong shape
+
+### The diagnosis
+
+`enrich_owners.py` issues ONE REST request per login against `/users/{login}`,
+serialised, with a sleep between. Two independent costs, and the rate limit is
+the *smaller* one:
+
+- 235,732 owners × 1 round trip, serial = ~49 hours of wall clock
+- REST charges **1 rate-limit unit per user**, so 5,000/hr is a hard ceiling
+
+Measured from the live REST run before it was stopped — the log states the cost
+exactly:
+
+```
+2000/4500 (rate limit remaining: 2990)
+...
+2650/4500 (rate limit remaining: 2339)
+```
+
+**2,650 owners consumed 2,661 units in 45 minutes** — 1 unit each, ~3,500/hr.
+
+### The fix: GraphQL multi-alias batching
+
+GraphQL bills by query complexity, not by entity. Probed against the live API
+before writing anything:
+
+```
+$ 100 aliased repositoryOwner lookups in one POST
+aliases_returned: 100
+rateLimit: {'cost': 1, 'remaining': 4194, 'limit': 5000}
+HTTP:200 TIME:2.27s
+```
+
+**cost: 1 for 100 users.** A 100× reduction in rate-limit consumption on top of
+removing 99% of the round trips.
+
+`repositoryOwner` + inline fragments is the right selector: a login may be a
+User or an Organization, and the REST script could only discover which by
+fetching and reading `type`. `__typename` reports it in the same call, so
+org-vs-human classification — the whole remaining value of this job, now that
+the book stitch is known to cap at 419 people — comes free.
+
+### Measured end-to-end
+
+```
+$ python3 enrich_owners_graphql.py --graph people_v2.sqlite --limit 1000 --apply
+{
+  "candidates": 1000, "batches": 10, "resolved": 990,
+  "users": 451, "orgs": 539, "null_aliases": 10, "failed_batches": 0,
+  "gql_cost": 10,
+  "before": {"kind_unknown": 233456, "real_name": 5823},
+  "after":  {"kind_unknown": 232929, "real_name": 6617},
+  "elapsed_s": 27.36,
+  "owners_per_hour": 130263
+}
+```
+
+| | REST | GraphQL |
+|---|---|---|
+| owners/hour | ~3,500 | **130,263** |
+| rate units per 1,000 owners | 1,000 | **10** |
+| full backlog (235,732) | ~49 hours | **~1.8 hours** |
+
+**37× faster end-to-end, 100× cheaper in rate limit.** The remaining bound is
+HTTP throughput, not GitHub. Budget after the 1,000-owner test:
+`{"limit":5000,"remaining":4975,"used":25}`.
+
+Two fields arrived free that the REST version never collected — `location` (348)
+and `company` (125) — because they cost nothing extra inside a query already
+being made.
+
+### Notes on correctness
+
+**Partial results are the normal case, not an error.** A deleted or renamed
+login returns null for THAT alias plus a top-level error, while every other
+alias still resolves. The REST loop treated an error as a failed request; here a
+null alias is recorded as resolved-to-nothing (10 of 1,000 in the test) so a
+batch is never retried forever.
+
+**Written as a new file, not an edit.** `enrich_owners.py` was executing against
+the same graph at the time; rewriting a file mid-execution produces a
+half-old/half-new process. The REST job was stopped by exact PID afterwards.
+
+### Generalisable lesson
+
+A long-running serial API job should be interrogated for a batch endpoint before
+it is left to grind. The ratio here was not 2× or 5× — it was 37× wall clock and
+100× quota, and the entire cost was one script author reaching for the obvious
+per-entity REST call. **Check whether the provider bills per request or per
+entity**; when it is per request, batching is nearly free throughput.
+
