@@ -2364,3 +2364,41 @@ earlier still held the file read-only, stuck on an unindexed join writing to
 `/tmp` now contains zero databases. Across both cleanup passes ~5.3 GB was
 reclaimed, and every file removed was first shown redundant by row count against
 a durable copy.
+
+### Second refresh — derived layers against the enlarged population
+
+The enrich has now classified a large majority of the GitHub population:
+
+```
+unknown=93177  human=142258  org=45287  real_name=135909
+remaining candidates: 106044
+```
+
+Refreshed the derived layers against it:
+
+```
+geo 50,893 -> 98,706        (+94%)
+org 20,124 -> 39,729        (+97%)
+registry claims: 6 -> 6     (already_claimed: 6 — idempotency fix confirmed in production)
+```
+
+**cross_rank balance held EXACTLY** while its inputs nearly doubled:
+
+```
+github|871  books|125  registry|3  youtube|1   (expected 873 / 126 / 0.5 / 0.2)
+```
+
+Identical to both previous builds. This is the strongest available evidence that
+the percentile design is sound rather than tuned to one snapshot — a ranking
+whose domain mix drifted as the population grew would have been silently
+overfitted to the data it was built on.
+
+The org layer roughly doubled with it:
+
+```
+google|616   tencent|290
+microsoft|479 alibaba|235
+bytedance|314 nvidia|181
+```
+
+(google was 340 at the previous refresh.)
