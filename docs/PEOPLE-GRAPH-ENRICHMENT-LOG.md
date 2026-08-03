@@ -2327,3 +2327,40 @@ restart would discard completed work for a logging improvement.
 establishing liveness requires correlating an external rate-limit counter
 against database row counts over a multi-minute window, the job is
 under-instrumented — and the cost is paid every single time someone checks.
+
+### /tmp fully cleared, durable set verified
+
+With the writer moved to the canonical path, the working copy could finally be
+removed. Supersession was **proven by content before deleting**, not assumed
+from the promotion having happened:
+
+```
+/tmp working : person=280722 content=564579 topic=2450492 extid=591161 unknown=106189 claims=0
+CANONICAL    : person=280722 content=564579 topic=2450492 extid=622754 unknown= 93177 claims=6
+```
+
+Canonical matches on people/edges/topics and **exceeds on every axis that moved**
+— +31,593 external_ids, 13,012 fewer unknowns, and the only identity claims. The
+/tmp copy held nothing unique.
+
+One orphan found while checking: a benchmark process of mine from 29 minutes
+earlier still held the file read-only, stuck on an unindexed join writing to
+`/tmp/bench.sqlite` — a file already deleted. Stopped by exact PID.
+
+**Final durable layout** (nothing of value in a temp location):
+
+```
+~/foundry-data/domains/people/
+  people_v2.sqlite                     1.10 GB  <- canonical, single writer
+  people.sqlite                          28 MB  <- v1 relic, 471 people, untouched
+  _snapshots/
+    people_v2_gh.PRE-ENRICH-…sqlite     584 MB  <- rollback point
+    people_v2.books-only.sqlite          81 MB  <- pre-existing, not mine
+~/foundry-data/domains/books/
+  books.sqlite                          182 MB  <- pre-existing, not mine
+  passage_summary.sqlite                3.9 MB  <- 77,539 books, 13 min to rebuild
+```
+
+`/tmp` now contains zero databases. Across both cleanup passes ~5.3 GB was
+reclaimed, and every file removed was first shown redundant by row count against
+a durable copy.
