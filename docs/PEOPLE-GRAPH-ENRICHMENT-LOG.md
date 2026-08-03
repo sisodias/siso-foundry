@@ -824,3 +824,92 @@ rather than single-axis.
 | 13 | `bank_capability.capability_tag` | LOW VALUE — only 4,063 of 23,778 tagged, 1,921 in one bucket |
 | 14 | `repo_observation` (602,565 rows — provenance/source diversity per repo) | NOT SURVEYED |
 
+
+## Round 5 — 2026-08-04
+
+### #15 (new) — retrievable full text (`pipelines/books/load_passage_signal.py`)
+
+Every enrichment so far describes work from the OUTSIDE — stars, ratings,
+adoption, recency, momentum. None answers the question a people graph most
+obviously ought to answer: **"what did this person actually write?"**
+
+`passages.sqlite` on the vault holds segmented, searchable book text, and `gid`
+is the same namespace the graph already uses as `content_ref` for book edges —
+an exact join, no name matching:
+
+```
+$ sqlite3 'file:passages.sqlite?mode=ro' 'select count(*), count(distinct gid) from passage;'
+295646|500
+$ -- graph book content_refs are bare gids
+25516|The Crown of Success
+26094|Hebrew Heroes: A Tale Founded on Jewish History
+```
+
+Applied:
+
+```
+$ python3 load_passage_signal.py --passages passages.sqlite --graph /tmp/people_v2_gh.sqlite --apply
+{
+  "passage_books": 500, "matched_gids": 453,
+  "edges_to_update": 606, "distinct_people": 442,
+  "before": {"book_edges_with_text": 0, "book_edges_total": 101124},
+  "after":  {"book_edges_with_text": 606},
+  "elapsed_s": 14.47
+}
+```
+
+**Question unlocked — whose work can I actually read?**
+
+```
+Shakespeare, William|4 works|1,075,839 words
+Cooper, James Fenimore|5|778,473
+Horne, Charles F.|5|774,601
+Dante Alighieri|11|715,920
+Johnson, Samuel|3|560,849
+```
+
+**The layers compose.** Readable authors joined against the round-4 topic bridge:
+
+```
+Addison, Joseph  | fiction, friendship
+Alcott, Louisa May | fiction
+Aho, Juhani      | essays, fiction
+Aaronsohn, Alexander | palestine
+```
+
+So "find someone on topic X whose work I can actually read" now works end to
+end — a question that needed both this round and the bridge to exist.
+
+**Design: a flag, not the text.** The corpus is 174 MB and lives under a
+single-writer build job. Copying it into the graph would duplicate a large body
+of text into what is meant to be an index of people, and it would go stale the
+moment the builder advances. The flag plus counts makes the graph able to
+*answer* "can I read this person?"; retrieval then goes to passages.sqlite by
+gid, which is what that database is for.
+
+**Headroom, measured rather than estimated.** The graph holds 72,744 distinct
+books; 51,026 have a locator entry (text addressable); `passage` currently
+covers 500. The builder is still running, so re-running this loader picks up new
+books — it is idempotent by value, not by "already done".
+
+```
+$ sqlite3 people_v2_gh.sqlite "select count(distinct content_ref) from person_content where domain='book';"
+72744
+$ sqlite3 'file:locator.sqlite?mode=ro' 'select count(distinct gid) from location;'
+51026
+```
+
+Vault safety: `passages.sqlite` and `locator.sqlite` were opened `mode=ro` only.
+Nothing under /Volumes was written, moved, or unmounted (C5).
+
+Idempotent: re-run gives `606` → `606`.
+
+### Note on the three idle recon workers
+
+`awesome-recon`, `books-recon` and `bridge-recon` all signalled idle without
+transmitting a payload, and no findings were recoverable from the session
+transcripts. They were NOT re-dispatched — that pays twice for the same work.
+All three questions were answered directly instead: the awesome catalog profile
+(round 1), the LCSH/github overlap (round 4), and the books source survey (this
+round, which is what surfaced passages.sqlite).
+
