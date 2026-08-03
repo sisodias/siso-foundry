@@ -1196,3 +1196,135 @@ Revised estimate for #7: at ~4,800/hr against 235,732 unresolved owners, full
 4k/batch previously implied — the difference being that it now actually
 progresses.
 
+
+## Round 8 — 2026-08-04 — CORRECTING THE TARGETING MISTAKE
+
+### The mistake, measured
+
+Eight rounds all went to GitHub. A per-domain depth audit — one query that
+should have run at the start — shows what that cost:
+
+```
+$ sqlite3 people_v2_gh.sqlite "select domain, count(distinct person_id) people,
+    count(*) edges, sum(meta_json='{}') empty from person_content group by 1;"
+github        |245175|463230|     0
+book          | 35366|101124|100518
+youtube_channel|   35|    35|     0
+youtube_video |    24|    97|     0
+```
+
+**99.4% of book edges carried an empty meta_json** while every one of 463,230
+github edges was enriched. Books are the second-largest population in the graph
+(35,366 people) and had one signal on 0.6% of their edges. I let "where the rows
+are" stand in for "where the value is".
+
+### #17 — book edge enrichment (`pipelines/books/load_book_edge_signal.py`)
+
+```
+$ python3 load_book_edge_signal.py --locator locator.sqlite --graph /tmp/people_v2_gh.sqlite --apply
+{
+  "edges": 101124, "with_addressable": 100758, "with_subjects": 101105,
+  "before": {"book_edges_empty_meta": 100518, "book_edges_addressable": 0},
+  "after":  {"book_edges_empty_meta": 0,      "book_edges_addressable": 100758},
+  "elapsed_s": 55.29
+}
+```
+
+**Empty book edges: 100,518 → 0.**
+
+`text_addressable` is deliberately NOT the same claim as `has_text`:
+
+- `passage.gid`  = text SEGMENTED — 500 books (the builder is the bottleneck)
+- `location.gid` = text ADDRESSABLE by byte range — **77,540 books and rising**
+
+I earlier reported locator's growth as if the passage loader would pick it up.
+It did not: re-running `load_passage_signal.py` returned `606 → 606` because
+`passage` is still at 500. Different stages; I conflated them.
+
+### A bug I shipped and then fixed
+
+The first run wrote a `subjects` field per edge. The output exposed it:
+
+```
+A. L. O. E.|The Crown of Success                |["Adopted children -- Juvenile fiction","Adventure stories","Afghanist…
+A. L. O. E.|Hebrew Heroes: A Tale Founded on…   |["Adopted children -- Juvenile fiction","Adventure stories","Afghanist…
+A. L. O. E.|The Rambles of a Rat                |["Adopted children -- Juvenile fiction","Adventure stories","Afghanist…
+```
+
+Four different books, identical subjects — the exact smearing my own docstring
+claimed to fix. Verified that per-book subject data does not exist anywhere:
+every lcsh row is keyed by person (`aristotle` → `Aesthetics -- Early works to
+1800`) and locator.sqlite has only `location` and `asset` tables.
+
+Renamed to **`author_subjects`**, with the old key removed on re-run:
+
+```
+$ sqlite3 people_v2_gh.sqlite "select sum(json_extract(meta_json,'$.author_subjects') is not null),
+    sum(json_extract(meta_json,'$.subjects') is not null) from person_content where domain='book';"
+101105|0
+```
+
+Calling a person-level rollup `subjects` asserts a per-book fact we do not have
+— the same class of error v2's schema was written to prevent. "What is THIS book
+about" needs per-gid subject harvesting; it remains unanswerable.
+
+### #18 — YouTube hosts and the graph's first person↔person relation
+
+YouTube was written off as "fully loaded" because the source has 97 rows. True
+about the rows, wrong about the structure. The queue holds **two** sets of
+people and only one was loaded:
+
+```
+$ sqlite3 people_video_queue.sqlite "select count(*), count(distinct person_slug),
+    count(distinct channel_name) from people_video_queue where channel_name != '';"
+97|24|25
+```
+
+`person_slug` is the GUEST (loaded). `channel_name` is the HOST — never loaded,
+and mostly named individuals: Matthew Berman (21), David Ondrej (12),
+Dwarkesh Patel, Networkchuck.
+
+```
+$ python3 load_channels_and_appearances.py --queue people_video_queue.sqlite --graph … --apply
+{
+  "distinct_hosts": 24, "new_host_people": 21, "host_edges": 96,
+  "guest_edges_updated": 98, "skipped_no_channel": 1,
+  "before": {"youtube_people": 58, "youtube_edges": 132, "host_edges": 0},
+  "after":  {"youtube_people": 74, "youtube_edges": 225, "host_edges": 93}
+}
+```
+
+**Why this matters out of proportion to its size.** Every other edge in the
+graph is person→artifact. A guest appearance is person→artifact→person — the
+only relational data available. Round 4 measured the naive co-membership
+alternative at 720,107,620 pairs and rejected it. This is 97 videos, but
+"who has appeared with whom" was previously unanswerable by any means:
+
+```
+Demis Hassabis|["Bloomberg Technology","Dwarkesh Podcast","Google DeepMind","Lex Fridman","WIRED"]
+Dario Amodei  |["Dwarkesh Clips","Dwarkesh Patel"]
+Bob Lazar     |["PowerfulJRE / The Joe Rogan Experience","Jeremy Corbell","The Richard Dolan Show",…]
+```
+
+Hosts land as `kind='unknown'` — 'AI Grid' and 'WIRED' are not humans, and
+guessing is what the honest-null convention exists to avoid.
+
+### Per-domain depth after this round
+
+```
+github         |245175|463230|0 empty
+book           | 35366|101124|0 empty
+youtube_video  |    47|   190|0 empty
+youtube_channel|    35|    35|0 empty
+```
+
+**Zero empty edges in every domain.**
+
+### Revised judgement on idea #7 (enrich_owners)
+
+Now running authenticated, but the ~49-hour full grind is **mostly not worth
+it**. Its original justification was unblocking the book stitch, which is capped
+at 419 people. What remains is org-vs-human classification for GitHub — useful,
+not transformative. Better: cap it at the top ~20k owners by rated value and
+drop the long tail.
+
