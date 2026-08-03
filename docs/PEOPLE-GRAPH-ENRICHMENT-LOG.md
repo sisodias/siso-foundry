@@ -1421,3 +1421,113 @@ it is left to grind. The ratio here was not 2× or 5× — it was 37× wall cloc
 per-entity REST call. **Check whether the provider bills per request or per
 entity**; when it is per request, batching is nearly free throughput.
 
+
+## Round 10 — 2026-08-04 — the passage build could never have finished
+
+### It was not slow. It was dead, and it was the wrong shape.
+
+`passages.sqlite` sat at exactly 500 books of 77,540 available. Two causes, both
+found by reading rather than assuming:
+
+```
+$ cat /Volumes/SISO-STORAGE-VAULT/library/gutenberg/passages.log
+2026-08-03T16:52:30Z passages done
+Traceback (most recent call last):
+  File "/tmp/build_passages.py", line 234, in main
+    con.commit()
+sqlite3.OperationalError: disk I/O error
+2026-08-03T16:53:19Z passages done
+```
+
+**It crashed, then logged "passages done" anyway.** A `--limit 500` flag capped
+it, and the crash meant nobody noticed it had stopped.
+
+Throughput was never the problem — measured directly:
+
+```
+$ /usr/bin/time -p python3 build_passages.py --tar txt-files.tar --db /tmp/probe.sqlite --limit 200
+"passages_this_run": 131518, "elapsed_s": 3.37
+real 3.40
+```
+
+No API, no rate limit, pure local CPU over a 30 GB tar.
+
+### The real constraint: it cannot fit on the disk
+
+Re-running to local disk revealed the actual wall:
+
+```
+2000 books, 1188761 passages   ->  788,598,784 bytes
+$ python3 -c "print(788598784/2000*77540/1e9)"
+30.6   # GB projected for the full corpus
+$ df -g /tmp
+25 GB free
+```
+
+**30.6 GB needed against 25 GB free.** A full per-passage build was physically
+impossible on this machine, which is almost certainly what produced the original
+`disk I/O error`. Stopped by exact PID at 1.5 GB before it exhausted the volume.
+
+### The fix: build what the consumer actually reads
+
+`load_passage_signal.py` issues exactly one query against this table:
+
+```sql
+SELECT gid, COUNT(*), SUM(words), MIN(heading) FROM passage GROUP BY gid
+```
+
+A per-book rollup. The pipeline was storing **~590 rows per book to derive 1**,
+then aggregating the rest away. `build_passage_summary.py` computes the rollup
+while streaming the tar, never materialising passage rows:
+
+| | per-passage | per-book summary |
+|---|---|---|
+| 500 books | 788 MB (measured at 2,000) | **40 KB** |
+| projected 77,540 | ~30.6 GB — does not fit | **~6 MB** |
+
+**~5,000× smaller**, and it fits with room to spare.
+
+### A correctness trap I walked into and backed out of
+
+The first draft split on blank lines. It produced **704,697** passages for the
+same 500 books where the real builder produces **295,646** — 2.4× off, because
+`split_passages()` merges short blocks up to MIN_CHARS, splits oversized ones on
+sentence boundaries, and `body_bounds()` trims Gutenberg boilerplate first.
+
+Fixed by importing the real functions rather than reimplementing them:
+
+```
+$ python3 build_passage_summary.py --tar txt-files.tar --db /tmp/psum_probe.sqlite --limit 500
+"passages_represented": 295646, "db_bytes": 40960, "elapsed_s": 3.53
+
+summary: 500|295646
+real   : 500|295646
+```
+
+**Exact match.** A summary that silently disagreed with its source would have
+been worse than no summary at all — it would have put wrong word counts on
+person edges with no way to notice.
+
+### What is given up, stated plainly
+
+Per-passage byte offsets are what make "retrieve THIS paragraph by range" work
+— the entire point of the passages design. The summary cannot do that. It is
+the right structure for the people graph's question ("how much readable text
+does this person have") and the wrong one for retrieval. If passage-level
+retrieval is wanted later: build it per-book on demand from the tar, or run the
+full build somewhere with 40 GB free. Both are cheap. A 30 GB table that cannot
+fit is not.
+
+### The pattern across three jobs
+
+| job | believed | actually |
+|---|---|---|
+| enrich (REST, run 1) | rate-limited at 5,000/hr | 60/hr — no auth token passed |
+| enrich (REST, run 2) | ~49 hours, unavoidable | 1.8 hours via GraphQL batching |
+| passages | slow builder, 500 done | 22 min of CPU; **crashed**, logged "done", and could never fit |
+
+Same root cause every time: **a job's self-reported status was trusted instead
+of measured.** `rate_limited: true` did not say *which* limit. "passages done"
+was printed after a traceback. Neither was ever checked against a clock, a
+target count, or free disk.
+
