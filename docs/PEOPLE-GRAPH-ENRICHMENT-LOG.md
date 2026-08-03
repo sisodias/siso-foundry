@@ -1844,3 +1844,45 @@ and falling. Monitor armed (task bqz2qqf5i).
 **Open, not started:** per-gid book subjects (needed for "what is THIS book
 about"); a contemporary corpus (the real unlock for cross-domain identity);
 capping the enrich to top-N owners by value rather than the full 245k.
+
+### Refresh pass — derived layers picked up the enrich's later output
+
+The GraphQL enrich kept running after the geo/org and cross_rank builds, so both
+derived layers were stale. Re-running is the intended workflow (both are
+idempotent by value, not by "already done"):
+
+```
+external_ids growth since the first geo build:
+  real_name 33,657 -> 73,846    location 32,208 -> 43,276
+  website   24,355 -> 50,616    company  15,107 -> 20,449
+  kind: unknown 232,929 -> 161,678 | human 40,219 -> 89,292 | org 8,616 -> 29,752
+
+$ python3 load_geo_affiliation.py --apply
+{"location_kept": 42199, "company_kept": 20124,
+ "before": {"geo": 37933, "org": 14877},
+ "after":  {"geo": 50893, "org": 20124}}
+```
+
+geo 37,933 → 50,893 and org 14,877 → 20,124, confirming the loaders are
+correctly incremental rather than merely idempotent.
+
+Normalisation is doing its job — the `Google` / `@google` split is consolidated:
+
+```
+google|340   tencent|154   apple   |89
+microsoft|248 alibaba|141   facebook|86
+bytedance|185 nvidia |98
+```
+
+**cross_rank balance held after the rebuild**, which is the real check — a
+ranking that drifts as inputs grow would be worthless:
+
+```
+github|871  books|125  registry|3  youtube|1     (expected 873 / 126 / 0.5 / 0.2)
+```
+
+Identical to the pre-refresh figures, so the percentile design is stable under
+population growth.
+
+**Standing follow-up when the enrich finishes:** re-run these two again. Both
+take seconds and pick up whatever resolved after this pass.
