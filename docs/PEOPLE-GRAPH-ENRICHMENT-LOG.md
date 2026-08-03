@@ -1008,3 +1008,51 @@ $ sqlite3 people_v2_gh.sqlite "select count(*), count(distinct person_id) from p
 
 Idempotent: re-run gives `9605 / 5801` → unchanged.
 
+
+### #14 — `repo_observation` source diversity: MEASURED AND REJECTED
+
+602,565 rows recording where each repo was observed. The hypothesis was that a
+repo seen through many independent sources is a stronger find. The raw
+correlation looks compelling:
+
+```
+$ -- source count vs quality
+n|repos |avg_value|avg_stars
+8|     6|     69.5|  72870
+6|    59|     75.3|  40410
+3| 17543|     64.4|  13022
+2|146359|     55.0|   1361
+1|382919|     48.7|    226
+```
+
+avg_value climbs 48.7 → 69.5 and avg_stars 226 → 72,870. **But the sources are
+our own crawl batches, not independent discovery:**
+
+```
+.agents/scratch/github-farm/urls_100_499_refresh_2026-06-23.jsonl|343534
+.agents/scratch/github-farm/urls_ge5k_refresh_2026-06-23.jsonl|12060
+.agents/scratch/github-farm/urls_10k_50k.jsonl|4837
+```
+
+The batches are **star-banded by construction** (`urls_ge5k`, `urls_10k_50k`,
+`urls_1k_5k`), so a high-star repo appears in more of them mechanically. The
+correlation is largely a restatement of stars, which the graph already has.
+
+Controlling for stars (1,000–5,000 band only) mostly collapses it:
+
+```
+n|repos |avg_value
+1|   104|     54.8
+2| 68891|     57.2
+3|   428|     65.1
+4|   150|     70.7
+5|     6|     68.8
+6|     5|     66.0
+```
+
+A residual effect may exist between n=2 and n=4, but the n≥5 cells hold 5–6
+repos — far too few to carry a conclusion. **Rejected:** the signal is weak,
+star-confounded, and would import a measurement of our own crawl topology into
+a graph about people. Recorded so the compelling-looking raw correlation does
+not lure a later pass.
+
