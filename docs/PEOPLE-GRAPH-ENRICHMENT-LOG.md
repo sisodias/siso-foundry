@@ -913,3 +913,98 @@ All three questions were answered directly instead: the awesome catalog profile
 (round 1), the LCSH/github overlap (round 4), and the books source survey (this
 round, which is what surfaced passages.sqlite).
 
+
+## Round 6 — 2026-08-04
+
+### #12 — legal lane and reuse shape (`pipelines/github/load_legal_signal.py`)
+
+Round 2 put `liftability` on 36,516 edges — "how technically extractable is
+this". That is only half the question anyone lifting code has. The other half is
+whether they are ALLOWED to, and in what shape. A GPL library and an MIT library
+can have identical liftability and opposite answers.
+
+```
+$ sqlite3 identity.sqlite "select legal_lane, count(*) from repo_category
+    where legal_lane is not null and legal_lane != '' group by 1 order by 2 desc;"
+shippable|5730
+unknown|2682
+blocked|999
+reference_only|77
+
+$ sqlite3 identity.sqlite "select value_type, count(*) from repo_category
+    where value_type is not null and value_type != '' group by 1 order by 2 desc;"
+CODE|4926
+BOTH|3125
+INFO|928
+NEITHER|10
+```
+
+Applied:
+
+```
+$ python3 load_legal_signal.py --identity identity.sqlite --graph /tmp/people_v2_gh.sqlite --apply
+{
+  "source_repos": 20794, "edges_matched": 20793, "owner_missing": 1,
+  "with_lane": 9488, "shippable": 5730, "blocked": 999,
+  "before": {"edges_with_lane": 0, "edges_shippable": 0},
+  "after":  {"edges_with_lane": 9605, "edges_shippable": 5801},
+  "elapsed_s": 2.5
+}
+```
+
+**REJECTED the obvious source, and this is the point of the round.** Idea #12 was
+originally "`bank_gold.why` — 29,937 human-written rationales". Those rationales
+do begin with a bracketed license lane:
+
+```
+tavianator/bfs|[COARSE] [CODE|0BSD (permissive)] Breadth-first, friendlier drop-in...
+llir/llvm|[CODE|0BSD / public domain (dual-licensed)] Pure-Go library to parse...
+```
+
+But the formatting is not consistent enough to parse. The same license appears
+at least four ways:
+
+```
+MIT (permissive, reusable)] |608
+MIT — permissive, fully reus|481
+MIT (permissive, fully reusa|246
+MIT — permissive, reusable] |184
+MIT — permissive, reusable.]| 85
+```
+
+A parser over that would silently mis-bucket. `repo_category.legal_lane` is the
+*same judgement in a proper column* — use the column, not the prose. Recorded
+because "there is 29,937 rows of rich text" is exactly the kind of seam that
+looks more valuable than the boring structured column next to it.
+
+**`unknown` is loaded deliberately.** "We looked and could not tell" (2,682) is
+a different state from "we never looked", and writing only the confident lanes
+would make them indistinguishable — the same honest-null principle that keeps
+238k GitHub owners at `kind='unknown'` rather than guessed.
+
+**The payoff — the full Foundry question, four axes at once**, none of which the
+graph could express before this session (value: round 1, liftability: round 2,
+pushed_at: round 2, legal_lane: this round):
+
+```
+$ -- legal_lane='shippable' AND liftability>=88 AND pushed_at>='2025', by value
+ajv-validator/ajv                       |95|90|component|2026-05
+dart-lang/sdk                           |95|90|component|2026-06
+software-mansion/react-native-reanimated|95|90|component|2026-06
+google/skia                             |95|90|component|2026-06
+e2b-dev/E2B                             |95|90|component|2026-06
+redis/jedis                             |95|90|component|2026-06
+Kotlin/kotlinx.coroutines               |95|90|component|2026-06
+pallets/click                           |95|90|component|2026-06
+```
+
+And the inverse, which matters just as much — work to avoid:
+
+```
+$ sqlite3 people_v2_gh.sqlite "select count(*), count(distinct person_id) from person_content
+    where json_extract(meta_json,'$.legal_lane')='blocked';"
+1006|942
+```
+
+Idempotent: re-run gives `9605 / 5801` → unchanged.
+
