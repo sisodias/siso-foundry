@@ -466,3 +466,68 @@ Recorded here so it is not re-attempted naively.
 | `observed_at` = truth-time | no | yes (2019–2026 spread) |
 
 ---
+
+## Round 3 — 2026-08-04
+
+### #6 — real-world adoption (`pipelines/github/load_adoption_signal.py`)
+
+Stars are a vote and ratings are an opinion. Download counts and dependent-repo
+counts are a *measurement* of how much other software actually depends on the
+work — the strongest quality signal in the corpus, and it had never reached the
+graph.
+
+```
+$ python3 load_adoption_signal.py --identity identity.sqlite --graph /tmp/people_v2_gh.sqlite --apply
+{
+  "source_rows": 1026, "edges_matched": 1026, "owner_missing": 0,
+  "no_payload": 0, "with_fame_gap": 748,
+  "before": {"edges_with_downloads": 36, "edges_with_fame_gap": 0},
+  "after":  {"edges_with_downloads": 898, "edges_with_fame_gap": 760},
+  "elapsed_s": 14.58
+}
+```
+
+**100% owner match** — all 1,026 adoption rows resolved to people already in the
+graph. Only ~1k edges, but this is the difference between "looks popular" and
+"four million repos break without this".
+
+Independent verification (`json_extract`, not the loader's `LIKE`):
+
+```
+$ sqlite3 people_v2_gh.sqlite "select count(*) from person_content
+    where json_extract(meta_json,'$.dependent_repos') is not null;"
+867
+```
+
+**The question this unlocks — who is UNDERRATED?** High adoption, low fame.
+Structurally invisible to a star-ranked graph:
+
+```
+$ sqlite3 people_v2_gh.sqlite "select p.name, c.content_ref, cast(c.score as int) stars,
+    json_extract(c.meta_json,'$.dependent_repos') deps,
+    round(json_extract(c.meta_json,'$.fame_gap'),1) gap
+    from person_content c join person p using(person_id)
+    where json_extract(c.meta_json,'$.fame_gap')>=40
+    order by json_extract(c.meta_json,'$.dependent_repos') desc limit 10;"
+yargs|yargs/yargs-parser|517|4384968|46.6
+Mathias Bynens|mathiasbynens/emoji-regex|1909|4193583|42.4
+sindresorhus|sindresorhus/p-map|1499|3047734|44.6
+follow-redirects|follow-redirects/follow-redirects|582|2023308|53.3
+jshttp|jshttp/on-finished|404|1780334|53.3
+kentcdodds|kentcdodds/babel-plugin-macros|2635|1650407|49.3
+jsdom|jsdom/whatwg-url|414|1350571|46.6
+Socket.IO|socketio/socket.io|63195|1259292|45.6
+slevithan|slevithan/xregexp|3326|962216|52.0
+Immutable.js|immutable-js/immutable-js|33059|878497|41.6
+```
+
+`yargs/yargs-parser`: **517 stars, 4,384,968 dependent repos.** A star-ranked
+graph would place it below a toy with 600 stars.
+
+The rating pass's own conclusion is stored as `adoption_verdict` (promote 152 /
+confirm 467 / demote 95 / unresolved 312), deliberately NOT as `verdict`, so it
+can never be confused with the `value` that `load_repo_value.py` writes — they
+are different claims from different passes.
+
+Idempotent: re-run `--apply` gives `898 / 760` → `898 / 760`, unchanged.
+
