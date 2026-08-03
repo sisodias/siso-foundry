@@ -1915,3 +1915,43 @@ Also noted: this join is slow enough to time out repeatedly because
 `lower(person.name)` cannot use the `ix_person_name` index — the same
 function-on-indexed-column trap that made the first topic-bridge build 600×
 too slow. It is worth a generated column if identity matching is ever revisited.
+
+### The 9 unfiltered matches, resolved by inspection
+
+Rather than assume the unfiltered matches were collisions, they were pulled and
+read. Every one is a **single-word first name** colliding with a historical
+mononym:
+
+```
+('Horace',   'Horace',   -66, -9)      <- the Roman poet, d. 8 BCE
+('Timur',    'Timur',    1336, 1405)
+('Gildas',   'Gildas',    516,  570)
+('Florian',  'Florian',  1755, 1794)
+('Casey',    'Casey',    1864, 1932)
+('Parallax', 'Parallax', 1816, 1884)
+('Pansy',    'Pansy',    1841, 1930)
+('saki',     'Saki',     1870, 1916)
+('ariel',    'Ariel',    1799, 1883)
+('maria',    'Maria',    1846, 1916)
+('Levi',     'Levi',     1844, 1911)
+('Vera',     'Vera',     1865, None)
+```
+
+A GitHub user whose profile name is "Horace" is not the poet who died in 8 BCE.
+**Zero of the unfiltered matches are real identity links** — the collision
+hypothesis is now confirmed by reading the rows, not inferred from their shape.
+
+### Two incidental findings
+
+**`lower(col)` defeats the index — again.** This join timed out repeatedly
+because `ix_person_name` cannot serve `lower(person.name)`. Adding
+`CREATE INDEX ix_pname_lower ON person(lower(name))` made it return instantly.
+Same trap as the first topic-bridge build (600× slower). Third occurrence in
+this log; it is a systemic pattern in this schema, not bad luck.
+
+**Do not `cp` a live WAL database.** A plain `cp` of `people_v2_gh.sqlite` while
+the enrich held it produced `database disk image is malformed` — the `-wal` file
+carries committed data the main file does not yet have. `sqlite3.Connection.backup()`
+against a `mode=ro` source copies correctly under concurrent writes. The source
+graph was never at risk; only the bad copy was. Recorded because the failure
+looks alarming and is trivially avoidable.
