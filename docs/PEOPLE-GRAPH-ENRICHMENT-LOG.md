@@ -2237,3 +2237,45 @@ re-run 2: {"already_claimed": 6, "after": {"identity_claims": 6}}
 
 Worth noting the idempotency check has now earned its place twice: it is the
 only reason this bug was found before the table filled with duplicates.
+
+### Split-brain, caused by promoting while a writer was live
+
+Promoting the graph mid-session created two diverging copies, because the enrich
+kept writing to `/tmp` while the promoted snapshot received the identity claims:
+
+```
+WORKING (/tmp, live enrich)  kind_unknown=106189 real_name=124242 claims=0
+PROMOTED (~/foundry-data)    kind_unknown=122608 real_name=109409 claims=6
+```
+
+**Neither copy was complete.** `/tmp` held 14,833 more resolved names; the
+promoted copy held the only identity claims. This is precisely the failure the
+schema's single-writer law exists to prevent, and I created it by snapshotting a
+live database rather than moving the writer first.
+
+Resolved by stopping the `/tmp` writer (by exact PID), merging its newer
+enrichment into the promoted copy, and resuming the enrich against the canonical
+path so there is one writer again:
+
+```
+external_ids 550965 -> 591161 (+40196)
+kind_unknown 122608 -> 106189 (-16419)
+claims preserved: 6
+```
+
+The merge is deliberately asymmetric on `kind`:
+
+```sql
+UPDATE person SET kind = (SELECT w2.kind FROM w.person w2 WHERE ...)
+WHERE kind='unknown' AND EXISTS (... AND w2.kind != 'unknown')
+```
+
+**It only ever moves a person AWAY from 'unknown'.** A symmetric "newer wins"
+merge would let the stale copy overwrite a resolved kind with `unknown` — losing
+work in the direction that looks like success. `external_ids` needed no such
+care: its PK `(person_id, platform, value)` makes `INSERT OR IGNORE` naturally
+additive.
+
+**Lesson: promote a database by moving its writer, not by copying it.** The
+copy is the easy half; the writer is what makes the copy authoritative. Every
+subsequent run now targets `~/foundry-data/domains/people/people_v2.sqlite`.
