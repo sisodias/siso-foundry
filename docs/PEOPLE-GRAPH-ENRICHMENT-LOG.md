@@ -1628,3 +1628,36 @@ Dryden, John   |1632|1677
 No work was needed. Recorded because I nearly rebuilt something that already
 functioned — the same classify-by-reading failure this log has flagged twice.
 
+
+### GraphQL enrich — measured mid-run
+
+The economics are no longer arguable. Partway through the backlog:
+
+```
+$ sqlite3 people_v2_gh.sqlite "select platform, count(*) from external_ids group by 1 order by 2 desc;"
+github_login|245174
+real_name   | 33657
+website     | 24355
+location    | 17473
+x_handle    |  9900
+company     |  8028
+
+$ gh api rate_limit --jq '.resources.graphql'
+{"limit":5000,"remaining":4775,"used":225}
+```
+
+**real_name 3,727 → 33,657 — 9× what the entire REST run achieved in its
+lifetime — for 225 rate-limit units.** The equivalent REST work would have cost
+~30,000 units, i.e. six hours of waiting on quota alone.
+
+`kind` resolution over the same window: unknown 232,929 → 202,641,
+human 40,219 → 57,790+, organisation 8,616 → 18,248.
+
+`location` (17,473) and `company` (8,028) are fields the REST version never
+collected at all — they cost nothing extra inside a query already being made.
+
+### Passage summary — measured mid-run
+
+62,000 of 77,540 books summarised, versus the 500 the per-passage builder
+managed before crashing. Same segmentation functions, so the counts are
+identical to what the 30 GB table would have held.
