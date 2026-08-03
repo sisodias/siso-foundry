@@ -182,9 +182,23 @@ def enrich(graph_db, token, batch_size, limit, apply_changes, sleep):
                         (pid, platform, str(value)[:200], 1.0, "github_graphql")
                     )
 
+        # Progress line per batch. Without this the job looks IDENTICAL to a
+        # silent no-op for minutes at a time: writes only land every 2,000
+        # people, so sampling the DB in between shows frozen counts while the
+        # API budget drains. That ambiguity cost four rounds of diagnosis --
+        # "is it working?" should be answerable by reading one line, not by
+        # correlating rate-limit usage against row counts over time.
+        print(
+            "batch %d | resolved %d | users %d orgs %d | null %d | cost %d"
+            % (stats["batches"], stats["resolved"], stats["users"],
+               stats["orgs"], stats["null_aliases"], stats["gql_cost"]),
+            flush=True,
+        )
+
         if apply_changes and len(person_updates) >= 2000:
             _flush(g, person_updates, extid_rows)
             person_updates, extid_rows = [], []
+            print("  flushed to db", flush=True)
         if sleep:
             time.sleep(sleep)
 

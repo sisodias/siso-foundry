@@ -2279,3 +2279,51 @@ additive.
 **Lesson: promote a database by moving its writer, not by copying it.** The
 copy is the easy half; the writer is what makes the copy authoritative. Every
 subsequent run now targets `~/foundry-data/domains/people/people_v2.sqlite`.
+
+### An observability gap I built, and the four rounds it cost
+
+After resuming the enrich against the canonical DB, it looked dead:
+
+```
+19:39:10 unknown=106189 extid=591161
+19:39:50 unknown=106189 extid=591161
+19:40:30 unknown=106189 extid=591161   <- flat across 80s
+$ ls -la /tmp/gql_canonical.out
+0 bytes                                 <- empty log
+```
+
+A running process, an empty log, and frozen counts is exactly the silent-no-op
+signature flagged three times earlier in this session, so it was diagnosed
+rather than assumed fine. It took four separate checks to establish the truth:
+
+1. process alive, 1m35s elapsed
+2. `gql_used=42` — so calls WERE being made
+3. a 250-owner dry run resolved 239 — so resolution worked
+4. finally, correlating both over a longer window:
+
+```
+20:41:52 gql_used=107 unknown=106189
+20:42:42 gql_used=124 unknown=106189
+monitor:          unknown=105506   <- it WAS progressing
+```
+
+**The job was healthy the whole time.** Writes land only every 2,000 people, so
+any sample shorter than the flush interval shows frozen counts while the API
+budget drains — indistinguishable from a job that is spinning uselessly.
+
+That ambiguity is a design flaw I introduced: the loader printed nothing until
+completion. Fixed with a per-batch progress line:
+
+```
+batch 1 | resolved 93 | users 93 orgs 0 | null 7 | cost 1
+batch 2 | resolved 189 | users 189 orgs 0 | null 11 | cost 2
+batch 3 | resolved 239 | users 239 orgs 0 | null 11 | cost 3
+```
+
+The running job was NOT restarted to pick this up — it is making progress and a
+restart would discard completed work for a logging improvement.
+
+**Generalisable: "is it working?" must be answerable by reading one line.** If
+establishing liveness requires correlating an external rate-limit counter
+against database row counts over a multi-minute window, the job is
+under-instrumented — and the cost is paid every single time someone checks.
