@@ -2452,3 +2452,36 @@ at the top, ahead of google and cloudflare.
 **This is the second bug found by simply exercising a query surface rather than
 assuming it worked.** Both were invisible from the data side — the tables were
 correct and every count was right; only the questions were being answered wrong.
+
+### All five query modes exercised
+
+Having found two bugs by testing rather than assuming, the remaining modes were
+run against the canonical graph:
+
+```
+$ ask.py --works "Dumas"
+person: Dumas, Alexandre (bk:dumas, alexandre|1802-1870) | count: 184
+  book 18321 "Acté" -> https://www.gutenberg.org/ebooks/18321.txt.utf-8
+     (direct plaintext, no auth, no local copy needed)
+
+$ ask.py --works "Torvalds"
+person: Linus Torvalds (gh:torvalds) | count: 9
+  github torvalds/pesconvert "Brother PES file converter" -> github.com/...
+```
+
+`--works` resolves across both domains and emits fetch routes, so an answer is
+actionable rather than just a reference.
+
+**The count of 9 for Torvalds was checked rather than assumed suspicious** — it
+is correct. Nine non-fork repos, with the important one present and rated:
+
+```
+torvalds/linux     |237311 stars|value 100
+torvalds/AudioNoise|  4384|50
+torvalds/uemacs    |  2055|35
+torvalds/GuitarPedal| 2027|65
+```
+
+Status of the five modes: `--who` ✓, `--about` ✓, `--works` ✓,
+`--inventory` ✓, `--contemporaries` ✓ (after the fix above). Two of five were
+broken when first exercised; both bugs were in resolution, not data.
