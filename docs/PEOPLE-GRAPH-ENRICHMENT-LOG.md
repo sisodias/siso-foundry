@@ -2402,3 +2402,53 @@ bytedance|314 nvidia|181
 ```
 
 (google was 340 at the previous refresh.)
+
+### A query returning "no data" when the graph held 457 rows
+
+Testing `ask.py`'s other modes (only `--who` had been exercised) found
+`--contemporaries Spinoza` returning an empty list. The view was fine; the
+resolution was not:
+
+```
+$ select person_id, name, birth_year from person where name like '%Spinoza%' limit 3;
+baruch-spinoza                     |Baruch Spinoza        |          <- no birth year
+bk:spinoza, benedictus de|1632-1677|Spinoza, Benedictus de|1632
+gh:rmax                            |R Max Espinoza        |          <- substring hit
+
+$ select count(*) from v_contemporaries where person_id='bk:spinoza, benedictus de|1632-1677';
+457
+```
+
+The query used `WHERE name LIKE ? LIMIT 1`, which picked the **registry
+duplicate with no dates** — so the graph knew 457 contemporaries and reported
+none. An empty result that reads as "we have no data" but means "you asked the
+wrong duplicate" is the same failure class as the cwd-shadowed database
+resolution: plausible, silent, and wrong.
+
+Fixed by ordering candidates so people who can answer the question come first
+(`ORDER BY (birth_year IS NULL), length(name)`), without excluding the undated —
+a genuinely dateless person still resolves and correctly returns nothing. The
+response now also carries `resolved_to`, so the disambiguation is visible rather
+than silent:
+
+```
+$ ask.py --contemporaries "Spinoza"
+resolved_to: bk:spinoza, benedictus de|1632-1677
+  Chiabrera, Gabriello  1632-1638
+  Holland, Philemon     1632-1637
+
+$ ask.py --contemporaries "Plato"
+resolved_to: plato
+  Sophocles  -428--407
+```
+
+Plato's result confirms the BCE handling works end to end — negative birth years
+survive the view, the join and the formatter, which the schema explicitly
+designed for ("so antiquity participates instead of silently dropping out").
+
+`--about` needed no fix: `cryptography` correctly returns `jedisct1` (libsodium)
+at the top, ahead of google and cloudflare.
+
+**This is the second bug found by simply exercising a query surface rather than
+assuming it worked.** Both were invisible from the data side — the tables were
+correct and every count was right; only the questions were being answered wrong.

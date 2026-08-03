@@ -291,17 +291,41 @@ def contemporaries(con, found, name):
     """Who was alive at the same time -- intellectual-history adjacency."""
     if "people" not in found or not table_exists(con, "people", "v_contemporaries"):
         return {"query": name, "error": "v_contemporaries unavailable"}
+    # Resolve to a person who can actually ANSWER this question -- i.e. one with
+    # a birth year -- rather than whichever row the index happens to return
+    # first.
+    #
+    # "Spinoza" matches three people: baruch-spinoza (registry, NO birth year),
+    # bk:spinoza, benedictus de|1632-1677 (books, 457 contemporaries), and
+    # gh:rmax "R Max Espinoza" (a substring hit). A bare LIMIT 1 picked the
+    # registry row and returned an empty list -- the graph knows 457
+    # contemporaries and reported none. An empty result that looks like
+    # "we have no data" but actually means "you asked the wrong duplicate" is
+    # the same failure class as the cwd-shadowed database resolution.
+    #
+    # Ordering by (birth_year IS NULL) puts dated people first without excluding
+    # the undated, so a genuinely dateless person still resolves and simply
+    # returns nothing.
+    row = con.execute(
+        """SELECT person_id, name FROM people.person
+           WHERE name LIKE ?
+           ORDER BY (birth_year IS NULL), length(name)
+           LIMIT 1""",
+        (f"%{name}%",),
+    ).fetchone()
+    if not row:
+        return {"query": name, "contemporaries": [], "resolved_to": None}
+    pid, resolved_name = row
     return {
         "query": name,
+        "resolved_to": {"person_id": pid, "name": resolved_name},
         "contemporaries": [
             {"name": n, "overlap": f"{s}-{e}"}
             for n, s, e in con.execute(
                 """SELECT contemporary_name, overlap_start, overlap_end
                    FROM people.v_contemporaries
-                   WHERE person_id = (SELECT person_id FROM people.person
-                                      WHERE name LIKE ? LIMIT 1)
-                   LIMIT 25""",
-                (f"%{name}%",),
+                   WHERE person_id = ? LIMIT 25""",
+                (pid,),
             )
         ],
     }
