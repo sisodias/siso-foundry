@@ -722,3 +722,105 @@ hidden.
 | edges with `star_velocity` | 0 | 56,933 |
 | person_topic | 2,050,629 | 2,050,629 (unchanged — this round is edge-only) |
 
+
+---
+
+## Verified state after rounds 1–4
+
+Every number below re-derived with `json_extract` (NOT the `LIKE` counters the
+loaders print), 2026-08-04:
+
+```
+$ for K in value reuse_value info_value liftability unit_class list_count \
+      pushed_at created_at archived downloads dependent_repos fame_gap \
+      adoption_verdict star_velocity momentum_day; do
+    printf '%-18s ' $K
+    sqlite3 people_v2_gh.sqlite "select count(*) from person_content
+      where json_extract(meta_json,'\$.$K') is not null;"
+  done
+value              303403      pushed_at          463221
+reuse_value        303403      created_at         463122
+info_value         303403      archived            38532
+liftability         36516      downloads             856
+unit_class          32189      dependent_repos       867
+list_count          64411      fame_gap              760
+adoption_verdict     1039      star_velocity       56933
+                               momentum_day        56933
+```
+
+Tables:
+
+```
+person|280708          person_content|564486
+external_ids|253815    person_topic|2050629
+```
+
+Topic schemes:
+
+```
+github_topic|1206260|136024     gh_category|309716|170236
+github_lang|287516|228970       lcsh|167585|35347
+curated|53072|53072             bridge|26480|22466
+```
+
+### The compounding effect — signals per edge
+
+Before round 1, every github edge carried exactly one signal (stars). Now:
+
+```
+$ sqlite3 people_v2_gh.sqlite "select n_signals, count(*) from (
+    select (json_extract(meta_json,'$.value') is not null)
+         + (json_extract(meta_json,'$.list_count') is not null)
+         + (json_extract(meta_json,'$.dependent_repos') is not null)
+         + (json_extract(meta_json,'$.star_velocity') is not null)
+         + (json_extract(meta_json,'$.pushed_at') is not null) n_signals
+    from person_content where domain='github') group by 1 order by 1;"
+0|3
+1|149382
+2|224435
+3|67335
+4|21797
+5|278
+```
+
+**313,845 edges carry two or more independent quality signals**, up from zero.
+170,233 people now have both a rated value and a recency date, so questions can
+be compound ("actively maintained AND highly rated AND widely depended upon")
+rather than single-axis.
+
+### Cumulative before → after (rounds 1–4)
+
+| metric | before | after |
+|---|---|---|
+| person | 280,708 | 280,708 (no people created — by design) |
+| person_content rows | 564,486 | 564,486 (no rows added; enriched in place) |
+| person_topic | 1,661,361 | **2,050,629** (+389,268) |
+| topic schemes | 3 | 6 (+gh_category, +curated, +bridge) |
+| edges with any quality signal beyond stars | 0 | **313,845 with ≥2** |
+| cross-population topic reach | 0 people | **22,466 people** |
+
+### Safety record
+
+- Nothing deleted. No `rm`, no `git clean`, no `DROP`. (C1)
+- No pattern-kills. One process stopped, by exact PID, and it was my own
+  superseded read-only dry run. (C2)
+- All writes to `/tmp/people_v2_gh.sqlite`; the canonical
+  `~/foundry-data/domains/people/people.sqlite` was never opened for write. (C3)
+- Backup taken before the first change:
+  `/tmp/people_v2_gh.PRE-ENRICH-20260803-174831.sqlite`.
+- No git push; local commits only. (C4)
+- The vault was never written to or unmounted. (C5)
+- A concurrent `enrich_owners.py` API grind was left running throughout rather
+  than killed; loaders wait on the lock with `busy_timeout=600000` instead.
+
+### Ideas still open
+
+| # | Idea | Status |
+|---|---|---|
+| 5 | person↔person edges | REJECTED as designed — 720M naive pairs; needs a scarcity gate |
+| 7 | `enrich_owners` at full scale | IN PROGRESS — real_name 172 → 3,601; still ~240k owners to go |
+| 8 | github↔book identity stitch | DEAD — ceiling ~419 people, zero plausible matches |
+| 12 | `bank_gold.why` (29,937 human-written rationales incl. license lane) | NOT STARTED |
+| 13 | `bank_capability.capability_tag` | LOW VALUE — only 4,063 of 23,778 tagged, 1,921 in one bucket |
+| 14 | `repo_observation` (602,565 rows — provenance/source diversity per repo) | NOT SURVEYED |
+
