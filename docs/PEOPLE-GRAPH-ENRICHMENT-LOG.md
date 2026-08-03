@@ -1758,3 +1758,25 @@ position, which spread github's 69,899 people tied at rank_score 0 across a
 0–28 range purely by sort order — array-position noise presented as signal.
 Both now assign the midpoint of the tie block.
 
+
+### Identity stitch — retested at 172× the sample, still zero
+
+The original "the stitch is dead" verdict was reached with 172 resolved real
+names. That is a small sample to kill an idea on, so it was retested once the
+GraphQL enrich had produced enough names to be decisive:
+
+```
+$ plausible human real names (2+ words, no punctuation, <40 chars): 29672
+$ exact case-insensitive matches against book-origin person names:      0
+```
+
+**Zero matches against 29,672 names**, versus 851 names at the first test. The
+conclusion is unchanged but now rests on evidence rather than an early sample:
+Gutenberg is a public-domain corpus (20,246 book people died pre-1950, at most
+419 could be alive) and GitHub is live accounts. They are genuinely different
+people, not the same people under different names.
+
+This also retires the last remaining justification for the enrich grind as a
+*stitch* enabler. Its value is `kind` resolution and contact fields, which it is
+delivering — 232,929 → 184,208 unknowns so far.
+
