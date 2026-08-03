@@ -1955,3 +1955,43 @@ carries committed data the main file does not yet have. `sqlite3.Connection.back
 against a `mode=ro` source copies correctly under concurrent writes. The source
 graph was never at risk; only the bad copy was. Recorded because the failure
 looks alarming and is trivially avoidable.
+
+### #20 — expression indexes on `lower(col)` (`core/add_lower_indexes.sql`)
+
+`lower(col)` defeating the index bit this pipeline **three separate times**
+before the pattern was recognised as systemic rather than unlucky:
+
+1. `build_topic_bridge.py` — 1,638 queries, each a full scan of ~2M rows at
+   ~0.25s. Still running after 15 minutes; the set-based rewrite made it 1.33s.
+2. The identity-stitch join on `lower(person.name)` — timed out repeatedly at
+   120s, returned instantly once an expression index existed.
+3. Every loader's `known` dict: 245k rows pulled into Python purely because
+   per-row `lower(login)` lookups would have been unusably slow. That workaround
+   exists *because of* this missing index.
+
+An audit confirmed no expression index existed anywhere in the schema — all 17
+were plain case-sensitive indexes.
+
+**Measured before and after on a real 951 MB snapshot:**
+
+```
+                     before      after
+topic lookup        1.532 s  ->  0.000 s
+extid login lookup  0.135 s  ->  0.000 s
+person-name join    0.331 s  ->  0.112 s   (was >120 s TIMEOUT with no index at all)
+```
+
+Migration cost: **6.5 seconds to build, 127 MB of disk** (951 MB → 1,078 MB).
+
+The name join is the headline: the same query that timed out at 120 s before any
+lower-index existed now returns in 0.112 s. The topic and extid lookups drop to
+under a millisecond — these are the predicates every cross-scheme and every
+login-resolution query in the pipeline uses.
+
+Additive and re-runnable (`IF NOT EXISTS`); adding an index changes no data and
+no query results, only the plan. Applied to the working copy, not the canonical
+DB (C3).
+
+**Worth generalising:** an index on `col` does NOT serve `lower(col)`. If a
+codebase joins case-insensitively anywhere, it needs expression indexes, and the
+absence shows up as "this query is mysteriously slow" rather than as an error.
