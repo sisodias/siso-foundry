@@ -72,10 +72,23 @@ def load(passages_db, graph_db, apply_changes):
     }
 
     # One row per book: how much text, and where it starts.
-    stats_by_gid = {}
-    for gid, n, words, heading in src.execute(
+    #
+    # Two source shapes are accepted, because the per-passage table cannot be
+    # built to completion on this hardware (~30.6 GB projected vs 25 GB free --
+    # see the enrichment log). build_passage_summary.py produces the same
+    # rollup in ~6 MB, verified to match exactly (295,646 = 295,646 over the
+    # same 500 books). Prefer the summary when present; fall back to the
+    # passage table so this keeps working against either.
+    has_summary = src.execute(
+        "SELECT 1 FROM sqlite_master WHERE type='table' AND name='book_passages'"
+    ).fetchone()
+    query = (
+        "SELECT gid, passage_count, word_count, first_heading FROM book_passages"
+        if has_summary else
         "SELECT gid, COUNT(*), SUM(words), MIN(heading) FROM passage GROUP BY gid"
-    ):
+    )
+    stats_by_gid = {}
+    for gid, n, words, heading in src.execute(query):
         stats_by_gid[str(gid)] = (n, words, heading)
 
     existing = {}
