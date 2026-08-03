@@ -631,3 +631,94 @@ serve `lower(col)`.
 | people reachable cross-population by topic | 0 | 22,466 |
 
 ---
+
+## Round 4 — 2026-08-04
+
+### #11 (new) — momentum / star velocity (`pipelines/github/load_momentum_signal.py`)
+
+After round 2 the graph knows WHEN work was last touched. It still did not know
+whether that work is RISING or FADING — a different question from "who is
+active" and from "who is famous", and the one that finds people before they are
+obvious.
+
+`~/foundry-data/domains/github/momentum.sqlite` had carried it all along:
+
+```
+$ sqlite3 momentum.sqlite "select count(distinct full_name), count(*) from repo_snapshot;"
+56688|170062
+$ sqlite3 momentum.sqlite "select day, count(*) from repo_snapshot group by 1 order by 1;"
+2026-07-09|56687
+2026-07-10|56687
+2026-07-11|56688
+```
+
+Applied:
+
+```
+$ python3 load_momentum_signal.py --momentum momentum.sqlite --graph /tmp/people_v2_gh.sqlite --apply
+{
+  "repos_in_series": 56688, "edges_matched": 56679, "owner_missing": 9,
+  "before": {"edges_with_velocity": 0},
+  "after":  {"edges_with_velocity": 56933},
+  "elapsed_s": 1.98
+}
+```
+
+**Question unlocked — who is RISING?** High velocity against modest stars:
+
+```
+DeusData|DeusData/codebase-memory-mcp|11976 stars|547/day|value 85
+microsoft|microsoft/Webwright|5543|157/day|85
+Xiaomi MiMo|XiaomiMiMo/MiMo-Code|10391|138/day|80
+```
+
+**HONEST SCOPE, stated on the loader and repeated here.** The window is three
+consecutive days in July 2026. That is a momentary reading, not a trend — a repo
+that launched on 2026-07-10 shows enormous velocity while a steady long-term
+grower shows little. `momentum_day` is written alongside every value so a
+consumer can see how narrow and how stale the reading is, and it is deliberately
+NOT folded into `person.rank_score`.
+
+Idempotent: re-run gives `56933` → `56933`.
+
+### A measurement bug caught by the classify-by-reading guard
+
+The first draft of this loader asserted momentum was "unused by any loader" and
+counted coverage with `meta_json LIKE '%star_velocity%'`. Both were sloppy.
+Verified by content instead:
+
+```
+$ grep -rn "momentum" --include="*.py" --include="*.md" --include="*.sql" .
+(no loader references it)
+$ sqlite3 people_v2_gh.sqlite "select source, count(*) from person_content group by 1;"
+github_identity|462930
+gutenberg|101124
+v1_migration|432
+```
+
+No momentum source exists, so the claim was right — but the `LIKE` counter was
+not. It matched **35 pre-existing edges** that were repos *named* velocity:
+
+```
+gh:julianshapiro | julianshapiro/velocity   | github_identity
+gh:iampawan      | iampawan/VelocityX       | github_identity
+gh:mind-protocol | mind-protocol/terminal-velocity | github_identity
+```
+
+A `LIKE`-based before/after would have reported a baseline of 35 instead of 0
+and silently understated the load by that much. Counters now use
+`json_extract(meta_json,'$.star_velocity')`, which confirmed `before: 0`.
+
+Worth generalising: **`meta_json LIKE '%key%'` matches values as well as keys.**
+The earlier loaders in this log used LIKE for their coverage counters; their
+headline numbers were all independently re-derived with `json_extract`, which is
+why the discrepancies (e.g. 303,403 vs 303,114) are visible above rather than
+hidden.
+
+### Round 4 totals
+
+| metric | before | after |
+|---|---|---|
+| edges with `star_velocity` | 0 | 56,933 |
+| person_topic | 2,050,629 | 2,050,629 (unchanged — this round is edge-only) |
+
