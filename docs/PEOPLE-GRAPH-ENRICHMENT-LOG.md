@@ -1056,3 +1056,88 @@ star-confounded, and would import a measurement of our own crawl topology into
 a graph about people. Recorded so the compelling-looking raw correlation does
 not lure a later pass.
 
+
+## Round 7 — 2026-08-04
+
+### #16 (new) — L1 domain families (`pipelines/github/load_family_topics.py`)
+
+person_topic offered two github vocabularies at opposite extremes and nothing in
+between:
+
+```
+github_topic  189,739 distinct  -- free-text, whatever the owner typed
+gh_category       264 distinct  -- curated, but only where a rater looked
+```
+
+Neither answers "who works in AI" well: the first is too granular and noisy
+(`ai`, `ai-agent`, `aiagents`, `artificial-intelligence` are four separate
+topics), the second is precise but covers rated repos only. `l1_route.family_tags`
+sits between them, applied across the whole corpus:
+
+```
+$ sqlite3 identity.sqlite "select count(*), sum(family_tags not in ('[]','')) from l1_route;"
+465192|271004
+```
+
+Applied:
+
+```
+$ python3 load_family_topics.py --identity identity.sqlite --graph /tmp/people_v2_gh.sqlite --apply
+{
+  "source_rows": 271004, "owner_missing": 1111, "bad_json": 0,
+  "topic_rows": 328846, "distinct_people": 160056, "distinct_families": 24,
+  "before": {"gh_family_rows": 0, "person_topic_total": 2050629},
+  "after":  {"gh_family_rows": 328846, "person_topic_total": 2379475},
+  "elapsed_s": 4.72
+}
+```
+
+**160,056 people across 24 families**, under `scheme='gh_family'` so it never
+mixes with github_topic or gh_category. A query wanting breadth asks gh_family;
+one wanting precision asks gh_category. Both now exist.
+
+**Provenance preserved, not flattened.** `match_source` records how each routing
+was decided and the methods are not equally trustworthy:
+
+```
+topic|142718   -- matched on declared repo topics
+desc |128286   -- matched on description text
+none |194188   -- no family assigned
+```
+
+A description match is a weaker claim than a topic match, so it is written at a
+lower weight rather than asserted as equivalent. Combined with the router's own
+`bucket` confidence (clean / ambiguous):
+
+```
+(topic, clean) 1.0   (topic, ambiguous) 0.6
+(desc,  clean) 0.7   (desc,  ambiguous) 0.4
+```
+
+Observed spread confirms the weights differentiate rather than collapsing:
+
+```
+Web Frontend|24819|avg weight 0.72       Computer Vision|15511|0.57
+Mobile (iOS / Android)|20492|0.72        Media / Audio / Video|13920|0.63
+AI / Machine Learning Core|21438|0.68
+```
+
+Ambiguous routings ARE loaded (at reduced weight) because "we routed this three
+ways and could not choose" is real information — the same honest-null principle
+used for `legal_lane='unknown'` and `kind='unknown'`.
+
+**One topic row per person per family, not per repo.** A person with ten repos
+in one family gets one row carrying their strongest evidence. person_topic is
+about the person; a per-repo tally belongs on the edge.
+
+**Question unlocked** — "who works in AI, with strong evidence AND quality
+work" (weight=1.0 means topic-matched and cleanly routed):
+
+```
+microsoft|1.0|113 repos|avg value 87     huggingface|1.0|32|90
+apache|1.0|83|88                         Jensen Huang|1.0|29|88
+google|1.0|72|87                         facebookresearch|1.0|23|87
+```
+
+Idempotent: re-run gives `328846 / 2379475` → unchanged.
+
