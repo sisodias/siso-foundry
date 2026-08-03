@@ -1,0 +1,16 @@
+{
+  "seed": "sindresorhus/awesome",
+  "lists_total": 617,
+  "lists_ok": 616,
+  "lists_notfound": 1,
+  "entries": 70832,
+  "unique_repos": 59392,
+  "multi_list_repos": 5392,
+  "entries_with_section": 67999,
+  "distinct_sections": 5252,
+  "entries_with_description": 57724,
+  "owners": 39404,
+  "enriched": 0,
+  "elapsed_sec": 68.5,
+  "db": "/Users/shaansisodia/SISO_Workspace/SISO_Research/siso-foundry/pipelines/github/awesome/catalog_v2.sqlite"
+}

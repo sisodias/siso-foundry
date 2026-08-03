@@ -1,8 +1,8 @@
 -- Foundry — People graph schema (the unified PERSON entity across domains)
 --
 -- This is the canonical person model that STITCHES the three pre-existing pieces:
---   1. PERSON MASTER  : SISO_Library/pipelines/people/leaderboard.yaml  (140 tiered people)
---   2. JOIN TABLE     : SISO_Library/pipelines/youtube/people_video_queue.sqlite (person->video)
+--   1. PERSON MASTER  : SISO_Knowledge/pipelines/people/leaderboard.yaml  (140 tiered people)
+--   2. JOIN TABLE     : SISO_Knowledge/pipelines/youtube/people_video_queue.sqlite (person->video)
 --   3. SATELLITES     : youtube channel_rankings.json (creators) + github repo_card owners
 --
 -- Design law (FOUNDRY-PLAN): one canonical entity table + a thin external_ids model

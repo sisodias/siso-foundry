@@ -1,0 +1,16 @@
+{
+  "seed": "sindresorhus/awesome",
+  "lists_total": 634,
+  "lists_ok": 633,
+  "lists_notfound": 1,
+  "entries": 73216,
+  "unique_repos": 60775,
+  "multi_list_repos": 5809,
+  "entries_with_section": 70351,
+  "distinct_sections": 5435,
+  "entries_with_description": 59440,
+  "owners": 40308,
+  "enriched": 1197,
+  "elapsed_sec": 1043.5,
+  "db": "/Users/shaansisodia/SISO_Workspace/SISO_Research/siso-foundry/pipelines/github/awesome/deep.sqlite"
+}

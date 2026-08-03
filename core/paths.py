@@ -27,13 +27,40 @@ def domain_db(domain: str, name: str = None) -> Path:
     domain: 'github' | 'youtube' | ...
     name:   db filename; defaults per domain.
     """
-    defaults = {"github": "identity.sqlite", "youtube": "queue.db"}
+    defaults = {
+        "github": "identity.sqlite",
+        "youtube": "queue.db",
+        "books": "books.sqlite",
+    }
     fname = name or defaults.get(domain, f"{domain}.sqlite")
 
     root = data_root()
     if domain == "github":
-        return root / "domains" / "github" / "identity" / fname
+        # The github domain is multi-DB: identity is the people/repo spine,
+        # awesome is the curated-list catalog. They live in sibling dirs.
+        # Explicit map, not a filename prefix test -- the prefix version broke
+        # silently when awesome_catalog.sqlite was renamed to
+        # catalog_full.sqlite and started resolving into identity/.
+        GITHUB_SUBDIR = {
+            "identity.sqlite": "identity",
+            "awesome_catalog.sqlite": "awesome",
+            "catalog_full.sqlite": "awesome",
+        }
+        sub = GITHUB_SUBDIR.get(fname, "identity")
+        return root / "domains" / "github" / sub / fname
     return root / "domains" / domain / fname
+
+
+def github_awesome_db() -> Path:
+    """The awesome-list catalog (curated-list membership + inherited sections).
+
+    catalog_full.sqlite, not awesome_catalog.sqlite: the latter was built by
+    crawling outward from one seed repo, and measured, that reached only ~27%
+    of the ecosystem (73% of repos carrying topic:awesome are unreachable from
+    sindresorhus/awesome). The full catalog ingests every cached README
+    regardless of how it was discovered -- see pipelines/github/awesome/.
+    """
+    return domain_db("github", "catalog_full.sqlite")
 
 
 # Convenience: the GitHub identity DB (the one ~all current scripts use).
