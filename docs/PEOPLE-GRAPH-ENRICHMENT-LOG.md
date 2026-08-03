@@ -321,3 +321,148 @@ podcasts, conference talks), which does not currently exist on this machine.**
 That, not name resolution, is the real blocker.
 
 ---
+
+## Round 2 — 2026-08-03/04
+
+### #9 + #10 — recency, lifecycle, liftability (`pipelines/github/load_activity_signal.py`)
+
+Before this the graph could not distinguish a 2011 abandoned repo from last
+week's work — no temporal signal existed on any edge. Source coverage:
+
+```
+$ sqlite3 identity.sqlite "select case when pushed_at is null or pushed_at='' then 'none'
+    when pushed_at>='2025' then 'pushed_2025+' when pushed_at>='2023' then 'pushed_2023_24'
+    when pushed_at>='2020' then 'pushed_2020_22' else 'pushed_pre2020' end b,
+    count(*) from repo_card group by 1 order by 2 desc;"
+pushed_2025+|494167
+pushed_2023_24|295281
+pushed_pre2020|294085
+pushed_2020_22|272370
+none|2297
+
+$ sqlite3 identity.sqlite 'select sum(archived=1), sum(archived=0), sum(archived is null) from repo_card;'
+106994|1248825|2381
+```
+
+Applied:
+
+```
+$ python3 load_activity_signal.py --identity identity.sqlite --graph /tmp/people_v2_gh.sqlite --apply
+{
+  "rows_scanned": 1358200, "edges_matched": 462929, "owner_missing": 895264,
+  "with_pushed": 462929, "with_archived": 38510, "with_lift": 32070,
+  "before": {"edges_with_pushed_at": 0, "edges_with_liftability": 16115, "edges_archived": 23},
+  "after":  {"edges_with_pushed_at": 463221, "edges_with_liftability": 36516, "edges_archived": 38552},
+  "elapsed_s": 26.65
+}
+```
+
+462,929 edges enriched — essentially every github edge in the graph (463,230).
+The 895,264 `owner_missing` rows are repo_cards whose owner was never loaded as
+a person (the owner loader ran with a star floor); they are not losses.
+
+Independent verification using `json_extract` rather than the loader's `LIKE`:
+
+```
+$ sqlite3 people_v2_gh.sqlite "select count(*) from person_content where domain='github'
+    and json_extract(meta_json,'$.pushed_at') is not null;"
+463221
+```
+
+**`observed_at` semantics fixed.** The column's schema comment says "when it was
+true", but it held the load timestamp — when *we looked*. It now carries the
+repo's `pushed_at`:
+
+```
+$ sqlite3 people_v2_gh.sqlite "select substr(observed_at,1,4) yr, count(*) from person_content
+    where domain='github' group by 1 order by 2 desc limit 8;"
+2026|149393
+2025|57945
+2024|55863
+2023|49179
+2022|34406
+2021|25101
+2020|22095
+2019|18160
+```
+
+Previously every row carried a single load date.
+
+**Questions now answerable:**
+
+Active *and* high-value (neither axis existed before round 1):
+
+```
+microsoft|99|87.4|2026-06-23   apache|83|87.8   google|66|87.3
+huggingface|32|89.6            rust-lang|30|90.7  Jensen Huang|26|88.2
+```
+
+Abandoned work — sanity-checks correctly, the archive orgs surface at the top:
+
+```
+microsoft|534  google|524  facebookresearch|368
+facebookarchive|214  googlearchive|204  GoogleCloudPlatform|113
+```
+
+Liftable *and* still maintained — the Foundry's core question:
+
+```
+google|component|87  microsoft|component|77  sindresorhus|component|60
+apache|component|44  symfony|component|37    spatie|component|36
+```
+
+### Idempotency — verified for all three loaders
+
+Every loader was re-run with `--apply` after its first successful run. All
+counters identical before/after, i.e. no double-writes:
+
+```
+load_repo_value.py      303403 / 2024149 / 309716  ->  303403 / 2024149 / 309716
+load_awesome_signal.py  2024149 / 53072 / 64411    ->  2024149 / 53072 / 64411
+load_activity_signal.py 463221 / 36516 / 38552     ->  463221 / 36516 / 38552
+```
+
+### Note on overlapping sources
+
+`edges_with_liftability` was already 16,115 before this loader ran —
+`load_repo_value.py` writes `liftability` from `repo_category`, while this one
+writes it from `bank_liftable_ranked` (32,071 repos, plus `unit_class`). The two
+sources agree on the field name and do not conflict; the ranked table is richer
+and wins where both exist. Final: 36,516 edges.
+
+### #5 — person↔person co-membership: MEASURED AND REJECTED for now
+
+The graph has no person↔person representation at all, so this looked like the
+obvious next build. It is not tractable as a naive co-membership table:
+
+```
+$ sqlite3 people_v2_gh.sqlite "select sum(n*(n-1)/2) from
+    (select count(distinct person_id) n from person_topic where scheme='gh_category' group by topic);"
+720107620
+```
+
+**720 million pairs.** The largest categories:
+
+```
+self-hosted-application|15799
+client-library-sdk|14479
+cli-utility|10900
+```
+
+15,799 owners in one category is 124.8M pairs from that category alone, and a
+co-membership edge at this granularity carries almost no information — "both
+wrote a CLI utility" is not a relationship. Deferred pending a design that gates
+on something scarcer (shared *rare* category, co-citation within the same
+awesome-list section, or genuine co-contribution, which this data does not have).
+Recorded here so it is not re-attempted naively.
+
+### Round 2 totals
+
+| metric | before | after |
+|---|---|---|
+| edges with `pushed_at` | 0 | 463,221 |
+| edges with `liftability` | 16,115 | 36,516 |
+| edges with `archived` | 23 | 38,552 |
+| `observed_at` = truth-time | no | yes (2019–2026 spread) |
+
+---
