@@ -2163,3 +2163,77 @@ for exactly this. Registry people are hand-curated and few (140), so this is a
 small, bounded, high-precision matching job — unlike the github↔books stitch,
 which is measured dead. **Recorded, not attempted**, since it is a new piece of
 work rather than a fix to something shipped.
+
+### #21 — registry identity claims (`pipelines/link_registry_identities.py`)
+
+The duplicate-person problem found via `ask.py` in the previous round, addressed
+for the population where it is tractable. 113 of 140 hand-curated registry
+people had no output attached:
+
+```
+$ select count(*) total, sum(person_id in (select person_id from person_content))
+  from person where origin='registry';
+140|27
+```
+
+**Why this works where the book stitch does not.** The github↔books stitch is
+measured dead across three sample sizes — Gutenberg is a public-domain corpus of
+dead people. The registry is the opposite population: living technologists,
+exactly the people who have GitHub accounts. Measured:
+
+```
+match via github real_name : 6
+match via book name        : 0
+```
+
+Applied — 5 confident, 1 ambiguous, 107 no-match:
+
+```
+claim_id|person_a      |person_b        |confidence|status
+1|andrew-ng      |gh:andrewyng    |0.9|proposed
+2|gh:t3dotgg     |theo-browne     |0.9|proposed
+3|gh:rauchg      |guillermo-rauch |0.9|proposed
+4|gh:gwern       |gwern-branwen   |0.9|proposed
+5|adam-smith     |gh:ScriptSmith  |0.4|proposed
+6|ben-thompson   |gh:tbenthompson |0.9|proposed
+```
+
+**Nothing is merged.** Every row is `status='proposed'`; confidence carries how
+sure the matcher is, status carries whether a human agreed. Collapsing the two
+is how a 0.9 guess silently becomes a merge, and `merged_into` being
+non-destructive only helps if the bad merge was a decision someone *made*.
+
+**Ambiguity is the normal case, not an edge case.** "Adam Smith" matched three
+logins (`gh:adchsm`, `gh:ScriptSmith`, `gh:adamsmith`) and is also plausibly the
+18th-century economist rather than any GitHub user. A loader taking the first
+candidate would have asserted that the author of *The Wealth of Nations*
+maintains a JavaScript library — the same class of error as the mononym
+collisions on the books side. It is stored at confidence 0.4 with every
+candidate listed in `evidence`.
+
+### A bug caught by the idempotency check itself
+
+First `--apply` wrote 6 claims. Re-running produced **12**:
+
+```
+=== IDEMPOTENCY ===
+{"identity_claims": 12, "proposed": 12}
+```
+
+`INSERT OR IGNORE` cannot dedupe this table: `claim_id` is an autoincrement
+PRIMARY KEY, so every row is unique by construction, and `CHECK (person_a <
+person_b)` gives canonical ordering but no uniqueness constraint. Fixed by
+reading existing pairs and inserting only new ones — which also means a claim a
+human has moved off `proposed` is never overwritten by a re-run.
+
+The 6 duplicates were removed targeting exactly those rows
+(`delete where claim_id not in (select min(claim_id) ... group by person_a,
+person_b)`), keeping the earliest claim per pair. Re-verified:
+
+```
+re-run 1: {"already_claimed": 6, "after": {"identity_claims": 6}}
+re-run 2: {"already_claimed": 6, "after": {"identity_claims": 6}}
+```
+
+Worth noting the idempotency check has now earned its place twice: it is the
+only reason this bug was found before the table filled with duplicates.
