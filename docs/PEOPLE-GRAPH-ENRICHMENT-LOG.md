@@ -1995,3 +1995,61 @@ DB (C3).
 **Worth generalising:** an index on `col` does NOT serve `lower(col)`. If a
 codebase joins case-insensitively anywhere, it needs expression indexes, and the
 absence shows up as "this query is mysteriously slow" rather than as an error.
+
+### Migration applied to the working graph (not just benchmarked)
+
+The benchmark above ran on a snapshot. Applying to the live working copy is the
+step that matters, and it initially FAILED because the `sqlite3` CLI does not
+wait on a lock:
+
+```
+$ sqlite3 /tmp/people_v2_gh.sqlite < core/add_lower_indexes.sql
+Runtime error near line 55: database is locked (5)
+Runtime error near line 60: database is locked (5)
+Runtime error near line 63: database is locked (5)
+```
+
+Re-applied through a connection with `busy_timeout=3600000` so it queues behind
+the running enrich instead of failing:
+
+```
+3.7s ix_person_name_lower
+0.4s ix_extid_value_lower
+1.3s ix_ptopic_topic_lower
+0.5s ix_pc_ref_lower
+DONE
+```
+
+**5.9 seconds total, applied cleanly alongside a live writer.** Verified on the
+working graph rather than the snapshot:
+
+```
+topic lookup  0.001s  -> 630
+extid login   0.000s  -> 1
+name join     0.173s  -> 28 rows
+```
+
+Matches the snapshot figures. **Lesson: benchmarking a migration on a throwaway
+copy proves the plan, not the deployment.** The perf claim was briefly reported
+as live when only the snapshot had it.
+
+### Stitch finding re-confirmed at a larger sample
+
+The name join now returns more rows than when it was first inspected, because
+the enrich keeps resolving names. Re-checked rather than assumed:
+
+```
+distinct_matches 16
+multi_word (potential REAL links): 0
+
+Alain|1868-1951      Horace|-66 to -9     Pansy|1841-1930
+Aragon|1897-1982     Levi|1844-1911       Parallax|1816-1884
+Ariel|1799-1883      Casey|1864-1932      Timur|1336-1405
+Evangeline|1806-1877 Florian|1755-1794    Vera|1865
+Gildas|516-570       maria|1846-1916      saki|1870-1916
+```
+
+**Zero multi-word matches at any sample size tested** (851 names → 29,672 →
+current). Every match is a single-word mononym collision. The conclusion is now
+robust to population growth, which is a stronger claim than the original
+single-sample verdict.
