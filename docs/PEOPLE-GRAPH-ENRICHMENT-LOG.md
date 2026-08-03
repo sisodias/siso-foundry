@@ -1141,3 +1141,58 @@ google|1.0|72|87                         facebookresearch|1.0|23|87
 
 Idempotent: re-run gives `328846 / 2379475` → unchanged.
 
+
+### CORRECTION — why idea #7 (enrich_owners) had barely moved
+
+Both prior `enrich_owners.py` runs were reported as completing their batches.
+They did not. They were **running unauthenticated at 60 requests/hour.**
+
+```
+$ cat /tmp/enrich_batch2.out
+{
+  "considered": 4500, "fetched": 49, "users": 24, "orgs": 25,
+  "errors": 1, "rate_limited": true, "elapsed_s": 18.56
+}
+```
+
+4,500 owners considered, **49 fetched**, then rate-limited after 18 seconds.
+The first run showed the same shape (149 of 245,166). Meanwhile the account's
+authenticated budget was untouched:
+
+```
+$ gh api rate_limit --jq '.resources.core'
+{"limit":5000,"remaining":5000,"used":0}
+```
+
+Cause, found by reading the script rather than guessing:
+
+```
+$ grep -n 'token\|Authorization' /tmp/enrich_owners.py
+57:def fetch(login, token):
+63:            **({"Authorization": f"Bearer {token}"} if token else {}),
+167:  ap.add_argument("--token", default=os.environ.get("GITHUB_TOKEN"))
+```
+
+The token is optional and defaults to `GITHUB_TOKEN`. Neither prior invocation
+passed `--token` or exported that variable, so every request went out
+anonymously — 60/hr, not 5,000/hr, an **83× throughput loss**.
+
+Relaunched correctly with `GITHUB_TOKEN=$(gh auth token)` and `--sleep 0.75`
+(~4,800/hr, just under the limit). Verified authenticated by watching the budget
+actually draw down:
+
+```
+$ gh api rate_limit --jq '.resources.core | "remaining=\(.remaining) used=\(.used)"'
+remaining=4966 used=34
+```
+
+**Lesson recorded:** `rate_limited: true` in a loader's own summary is not proof
+of a hard external ceiling — check *which* ceiling. An unauthenticated client
+hits a limit 83× lower and reports it identically. Two runs and several hours
+were spent before anyone read the auth path.
+
+Revised estimate for #7: at ~4,800/hr against 235,732 unresolved owners, full
+`kind` resolution is roughly **49 hours of wall clock**, not the ~50 hours at
+4k/batch previously implied — the difference being that it now actually
+progresses.
+
