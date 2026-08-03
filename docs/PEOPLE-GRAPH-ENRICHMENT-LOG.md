@@ -531,3 +531,103 @@ are different claims from different passes.
 
 Idempotent: re-run `--apply` gives `898 / 760` → `898 / 760`, unchanged.
 
+
+### #4 — the topic bridge (`pipelines/build_topic_bridge.py`)
+
+Identity stitching is dead (see the negative result above). But the two
+populations are not different SUBJECTS, only different people. 819 topic strings
+appear verbatim in both the LCSH and github-topic vocabularies:
+
+```
+$ sqlite3 people_v2_gh.sqlite "select count(*) from (
+    select distinct lower(topic) from person_topic where scheme='lcsh'
+    intersect
+    select distinct lower(topic) from person_topic where scheme='github_topic');"
+819
+
+$ sqlite3 people_v2_gh.sqlite "select scheme, count(distinct topic) from person_topic group by 1;"
+curated|1
+gh_category|264
+github_lang|463
+github_topic|189739
+lcsh|40622
+```
+
+Applied:
+
+```
+$ python3 build_topic_bridge.py --graph /tmp/people_v2_gh.sqlite --apply
+{
+  "shared_terms": 819, "dropped_stopword": 57, "dropped_too_broad": 0,
+  "bridge_terms": 762, "bridge_rows": 26480,
+  "distinct_people": 22466, "book_people": 5281,
+  "before": {"bridge_rows": 0, "person_topic_total": 2024149},
+  "after":  {"bridge_rows": 26480, "person_topic_total": 2050629},
+  "elapsed_s": 3.12
+}
+```
+
+**22,466 people** (5,281 book + 17,185 github) are now reachable from a single
+predicate instead of requiring the caller to know which namespace to ask.
+
+**The payoff — one query, both populations:**
+
+```
+$ -- scheme='bridge' AND topic='cryptography'
+BOOK:   Hitt, Parker | Jacob, P. L. | Simonetta, Cicco | Ball, W. W. Rouse
+GITHUB: Bitcoin | Filippo Valsorda | Autumn (Bee) | Zama
+
+$ -- scheme='bridge' AND topic='astronomy'
+BOOK:   Dolmage, Cecil | Maunder, E. Walter | Langley, S. P. | Rolfe, W. J.
+GITHUB: Stellarium | PWhiddy | astropy | dfm
+```
+
+Parker Hitt (author of the 1916 *Manual for the Solution of Military Ciphers*)
+now returns alongside Filippo Valsorda (Go cryptography) from one query. Per-term
+population split:
+
+```
+algorithms|4|630   astronomy|51|102   cryptography|7|588   economics|64|60
+```
+
+**Design constraints, stated because they are what keep this honest:**
+
+- **Exact match only.** No stemming, no fuzzy matching, no embeddings. LCSH is a
+  controlled vocabulary ("Science fiction, American"); github topics are
+  free-text. Fuzzy matching across those generates plausible-looking garbage —
+  precisely the failure mode the name-stitch attempt already demonstrated.
+- **Stopword gate:** 57 of 819 shared strings dropped ('air', 'ability',
+  'actors') — shared strings, not shared subjects.
+- **Breadth gate** at 10% of either population. Nothing tripped it this run
+  (`dropped_too_broad: 0`), but it stays as a guard.
+
+Idempotent: re-run `--apply` gives `26480 / 2050629` → unchanged.
+
+**PERFORMANCE NOTE — a real bug, fixed.** The first implementation ran two
+`COUNT(DISTINCT ...)` queries per term. The existing index is
+`person_topic(topic, scheme)`, which **cannot serve `lower(topic)`**, so each of
+1,638 queries was a full scan of ~2M rows (~0.25 s each). Measured:
+
+```
+$ time sqlite3 people_v2_gh.sqlite "select count(distinct person_id) from person_topic
+    where scheme='github_topic' and lower(topic)='algorithms';"
+630
+0.246 total
+```
+
+It was still running after ~15 minutes. Rewritten as a single set-based sweep
+that buckets by `lower(topic)` in one pass: **1.33 s**, a >600× speedup for
+identical output. Worth recording as a general trap: an index on `col` does not
+serve `lower(col)`.
+
+### Round 3 totals
+
+| metric | before | after |
+|---|---|---|
+| person_topic | 2,024,149 | 2,050,629 |
+| bridge rows | 0 | 26,480 |
+| edges with `downloads` | 36 | 898 |
+| edges with `fame_gap` | 0 | 760 |
+| people reachable cross-population by topic | 0 | 22,466 |
+
+---
