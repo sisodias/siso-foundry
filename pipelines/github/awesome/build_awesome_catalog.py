@@ -120,6 +120,22 @@ CREATE INDEX IF NOT EXISTS ix_repo_lists    ON repo(list_count);
 # URLs (gists, orgs, /topics/) in normalise().
 LINK_RE = re.compile(r"https?://(?:www\.)?github\.com/([A-Za-z0-9][\w.-]*)/([\w.-]+)")
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.*?)\s*#*$")
+
+# GitHub's detected-language names, used ONLY to spot star dumps grouped by
+# language (see is_list_readme). Deliberately includes non-curatable ones like
+# Batchfile and Dockerfile -- their presence as a heading is the tell.
+_GH_LANGUAGES = {
+    "ActionScript", "Assembly", "Astro", "Batchfile", "C", "C#", "C++",
+    "CMake", "COBOL", "CSS", "Clojure", "CoffeeScript", "Crystal", "Cuda",
+    "D", "Dart", "Dockerfile", "Elixir", "Elm", "Emacs Lisp", "Erlang",
+    "F#", "Fortran", "GDScript", "Go", "Groovy", "HCL", "HTML", "Handlebars",
+    "Haskell", "Java", "JavaScript", "Julia", "Jupyter Notebook", "Kotlin",
+    "LLVM", "Lua", "MDX", "Makefile", "Markdown", "Nim", "Nix", "OCaml",
+    "Objective-C", "Objective-C++", "PHP", "PLpgSQL", "Perl", "PowerShell",
+    "Python", "R", "Roff", "Ruby", "Rust", "SCSS", "Scala", "Scheme",
+    "ShaderLab", "Shell", "Smarty", "Solidity", "Svelte", "Swift", "TeX",
+    "TypeScript", "V", "Vim Script", "Vue", "Zig", "Others", "Unknown",
+}
 # "- [name](url) - description"  /  "* [name](url) — description"
 DESC_RE = re.compile(r"^[-*+]\s+\[[^\]]*\]\([^)]*\)\s*[-–—:]\s*(.+)$")
 
@@ -351,20 +367,55 @@ def is_list_readme(text, min_links=20, min_ratio=0.05):
     """
     if not text:
         return False, {"reason": "empty"}
+
+    # Reject AUTO-GENERATED star dumps. Tools like `starred` and
+    # github-stars-generator emit a README of someone's starred repos grouped
+    # by language, titled "Awesome Stars". These are not editorial judgements
+    # -- nobody chose the set, a bot exported it -- and because hundreds of
+    # unrelated repos land under a single "Python" heading they severely
+    # corrupt the co-occurrence graph. Measured 2026-08-04: 2 such lists
+    # carried 15,434 entries, 5.9% of the entire corpus.
+    head = text[:4000]
+    if re.search(r"(?im)^\s*#\s*(awesome\s+stars|my\s+stars|starred\s+repositories)\b", head):
+        return False, {"reason": "auto-generated star dump"}
+    if re.search(r"(?i)(github-stars-generator|maguowei/starred|awesome-stars\s+generator)", head):
+        return False, {"reason": "star-dump generator signature"}
+
     _, entries = parse_readme(text)
     n_links = len(entries)
     n_lines = max(1, len(text.splitlines()))
     linked = len({e["target"] for e in entries})
     with_section = sum(1 for e in entries if e["section"])
     ratio = n_links / n_lines
+    # A large list with almost no headings is machine filler, not curation:
+    # the whole value here is that a human SORTED things. Measured:
+    # awesome-interview-questions-5000-jobs had 4,462 entries under ONE
+    # section. Small lists legitimately have few headings, so this only
+    # applies past the point where a human would obviously have subdivided.
+    n_sections = len({e["section"] for e in entries if e["section"]})
+    unsorted_bulk = n_links > 300 and n_sections <= 2
+
+    # Star dumps whose title lacks the generator marker still betray
+    # themselves: `maguowei/starred` groups by GitHub's DETECTED LANGUAGE, so
+    # the headings are bare language names -- including ones no human curates
+    # ("Batchfile", "Dockerfile", "Handlebars", "CoffeeScript"). A real
+    # language list has topical subheadings; a dump has only the languages.
+    # Observed on r44cx/stars: 758 links, 42 sections, every one a language.
+    secs = {(e["section"] or "").strip() for e in entries if e["section"]}
+    lang_like = sum(1 for s in secs if s in _GH_LANGUAGES)
+    language_dump = len(secs) >= 8 and lang_like >= len(secs) * 0.8
+
     is_list = (
         n_links >= min_links
         and ratio >= min_ratio
         and with_section >= n_links * 0.5
+        and not unsorted_bulk
+        and not language_dump
     )
     return is_list, {
         "links": n_links, "unique": linked, "lines": n_lines,
         "ratio": round(ratio, 3), "with_section": with_section,
+        "sections": n_sections, "unsorted_bulk": unsorted_bulk,
     }
 
 
@@ -392,7 +443,20 @@ def harvest(conn, repo, depth, cache_dir):
 
 
 def rollup(conn):
-    """Recompute repo + owner_signal from entry. Idempotent; never additive."""
+    """Recompute repo + owner_signal from entry. Idempotent; never additive.
+
+    Enrichment (stars/language/pushed_at/archived) is preserved across the
+    rebuild. It comes from the GitHub API and costs one request per repo, so
+    a DELETE FROM repo silently discards work that is expensive to redo --
+    observed: a routine re-ingest dropped 1,197 enriched rows to 0, and it was
+    only caught because an unrelated cleanup compared two DBs.
+    """
+    saved = {
+        r[0]: r[1:] for r in conn.execute(
+            "SELECT full_name, stars, language, topics_json, pushed_at,"
+            " archived, created_at, enriched_at FROM repo"
+            " WHERE enriched_at IS NOT NULL")
+    }
     conn.execute("DELETE FROM repo")
     conn.execute("""
       INSERT INTO repo(full_name, owner, name, list_count, description)
@@ -405,6 +469,13 @@ def rollup(conn):
                LIMIT 1)
       FROM entry e GROUP BY e.target_repo
     """)
+    # Restore the enrichment onto the freshly rebuilt rows.
+    if saved:
+        conn.executemany(
+            "UPDATE repo SET stars=?, language=?, topics_json=?, pushed_at=?,"
+            " archived=?, created_at=?, enriched_at=? WHERE full_name=?",
+            [(*vals, full) for full, vals in saved.items()])
+
     conn.execute("DELETE FROM owner_signal")
     # NOTE: the obvious formulation -- correlated subqueries over entry keyed on
     # substr(target_repo,...) -- is accidentally quadratic: substr() defeats the
