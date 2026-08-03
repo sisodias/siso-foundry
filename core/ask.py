@@ -35,17 +35,32 @@ import sys
 # Where each domain's index lives, in resolution order. First hit wins.
 # Deliberately a list rather than a config file: the search order IS the policy,
 # and burying it in config makes it invisible.
+#
+# CANONICAL PATHS COME FIRST, cwd-relative names LAST. The original order had it
+# the other way round, and the failure is silent rather than loud.
+#
+# Observed 2026-08-04: run from /tmp this reported 35,834 people; run from ~ it
+# reported 280,722 -- same command, same machine, same minute. The file it found
+# in /tmp was not junk, which is what makes this dangerous: reading its contents
+# shows an earlier checkpoint of this same graph (books 35,363 and registry 140
+# identical to the promoted copy, but github 297 against the promoted 245,171 --
+# i.e. the state before the GitHub owner load). A plausible, structurally valid,
+# months-of-work-missing answer is the worst possible failure mode, because the
+# wrong answer looks exactly like the right one.
+#
+# A bare filename is still honoured last, so working on a local copy remains
+# possible -- it just no longer shadows the promoted database by accident.
 CANDIDATES = {
     "people": [
-        "people_v2.sqlite",
         "~/foundry-data/domains/people/people_v2.sqlite",
-        "~/foundry-data/domains/people/people.sqlite",
         "/Volumes/SISO-STORAGE-VAULT/foundry-data/domains/people/people_v2.sqlite",
+        "~/foundry-data/domains/people/people.sqlite",
+        "people_v2.sqlite",
     ],
     "books": [
-        "books.sqlite",
         "~/foundry-data/domains/books/books.sqlite",
         "/Volumes/SISO-STORAGE-VAULT/library/_catalog/books.sqlite",
+        "books.sqlite",
     ],
     "github": [
         "~/foundry-data/domains/github/identity/identity.sqlite",

@@ -2053,3 +2053,113 @@ Gildas|516-570       maria|1846-1916      saki|1870-1916
 current). Every match is a single-word mononym collision. The conclusion is now
 robust to population growth, which is a stronger claim than the original
 single-sample verdict.
+
+## Round 13 — 2026-08-04 — promoted out of /tmp, and the query surface works
+
+### The graph was in /tmp the entire session
+
+Every loader in this log wrote to `/tmp/people_v2_gh.sqlite` on a machine where
+`/tmp` is not durable. Twelve rounds of enrichment sat on a volume that a reboot
+clears. Promoted:
+
+```
+promoted 2.2s person=280722 content=564579 topic=2450492 extid=550965 bytes=1083887616
+-> ~/foundry-data/domains/people/people_v2.sqlite
+```
+
+**Copied with `Connection.backup()`, not `cp`** — there was a **1.8 GB WAL file**
+beside the 938 MB main file, and a plain copy would have silently dropped every
+write in it (the same trap that produced `database disk image is malformed`
+earlier). Swapped into place with `os.replace()` so a canonical file is never
+observed half-written.
+
+The pre-existing `people.sqlite` (471 people, a v1 relic) is untouched beside it.
+
+### /tmp cleanup — classified by reading, not by filename
+
+Two files there were **not mine** and predated this session. They were preserved,
+not deleted:
+
+```
+books.sqlite      181 MB, 79,071 books   -> ~/foundry-data/domains/books/
+people_v2.sqlite   35,834 people         -> _snapshots/people_v2.books-only.sqlite
+```
+
+Also preserved: the PRE-ENRICH baseline (the rollback point) and
+`passage_summary.sqlite` (13 minutes to rebuild).
+
+Only then were redundant copies removed, and redundancy was **proven by row
+count first**:
+
+```
+promoted (canonical)  280722 people / 564579 edges / 2450492 topics
+snap_stitch           280722 people / 564579 edges   <- exact duplicate
+bench                 280722 people / 564579 edges   <- exact duplicate
+people_graph_snapshot 280708 people / 564486 edges   <- superseded state
+stitch_test           280708 people / 564486 edges   <- superseded state
+```
+
+3.3 GB reclaimed.
+
+### A silent wrong-source bug in `core/ask.py`
+
+`ask.py` already existed and already looked for `people_v2.sqlite` — so the
+query surface did not need building, only pointing at real data. But its
+`CANDIDATES` list put a **bare relative filename ahead of the canonical path**:
+
+```
+"people": ["people_v2.sqlite", "~/foundry-data/domains/people/people_v2.sqlite", ...]
+```
+
+Measured consequence, same command, same machine, same minute:
+
+```
+from /tmp     -> /tmp/people_v2.sqlite                       (35,834 people)
+from ~        -> ~/foundry-data/.../people_v2.sqlite         (280,722 people)
+```
+
+**The file it found in /tmp was not junk, which is what makes this dangerous.**
+Reading its contents shows an earlier checkpoint of this same graph — books
+35,363 and registry 140 identical to the promoted copy, but github 297 against
+245,171, i.e. the state before the GitHub owner load. A plausible, structurally
+valid, 245,000-people-missing answer is the worst failure mode available,
+because it looks exactly like a correct one.
+
+Fixed by ordering canonical paths first and the bare filename last (still
+honoured, so local-copy workflows survive; it just cannot shadow the promoted
+DB by accident). Verified cwd-independent:
+
+```
+from /tmp     -> …/foundry-data/domains/people/people_v2.sqlite (280722 people)
+from ~        -> …/foundry-data/domains/people/people_v2.sqlite (280722 people)
+from /        -> …/foundry-data/domains/people/people_v2.sqlite (280722 people)
+```
+
+### The query surface, working
+
+```
+$ ask.py --who "Karpathy"
+andrej-karpathy | produced: github 52, youtube_video 4
+  topics: AI / Machine Learning Core, llm-inference-runtime, nlp-text-library,
+          autonomous-agent-tool, ml-inference-model, Blockchain / Web3
+
+$ ask.py --who "Spinoza"
+bk:spinoza, benedictus de|1632-1677 | lived 1632-1677 | produced: book 13
+  topics: Ethics, Free thought -- Early works to 1800, Philosophy and religion…
+```
+
+Thirteen enrichment layers are reachable through one command.
+
+### Found, not fixed: duplicate person records
+
+`--who Spinoza` returns TWO people — `baruch-spinoza` (registry, **0 edges**) and
+`bk:spinoza, benedictus de|1632-1677` (books, 13 edges). Same human, two
+person_ids, no link between them. `--who Karpathy` shows the merged case working
+correctly (registry id carrying both github and youtube edges), so the mechanism
+exists and simply was not applied to the registry↔books pair.
+
+The schema has `person.merged_into` and an empty `identity_claim` table designed
+for exactly this. Registry people are hand-curated and few (140), so this is a
+small, bounded, high-precision matching job — unlike the github↔books stitch,
+which is measured dead. **Recorded, not attempted**, since it is a new piece of
+work rather than a fix to something shipped.
