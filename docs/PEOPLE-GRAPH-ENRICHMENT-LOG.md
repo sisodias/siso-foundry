@@ -1780,3 +1780,67 @@ This also retires the last remaining justification for the enrich grind as a
 *stitch* enabler. Its value is `kind` resolution and contact fields, which it is
 delivering — 232,929 → 184,208 unknowns so far.
 
+
+### #19 — geography and affiliation (`pipelines/github/load_geo_affiliation.py`)
+
+The GraphQL enrich collects two fields REST never did, and nothing consumed
+them. As raw strings they are barely queryable:
+
+```
+San Francisco, CA|410      Google |142
+San Francisco    |362      @google| 57
+Beijing, China   |319      Microsoft|97
+Beijing          |317
+```
+
+```
+$ python3 load_geo_affiliation.py --graph people_v2.sqlite --apply
+{
+  "location_raw": 32208, "location_kept": 31376, "country_rollups": 6557,
+  "company_raw": 15107, "company_kept": 14877, "topic_rows": 52810,
+  "before": {"geo": 0, "org": 0},
+  "after":  {"geo": 37933, "org": 14877}
+}
+```
+
+Two new queryable dimensions:
+
+```
+$ -- gh_family='AI / Machine Learning Core' AND geo='berlin'
+ahmedeltaher | Abdul Fatir | Serhii Potapov | Eduardo Lacerda | Bo Liu
+
+$ -- orgs ranked by average rated value of their people's work
+igalia|5 people|68.9      photoroom|6|65.7
+cursor|5|65.9             cornell university|7|64.7
+cmu  |8|65.9              atlassian|13|63.8
+```
+
+Normalisation is deliberately conservative — lowercase, strip `@`, drop a small
+explicit noise list (`remote`, `earth`, `freelance`), and map high-frequency
+aliases observed in THIS data. It does **not** geocode: "Bay Area" is not
+resolved, and unrecognised values pass through normalised-but-unmapped rather
+than guessed. A country roll-up is emitted only where the string names a country
+or carries a known city→country mapping. **A wrong geography is worse than a
+missing one.** Raw strings stay untouched in external_ids.
+
+Idempotent: `37933 / 14877` → unchanged.
+
+---
+
+## Session state — checkpoint
+
+**Loaders shipped (13, all verified idempotent):** repo value, awesome signal,
+activity, adoption, topic bridge, momentum, passages, legal lane, family topics,
+book edges, youtube hosts, cross-domain rank, geo/affiliation. Plus the GraphQL
+enricher replacing the REST one.
+
+**Working copy:** `/tmp/people_v2_gh.sqlite` on the mini. Canonical
+`~/foundry-data/domains/people/people.sqlite` never written (C3).
+Backup: `/tmp/people_v2_gh.PRE-ENRICH-20260803-174831.sqlite`.
+
+**Still running:** `enrich_owners_graphql.py` — kind unknown 232,929 → ~184,000
+and falling. Monitor armed (task bqz2qqf5i).
+
+**Open, not started:** per-gid book subjects (needed for "what is THIS book
+about"); a contemporary corpus (the real unlock for cross-domain identity);
+capping the enrich to top-N owners by value rather than the full 245k.
