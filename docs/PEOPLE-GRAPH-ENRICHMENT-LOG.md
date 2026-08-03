@@ -1661,3 +1661,100 @@ collected at all — they cost nothing extra inside a query already being made.
 62,000 of 77,540 books summarised, versus the 500 the per-passage builder
 managed before crashing. Same segmentation functions, so the counts are
 identical to what the 30 GB table would have held.
+
+## Round 12 — 2026-08-04 — full book text, and five attempts at a fair ranking
+
+### Passage summary complete
+
+```
+$ python3 build_passage_summary.py --tar txt-files.tar --db passage_summary.sqlite
+{
+  "books_total": 77539, "passages_represented": 41501325,
+  "words_total": 4676260710, "db_bytes": 3907584, "elapsed_s": 789.22
+}
+```
+
+**77,539 books · 41.5M passages · 4.68 billion words · 3.9 MB · 13 minutes.**
+The per-passage equivalent was projected at 30.6 GB and could not fit on the
+disk. Integrity checks: zero books with zero passages, 76 with under 100 words.
+
+Loaded:
+
+```
+$ python3 load_passage_signal.py --passages passage_summary.sqlite --graph … --apply
+{
+  "passage_books": 77539, "matched_gids": 72467,
+  "edges_to_update": 100757, "distinct_people": 35219,
+  "before": {"book_edges_with_text": 606},
+  "after":  {"book_edges_with_text": 100757}
+}
+```
+
+**606 → 100,757 edges; 442 → 35,219 people.** Book text coverage went from 1.25%
+of the population to essentially all of it.
+
+```
+Dumas, Alexandre        |184 works|18,726,168 words
+Scott, Walter           |134|14,884,280
+Dickens, Charles        |180|14,787,374
+Oliphant, Mrs. (Margaret)|143|13,581,253
+Balzac, Honoré de       |153|12,181,891
+```
+
+### Five attempts at cross_score, and the arithmetic that settled it
+
+The target is **proportional representation**: github holds 87.3% of the graph
+and books 12.6%, so a sound ranking puts ~873 github / ~126 books in the top
+1,000. Neither 1000/0 nor 50/50 is "fair" — proportional is. Measured:
+
+| version | breadth treatment | top-1000 result |
+|---|---|---|
+| v1 | `/ 5` fixed | **997 github** — books cap at 40%, only 2 keys exist |
+| v2 | `/ max-in-origin` | **866 BOOKS** — flat +25 domain bonus |
+| v3 | percentile, 0 when tied | **993 github** — books axis zeroed entirely |
+| v4 | percentile, midpoint ties | **997 github** — books all share one midpoint |
+| **v5** | **removed from the score** | **871 gh / 125 bk / 3 reg / 1 yt** |
+
+Every failure traced to one root cause: **`evidence_breadth` measures how well
+instrumented a DOMAIN is, not how significant a PERSON is.**
+
+```
+$ select origin, evidence_breadth, count(*) from cross_rank group by 1,2;
+books |0|   147      github|0| 69899
+books |2| 35216      github|1|113153
+                     github|2| 41148
+                     github|3| 17407
+                     github|4|  3365
+                     github|5|   199
+```
+
+**35,216 of 35,363 book people sit at exactly 2.** The axis is constant there,
+so it can only ever act as a domain-level thumb on the scale — in whichever
+direction the normalisation happens to push.
+
+v5 drops it from `cross_score` and keeps it as a stored column, because "how
+much do we know about this person" is genuinely useful; it is simply not a
+component of significance. Ranking now rests on percentile-within-domain, which
+means the same thing in every corpus, plus a 10% multi-domain bonus.
+
+```
+$ top 1000:  github|871  books|125  registry|3  youtube|1
+  expected:  github 873  books 126  registry 0.5 youtube 0.2
+$ top 5000:  github|4361 books|635  registry|3  youtube|1
+```
+
+Within a couple of people of proportional, and all four domains present.
+
+```
+Jensen Huang       |registry|96.7      Shakespeare, William|books |93.3
+Andrej Karpathy    |registry|96.0      CodeCrafters        |github|93.3
+Fireship           |github  |95.8      react               |github|93.3
+Simon Willison     |registry|95.4      Widger, David       |books |93.3
+Fireship           |youtube |93.3      The Algorithms      |github|93.3
+```
+
+**Tie handling also fixed along the way.** Both percentile axes used ordinal
+position, which spread github's 69,899 people tied at rank_score 0 across a
+0–28 range purely by sort order — array-position noise presented as signal.
+Both now assign the midpoint of the tie block.
+

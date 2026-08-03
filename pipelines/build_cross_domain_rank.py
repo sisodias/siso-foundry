@@ -119,37 +119,93 @@ def build(graph_db, apply_changes):
     for pid, origin, score in people:
         by_origin.setdefault(origin, []).append((score, pid))
 
+    # Midpoint-of-tie-block, same as the evidence axis below. GitHub has 69,899
+    # people on rank_score 0; spreading them 0..28 by sort order would be pure
+    # array-position noise.
     percentile = {}
     for origin, rows in by_origin.items():
         rows.sort()
         n = len(rows)
-        for i, (_, pid) in enumerate(rows):
-            # Ties get the same rank as the lowest of the tie group would be
-            # unfair to a large flat tail; simple ordinal percentile is honest
-            # enough at this scale and is documented rather than hidden.
-            percentile[pid] = (i / (n - 1) * 100.0) if n > 1 else 100.0
+        i = 0
+        while i < n:
+            j = i
+            while j < n and rows[j][0] == rows[i][0]:
+                j += 1
+            mid = (i + j - 1) / 2.0
+            val = (mid / (n - 1) * 100.0) if n > 1 else 50.0
+            for k in range(i, j):
+                percentile[rows[k][1]] = val
+            i = j
 
-    # Evidence breadth must be scored against what is ACHIEVABLE in a domain,
-    # not against a global constant. GitHub edges can carry 5 of these keys;
-    # book edges can carry at most 2 (has_text, text_addressable). A fixed /5
-    # denominator therefore caps every author at 40% of the breadth axis for
-    # reasons that have nothing to do with the person -- which is exactly the
-    # bias that put 997 of the first 1,000 GitHub. Normalise per origin.
-    max_ev = {}
+    # Evidence breadth is scored as a PERCENTILE WITHIN THE ORIGIN, for the same
+    # reason rank_score is. Two earlier attempts both failed, in opposite
+    # directions, and the failures are instructive:
+    #
+    #   fixed /5 denominator     -> top 1000 was 997 github. Book edges can only
+    #                               ever carry 2 of the 5 keys, capping every
+    #                               author at 40% of the axis.
+    #   /max-achievable-in-origin-> top 1000 was 866 books. 35,216 of 35,363
+    #                               book people sit at EXACTLY breadth=2, so the
+    #                               axis became a flat +25 domain bonus while
+    #                               github's median author earned ~+5.
+    #
+    # The second is the worse bug: an axis that is constant within a domain is
+    # not measuring the person at all. A within-origin percentile is zero when
+    # everyone is tied, so a domain with no internal variation contributes
+    # nothing here rather than a free bonus -- and github, which does vary,
+    # still gets discriminated.
+    ev_by_origin = {}
     for pid, origin, _ in people:
-        ev = len(breadth.get(pid, ()))
-        if ev > max_ev.get(origin, 0):
-            max_ev[origin] = ev
+        ev_by_origin.setdefault(origin, []).append((len(breadth.get(pid, ())), pid))
 
+    # Ties share the MIDPOINT of their block rather than being spread by array
+    # position. With 35,216 book people tied at breadth=2 the ordinal version
+    # handed the last of them 100 and the first 0 purely by sort order, which is
+    # noise presented as signal. A midpoint gives every tied person the same
+    # score -- the honest answer when the axis cannot separate them.
+    ev_pct = {}
+    for origin, rows in ev_by_origin.items():
+        rows.sort()
+        n = len(rows)
+        i = 0
+        while i < n:
+            j = i
+            while j < n and rows[j][0] == rows[i][0]:
+                j += 1
+            mid = (i + j - 1) / 2.0
+            val = (mid / (n - 1) * 100.0) if n > 1 else 50.0
+            for k in range(i, j):
+                ev_pct[rows[k][1]] = val
+            i = j
+
+    # FOUR ATTEMPTS, and the arithmetic is the lesson. Target is proportional
+    # representation -- github holds 87.3% of the graph and books 12.6%, so a
+    # sound ranking puts ~873 github / ~126 books in the top 1,000. Neither
+    # 1000/0 nor 500/500 is "fair"; proportional is.
+    #
+    #   v1 breadth / fixed 5            -> 997 github (books capped at 40%)
+    #   v2 breadth / max-in-origin      -> 866 BOOKS  (flat +25 domain bonus)
+    #   v3 breadth pct, zero when tied  -> 993 github (books axis zeroed)
+    #   v4 breadth pct, midpoint ties   -> 997 github (books all share one
+    #                                      midpoint; no internal variation to
+    #                                      rank on)
+    #
+    # Every failure traces to the same root: evidence_breadth measures HOW WELL
+    # INSTRUMENTED a domain is, not how significant a person is. Books have two
+    # possible keys and 35,216 of 35,363 people hold both; the axis is constant
+    # there and can only ever act as a domain-level thumb on the scale.
+    #
+    # So it is no longer part of cross_score. It is still STORED, because "how
+    # much do we know about this person" is genuinely useful -- it is just not a
+    # component of significance. Ranking now rests on percentile-within-domain,
+    # which means the same thing everywhere, plus a small multi-domain bonus for
+    # the rare person attested in more than one corpus.
     out = []
     for pid, origin, score in people:
         p = percentile.get(pid, 0.0)
         ev = len(breadth.get(pid, ()))
         dc = len(domains.get(pid, ()))
-        ceiling = max_ev.get(origin, 0) or 1
-        cross = (p * 0.6
-                 + min(ev / ceiling, 1.0) * 100 * 0.25
-                 + min(dc, 3) / 3 * 100 * 0.15)
+        cross = p * 0.9 + min(dc, 3) / 3 * 100 * 0.10
         out.append((pid, origin, score, round(p, 3), ev, dc,
                     round(cross, 3), now))
 
