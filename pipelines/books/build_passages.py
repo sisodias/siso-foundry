@@ -80,8 +80,23 @@ CREATE INDEX IF NOT EXISTS ix_passage_gid ON passage(gid);
 -- FTS over previews only, NOT full text. Full-text FTS over 79k books would be
 -- tens of gigabytes and duplicate the corpus; previews give enough signal to
 -- rank candidates, and the winning passage is then fetched by range.
+--
+-- content='passage' makes this an EXTERNAL-CONTENT index: FTS5 stores only the
+-- inverted index and reads the text back from `passage` when it needs it.
+--
+-- The first build did not do this, and it cost 5.9 GB. Measured on the real run:
+-- 41,501,325 rows x ~152 chars of preview, stored once in `passage` and AGAIN in
+-- FTS5's internal content table -- a 22.6 GB database where roughly a quarter was
+-- a verbatim second copy of text already present a few pages away.
+--
+-- The tradeoff is that external-content FTS does not self-maintain: rows must be
+-- inserted with a matching rowid and deletes need an explicit 'delete' command.
+-- Since this index is rebuilt from source rather than edited in place, that costs
+-- nothing here.
 CREATE VIRTUAL TABLE IF NOT EXISTS passage_search USING fts5(
-  gid UNINDEXED, seq UNINDEXED, heading, preview,
+  heading, preview,
+  content = 'passage',
+  content_rowid = 'rowid',
   tokenize = 'unicode61 remove_diacritics 2'
 );
 
@@ -180,9 +195,12 @@ def index_book(con, gid, text, now):
     con.executemany(
         "INSERT OR REPLACE INTO passage VALUES (?,?,?,?,?,?,?,?)", rows
     )
-    con.executemany(
-        "INSERT INTO passage_search (gid,seq,heading,preview) VALUES (?,?,?,?)",
-        fts,
+    # External-content FTS: index by the rowid the base table just assigned, so
+    # FTS5 reads the text back from `passage` rather than storing a second copy.
+    con.execute(
+        """INSERT INTO passage_search (rowid, heading, preview)
+           SELECT rowid, COALESCE(heading,''), preview FROM passage WHERE gid = ?""",
+        (gid,),
     )
     con.execute(
         "INSERT OR REPLACE INTO book_body VALUES (?,?,?,?,?)",
