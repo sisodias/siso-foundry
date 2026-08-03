@@ -153,6 +153,7 @@ def who(con, found, name):
             (pid,),
         ):
             rec["produced"][domain] = n
+        rec["_evidence"] = sum(rec["produced"].values())
         if table_exists(con, "people", "person_topic"):
             rec["topics"] = [
                 t
@@ -163,6 +164,18 @@ def who(con, found, name):
                 )
             ]
         out["matches"].append(rec)
+
+    # Best-attested match first. `works()` already does this (it takes
+    # max(matches) by content count, with a comment naming the problem), but
+    # `who()` returned rows in index order -- so "Spinoza" led with
+    # `baruch-spinoza`, a registry record with ZERO edges, while the record
+    # holding his 13 books sat second, below several people named Espinoza.
+    #
+    # Any caller taking matches[0] therefore got an empty person. That is the
+    # exact trap that made --contemporaries report nothing while the graph held
+    # 457 rows, so the ordering is applied here once rather than left for each
+    # consumer to rediscover.
+    out["matches"].sort(key=lambda m: -m.get("_evidence", 0))
     return out
 
 

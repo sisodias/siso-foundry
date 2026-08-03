@@ -2485,3 +2485,45 @@ torvalds/GuitarPedal| 2027|65
 Status of the five modes: `--who` ✓, `--about` ✓, `--works` ✓,
 `--inventory` ✓, `--contemporaries` ✓ (after the fix above). Two of five were
 broken when first exercised; both bugs were in resolution, not data.
+
+### Third resolution bug — `--who` returned the empty duplicate first
+
+After fixing `--contemporaries`, the same class of flaw was looked for rather
+than waited for. `--works` turned out to be **written correctly by design** —
+line 237 takes `max(matches)` by content count, with a comment naming the exact
+duplicate problem. So the original author knew about it; `--contemporaries` just
+never received the same treatment.
+
+`--who` had not either. It returned matches in index order:
+
+```
+baruch-spinoza                        produced={}          <- FIRST, zero edges
+bk:spinoza, benedictus de|1632-1677   produced={book: 13}  <- the actual Spinoza
+gh:rmax                               produced={github: 3}
+gh:luisespinoza, gh:jecovier, ...     produced={github: 1} each
+```
+
+Any caller taking `matches[0]` got an empty person — precisely the trap that
+made `--contemporaries` report nothing while 457 rows existed. Fixed by sorting
+on evidence count once, in `who()`, rather than leaving each consumer to
+rediscover it:
+
+```
+bk:spinoza, benedictus de|1632-1677   {book: 13}   <- now first
+gh:rmax                               {github: 3}
+...
+baruch-spinoza                        {}           <- now last
+```
+
+Regression-checked: `--works Spinoza` still 13, `--works Torvalds` still 9.
+
+**Three resolution bugs, one root cause.** The graph contains duplicate person
+records (registry vs books, registry vs github), and every code path that picks
+"a person" by name must decide which duplicate it means. `works()` decided
+correctly, `who()` and `contemporaries()` did not. The data was never wrong —
+row counts, topic counts and edge counts were all correct throughout — and no
+amount of verifying them would have surfaced any of this.
+
+The durable fix is the `identity_claim` work: 6 proposed links exist, and
+accepting them would collapse the duplicates so no consumer has to choose. Until
+a human adjudicates those, evidence-ordering is the correct defensive behaviour.
