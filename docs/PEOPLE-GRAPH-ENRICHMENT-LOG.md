@@ -1531,3 +1531,100 @@ of measured.** `rate_limited: true` did not say *which* limit. "passages done"
 was printed after a traceback. Neither was ever checked against a clock, a
 target count, or free disk.
 
+
+## Round 11 — 2026-08-04 — cross-domain significance
+
+### The gap
+
+`person.rank_score` is populated for everyone but is a DIFFERENT UNIT per domain:
+
+```
+origin  |      n | ranked |    max
+github  | 245171 | 245171 | 520358   <- summed stars
+books   |  35363 |  35363 |    336   <- work count
+youtube |     48 |     48 |     62
+registry|    140 |      3 |     94
+```
+
+Sorting by it returns 245,171 GitHub accounts before the first author — measured:
+
+```
+$ select origin, count(*) from (select * from person order by rank_score desc limit 1000) group by 1;
+github|1000
+```
+
+"Who are the most significant people here" — the question a people graph exists
+to answer — was unanswerable across domains.
+
+### `build_cross_domain_rank.py`
+
+Writes a `cross_rank` table (280,722 rows) with percentile-within-domain,
+evidence breadth, domain count, and a combined `cross_score`.
+
+**Percentile, not normalised raw value.** Star counts are power-law distributed;
+linear scaling puts torvalds at 100 and everyone else near zero, so books would
+still lose to GitHub's tail. "How does this person rank among their peers" is
+the only comparison that means the same thing in both populations.
+
+**A separate table, not a person column.** `rank_score` is written by the domain
+loaders and means "significance within my domain"; overwriting it would destroy
+that and break every loader that resumes from it.
+
+### The first attempt was still 997/1000 GitHub — and why
+
+```
+=== DOMAIN MIX IN TOP 1000 (first attempt) ===
+github|997
+registry|3
+```
+
+Better than 1000/1000, but not fixed. The cause was in my own scoring:
+`evidence_breadth` was divided by a fixed constant of 5, while the number of
+evidence keys a domain can even carry differs sharply — GitHub edges can hold 5
+of them (value, dependent_repos, list_count, star_velocity, legal_lane), book
+edges at most 2 (has_text, text_addressable). Every author was therefore capped
+at 40% of that axis **for reasons that have nothing to do with the person**.
+
+Fixed by normalising breadth against the maximum achievable *within each origin*:
+
+```
+=== DOMAIN MIX IN TOP 1000 (after fix) ===
+github|741
+books|256
+registry|3
+```
+
+```
+Jensen Huang         |registry|95.0|ev 5
+Shakespeare, William |books   |90.0|ev 2
+Affaan Mustafa       |github  |90.0|ev 5
+Twain, Mark          |books   |90.0|ev 2
+Dickens, Charles     |books   |90.0|ev 2
+Dumas, Alexandre     |books   |90.0|ev 2
+Balzac, Honoré de    |books   |90.0|ev 2
+```
+
+Shakespeare, Twain, Dickens and Balzac now rank alongside the strongest GitHub
+accounts. **Lesson: a "fair" cross-domain metric silently inherits whichever
+domain has richer instrumentation, unless the denominator is per-domain too.**
+
+The weights (0.6 percentile / 0.25 breadth / 0.15 domain count) are a JUDGEMENT,
+not a measurement, and sit in one visible expression so they can be argued with.
+
+### Correction: v_contemporaries was never broken
+
+An earlier round called the era layer missing and `v_contemporaries` "currently
+meaningless". Wrong — the view exists, 27,583 people have birth years, and it
+works as designed:
+
+```
+$ select contemporary_name, overlap_start, overlap_end from v_contemporaries where name like 'Spinoza%';
+Milton, John   |1632|1674
+Descartes, René|1632|1650
+Bunyan, John   |1632|1677
+Dryden, John   |1632|1677
+```
+
+No work was needed. Recorded because I nearly rebuilt something that already
+functioned — the same classify-by-reading failure this log has flagged twice.
+
