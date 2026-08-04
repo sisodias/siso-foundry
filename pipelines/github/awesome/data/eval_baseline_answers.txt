@@ -1,0 +1,15 @@
+vector database|pinecone,weaviate,qdrant,milvus,chroma
+task queue|celery,sidekiq,bullmq,rq,temporal
+web scraping|scrapy,playwright,beautifulsoup,puppeteer,colly
+feature flags|unleash,flagsmith,growthbook,launchdarkly,flipt
+rate limiting|bottleneck,ratelimit,throttled,redis-cell,sentinel
+job scheduler|airflow,temporal,quartz,cron,dagster
+full text search|elasticsearch,meilisearch,typesense,opensearch,tantivy
+time series database|influxdb,timescaledb,prometheus,victoriametrics,questdb
+object storage|minio,seaweedfs,ceph,garage,s3proxy
+api gateway|kong,traefik,apisix,tyk,krakend
+secrets management|vault,sops,sealed-secrets,infisical,doppler
+log aggregation|loki,elasticsearch,fluentd,vector,graylog
+message broker|kafka,rabbitmq,nats,pulsar,redpanda
+workflow orchestration|airflow,temporal,prefect,dagster,argo
+container registry|harbor,distribution,zot,quay,dragonfly

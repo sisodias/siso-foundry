@@ -81,12 +81,17 @@ def main():
         # Classify by READING, never by name. A cached README that is not
         # shaped like a curated list is a target repo someone linked, not a
         # list -- skip it rather than polluting the catalog with its links.
-        ok, _st = is_list_readme(text, min_links=args.min_links)
+        ok, st = is_list_readme(text, min_links=args.min_links)
         if not ok:
             skipped += 1
             continue
 
-        title, entries = parse_readme(text)
+        # Reuse the parse the classifier already did -- it returns its entries
+        # and title in the stats dict. Parsing twice was ~1/3 of ingest time.
+        entries = st.get("entries")
+        title = st.get("title")
+        if entries is None:
+            title, entries = parse_readme(text)
         pfile = path[:-3] + ".path"
         rpath = ""
         if os.path.exists(pfile):

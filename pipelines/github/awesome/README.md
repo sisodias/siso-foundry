@@ -69,6 +69,33 @@ python3 build_awesome_catalog.py --enrich 500
 
 Emits a JSON summary to stdout; progress to stderr.
 
+## bank_check.py — the Bank check, with liveness
+
+`foundry repos "<query>"` ranks by STARS. Stars never decay, so it recommends
+abandoned projects with full confidence. This adds what stars cannot express:
+
+```
+$ bank_check.py --alts ariya/phantomjs
+# alternatives to ariya/phantomjs (by independent lists agreeing)
+  casperjs/casperjs        7 lists    7,161★  JavaScript   ARCHIVED  ⚠
+  microsoft/playwright     6 lists   93,917★  TypeScript   active
+  GoogleChrome/puppeteer   6 lists         —  —            unknown
+  laurentj/slimerjs        5 lists    2,997★  JavaScript   DEAD 3y   ⚠
+```
+
+Query a dead tool, get the live migration target — with the other dead ones
+flagged rather than silently recommended.
+
+```bash
+bank_check.py "task queue"            # what should I use for X
+bank_check.py --alts junegunn/fzf     # what competes with X
+bank_check.py "vector database" --json
+```
+
+Ranking is by **independent curated lists agreeing**, not stars — so `huey`
+[14 lists] outranks `celery` [11] despite 5× fewer stars. That is a different
+question than popularity, and deliberately so.
+
 ## The substitutes graph (the reason to build this)
 
 When a maintainer files several repos under one heading, they have asserted

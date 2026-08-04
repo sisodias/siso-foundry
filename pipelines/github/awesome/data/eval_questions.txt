@@ -1,0 +1,15 @@
+vector database
+task queue
+web scraping
+feature flags
+rate limiting
+job scheduler
+full text search
+time series database
+object storage
+api gateway
+secrets management
+log aggregation
+message broker
+workflow orchestration
+container registry

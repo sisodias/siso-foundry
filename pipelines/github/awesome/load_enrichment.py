@@ -9,7 +9,7 @@ is reproducible FROM THE DB rather than from a side file.
 Accepts concatenated JSON (pretty-printed or one-per-line) -- `gh api --jq`
 emits multi-line objects, so a naive line-by-line json.loads fails on it.
 
-Usage: load_enrichment.py --db catalog_full.sqlite --jsonl /tmp/enriched.jsonl
+Usage: load_enrichment.py --db catalog_full.sqlite --jsonl data/enriched_full.jsonl
 """
 import argparse
 import json
@@ -18,7 +18,36 @@ import time
 
 
 def parse_stream(path):
-    """Yield objects from concatenated JSON, pretty-printed or not."""
+    """Yield dict records from JSONL *or* concatenated pretty-printed JSON.
+
+    Two producers write this file: enrich_graphql.py emits strict one-object-
+    per-line JSONL, while `gh api --jq` emits multi-line pretty JSON. The
+    line-oriented fast path handles the former; the character scanner handles
+    the latter. Non-dict values are skipped -- a bare string is valid JSON and
+    the scanner will happily decode one, which crashed the loader.
+    """
+    with open(path, encoding="utf-8") as f:
+        first = f.readline()
+    try:
+        obj = json.loads(first)
+        line_mode = isinstance(obj, dict)
+    except json.JSONDecodeError:
+        line_mode = False
+
+    if line_mode:
+        with open(path, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    o = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+                if isinstance(o, dict):
+                    yield o
+        return
+
     raw = open(path, encoding="utf-8").read()
     dec = json.JSONDecoder()
     i, n = 0, len(raw)
@@ -29,7 +58,8 @@ def parse_stream(path):
             break
         try:
             obj, j = dec.raw_decode(raw, i)
-            yield obj
+            if isinstance(obj, dict):
+                yield obj
             i = j
         except json.JSONDecodeError:
             i += 1
@@ -38,7 +68,7 @@ def parse_stream(path):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--db", default="catalog_full.sqlite")
-    ap.add_argument("--jsonl", default="/tmp/enriched.jsonl")
+    ap.add_argument("--jsonl", default="data/enriched_full.jsonl")
     args = ap.parse_args()
 
     conn = sqlite3.connect(args.db)

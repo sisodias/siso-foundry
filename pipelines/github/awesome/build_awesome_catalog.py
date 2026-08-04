@@ -381,7 +381,7 @@ def is_list_readme(text, min_links=20, min_ratio=0.05):
     if re.search(r"(?i)(github-stars-generator|maguowei/starred|awesome-stars\s+generator)", head):
         return False, {"reason": "star-dump generator signature"}
 
-    _, entries = parse_readme(text)
+    title, entries = parse_readme(text)
     n_links = len(entries)
     n_lines = max(1, len(text.splitlines()))
     linked = len({e["target"] for e in entries})
@@ -416,6 +416,12 @@ def is_list_readme(text, min_links=20, min_ratio=0.05):
         "links": n_links, "unique": linked, "lines": n_lines,
         "ratio": round(ratio, 3), "with_section": with_section,
         "sections": n_sections, "unsorted_bulk": unsorted_bulk,
+        "language_dump": language_dump,
+        # The parsed entries, handed back so callers do not re-parse. This
+        # function already ran parse_readme() to make its decision; profiling
+        # showed ingest_cache.py then parsed the same text a SECOND time,
+        # which was ~1/3 of total ingest wall-clock.
+        "entries": entries, "title": title,
     }
 
 
