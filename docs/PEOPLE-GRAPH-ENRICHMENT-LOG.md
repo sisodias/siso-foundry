@@ -2527,3 +2527,650 @@ amount of verifying them would have surfaced any of this.
 The durable fix is the `identity_claim` work: 6 proposed links exist, and
 accepting them would collapse the duplicates so no consumer has to choose. Until
 a human adjudicates those, evidence-ordering is the correct defensive behaviour.
+
+## Round 14 — 2026-08-04 — external source survey, and a correction about our own population
+
+No loader ran this round. The mini was unreachable (tailnet is 100.64.0.x; ssh
+config points at 100.66.34.21; 100% packet loss), so this is measurement and
+staging only. Everything below is re-derived from source, not carried over.
+
+### CORRECTION — the graph is not missing people; it has a star floor
+
+An earlier claim in this session — that ~370k crawled owners "were never loaded"
+— was wrong in framing. Measured against repo_card:
+
+```
+$ sqlite3 identity.sqlite "select case when stars is null then 'null'
+    when stars>=100 then '100+' when stars>=10 then '10-99' else 'under10' end b,
+    count(distinct lower(substr(full_name,1,instr(full_name,'/')-1)))
+    from repo_card where instr(full_name,'/')>0 group by 1;"
+10-99|496482
+100+|245166
+null|1052
+under10|277
+```
+
+The graph holds 245,175 github people. Owners with a 100+ star repo: 245,166.
+**A 9-person match.** The loader ran with a 100-star floor and did exactly that.
+Nothing was dropped by accident.
+
+Duplicate check — the count is clean, not case-inflated:
+
+```
+$ raw distinct owner:      614868
+$ lower(distinct) owner:   614801
+```
+
+67 case-duplicates across 614k. So the real open question is not "who did we
+lose" but "does the 10-99 band (496,482 owners) belong in the graph at all".
+That is a judgement call, and the evidence cuts both ways: a star floor is a
+reasonable noise gate, but this graph's own headline finding is that stars are
+a bad proxy (yargs/yargs-parser: 517 stars, 4,384,968 dependent repos). A
+low-star owner whose crate half of Rust depends on is exactly who a star floor
+hides. NOT ACTIONED — recorded as an open decision.
+
+### External sources surveyed (all counts measured, not estimated)
+
+Wikidata, via the live SPARQL endpoint. NOTE: the first four use COUNT(*) over
+statements, so a person with two employers counts twice — treat as upper bounds.
+The last two use COUNT(DISTINCT ?p) and are exact.
+
+```
+humans with employer (P108):          2382217   [statement count]
+humans with ORCID (P496):             2060228   [statement count]
+humans with award (P166):             1753750   [statement count]
+humans with doctoral advisor (P184):   399750   [statement count]
+humans with GitHub username (P2037):    11124   [statement count]
+DISTINCT humans with X handle (P2002):  249428
+DISTINCT humans with Google Scholar:    124112
+```
+
+Cross-cut, the single most valuable number found:
+
+```
+humans with BOTH GitHub username and ORCID:  6824
+```
+
+The graph currently has 3 people spanning more than one domain. This is a
+pre-built set of ~6,824 verified multi-domain humans requiring no name matching
+— the exact thing the Round 1 negative result proved we cannot manufacture
+ourselves (github<->book name join returned literally zero).
+
+P106 occupation and P214 VIAF both TIMEOUT at the 60s endpoint — too large to
+count live. They need the dump, which is itself a finding.
+
+### crates.io — join surface measured against our own corpus
+
+```
+$ distinct owners of Rust repos:                     19657
+$ Rust repos already carrying a rated overall_value:  6863
+```
+
+crates.io's own dump README confirms the join is native, not inferred:
+"teams.login - this will look something like `github:foo:bar`" and "as we only
+support GitHub, the first component will always be `github`". It also carries
+crate_owners.owner_kind (0=user, 1=team), which maps directly onto the schema's
+human/organisation distinction — classification for free rather than another
+238k people sitting at kind='unknown'.
+
+Dump verified live: 1,669,443,386 bytes, last-modified 2026-08-04T02:11:26Z,
+rebuilt daily. Read its README via a 12MB HTTP range request rather than
+downloading 1.67GB.
+
+### Licenses — two settled, two not
+
+- Stack Exchange: CC BY-SA 4.0, and Users.xml does carry WebsiteUrl. USABLE.
+- MusicBrainz: 2,949,792 artists, core data CC0. (Deprioritised by owner —
+  music artists are out of scope.)
+- crates.io: dump README states no license. Data described as "public
+  information in the crates.io database". Repo license is MIT/Apache and covers
+  CODE ONLY. NOT DETERMINED.
+- Open Library: no named license. Internet Archive "does not assert any new
+  copyright" but grants nothing explicitly. NOT DETERMINED.
+
+Both NOT DETERMINED cases are fine for internal graph use; the exposure is
+republication.
+
+### Staged, not run — three loaders written this round
+
+All follow the house pattern, all compile, none has run. Verified by reading the
+code, not by trusting the author:
+
+- pipelines/crates/load_crates_maintainers.py
+- pipelines/wikidata/load_wikidata_identities.py
+- pipelines/wikidata/load_person_person.py
+
+Checked against the traps this log has already documented: zero `LIKE '%key%'`
+counters in any of the three (the Round 4 bug that matched repos NAMED velocity);
+no silent person creation, unmatched records become identity_claim proposals;
+birth/death years written only WHERE the column IS NULL, with BCE negatives
+preserved; busy_timeout=600000 on all three.
+
+person_person is the first person<->person table in the graph:
+
+```
+person_a, person_b, relation, direction, confidence, source, observed_at, meta_json
+PRIMARY KEY (person_a, person_b, relation)
+CHECK (person_a <> person_b)
+```
+
+Direction is a first-class column, not flattened — advisor and student are
+opposite claims, the same reasoning that kept book roles on the edge. The
+composite primary key gives idempotency structurally. This is the table Round 4
+wanted and correctly refused to build from 720,107,620 naive co-membership pairs;
+Wikidata's 399,750 advisor edges are a legitimate source for it.
+
+### Open design question — organisations are second-class
+
+person.kind already allows 'organisation', and 870 book authors are flagged as
+institutions. But orgs currently live inside the person table, which is why
+`microsoft`, `google` and `apache` appear in rated-value leaderboards beside
+Jensen Huang. Wikidata's 2.38M employer statements are person->organisation
+edges — a second entity type, not an enrichment. Splitting orgs into their own
+table (or at minimum giving them proper employer edges) is unresolved and
+blocks nothing yet, but every "who does the best work" query is currently
+answering across two different kinds of thing.
+
+### Not in the Great Library
+
+The people graph is not registered as a Work. SISO Foundry is, with a Release,
+but a 280,708-person / 2,450,492-topic-row graph has no public identity, no
+stable URL, and no record of decisions like the star floor. Worth registering.
+
+## Round 15 — 2026-08-04 — crates.io loaded; a fifth domain
+
+Worked on a copy pulled from the PUBLISHED release, not the mini:
+`gh release download graph-v1 --repo sisodias/siso-people-graph` -> 220MB gz ->
+688MB sqlite. The release-asset backup pattern works end to end; the mini was
+not needed. NOTE the published v1 is a Round-12 snapshot and lags the mini:
+
+```
+                published v1   live on mini    delta
+person              280708        280722         +14
+person_content      564486        564579         +93
+external_ids        253815        845004    +591189
+person_topic       2050629       2555047    +504418
+```
+
+A graph-v2 release is owed once this round's loaders have run.
+
+### #22 — crates.io maintainers (pipelines/crates/load_crates_maintainers.py)
+
+crates.io is where Rust code is CONSUMED, as opposed to GitHub where it is
+written. Same people, different act, and the consumption side carries real
+install counts rather than star proxies.
+
+Join quality is the best of any source surveyed: 69,169 crates.io users,
+**69,169 with a gh_login — 100%**. No name matching at any point.
+
+```
+$ python3 load_crates_maintainers.py --dump <dump>/data --graph work.sqlite --apply
+{"owners_seen": 350847, "matched_to_graph": 87079,
+ "unmatched_proposed_claim": 249959, "edges_inserted": 87079,
+ "after": {"crates_edges": 87079, "crates_io_external_ids": 9815}}
+```
+
+Independently re-derived (not the loader's counters):
+
+```
+$ sqlite3 work.sqlite "select domain,count(distinct person_id),count(*)
+    from person_content group by 1 order by 3 desc;"
+github|245175|463230
+book|35366|101124
+crates|9815|87079      <- new
+youtube_video|24|97
+youtube_channel|35|35
+```
+
+### THREE BUGS SHIPPED IN THE FIRST RUN, all found by running not reading
+
+1. **csv.field_size_limit** — crates.csv embeds full READMEs; the stdlib 131072
+   default raised `_csv.Error: field larger than field limit`. Fixed at import.
+
+2. **Wrong column name, and it failed SILENTLY at zero.** The loader read
+   `crate_user_id`/`user_id`. The real 2026-08-04 header is
+   `crate_id,created_at,created_by,owner_id,owner_kind`. Neither name existed, so
+   every row hit `continue` and the run reported a clean
+   `matched_to_graph: 0` with no error. Verified the join was fine in isolation
+   (9,872 direct matches) BEFORE touching the loader, which is what localised it
+   to the column read rather than the lookup. A loader that returns 0 and exits 0
+   is the most dangerous shape there is.
+
+3. **owner_kind was being ignored.** 0=user, 1=team. Teams are organisations;
+   minting them as humans is the error the schema's kind field exists to prevent.
+   Now skipped explicitly — see the open item below.
+
+### KNOWN DEFECTS in this load — do not treat as finished
+
+- `crate_downloads.csv` (310,628 rows) NEVER LOADED. `crates_downloads_known: 0`.
+  This is the strongest signal in the dump — real installs, not stars — and it is
+  the whole reason the source is interesting. Must be wired before graph-v2.
+- `meta_json` carries a dead `crate_count_so_far: null` key on every edge. Same
+  class as the Round 8 `subjects` smear: a key that asserts nothing.
+- identity_claim reported 58,509 proposed but `select count(*) from
+  identity_claim` = 0. Nothing was written. Either the insert is wrong or the
+  table shape differs; unresolved.
+
+### The company gap, now concrete
+
+`owner_kind=1` rows are being skipped entirely, so team-owned crates are dropped.
+teams.csv holds 1,559 rows with github_id, login and org_id — GitHub org
+identity, already resolved. Combined with Wikidata's 2.38M employer statements,
+that is a companies entity with two independent sources and nowhere to live.
+Today organisations sit inside `person` with kind='organisation', which is why
+microsoft/google/apache rank beside Jensen Huang in every value query.
+
+### Other corpora staged on the laptop, not yet loaded
+
+- Wikidata: 6,824 people with BOTH github login and ORCID; 271,423 advisor edges.
+- Open Library wikidata dump: author biography at exceptional density —
+  VIAF 100%, birth 99%, ISNI 98%, **occupation 98%**, death 92%, citizenship 88%,
+  birthplace 86%. Occupation TIMED OUT on the live SPARQL endpoint; it is
+  trivially available here. Parse note: fields are TAB-split with TWO tabs, the
+  JSON is CSV-escaped (doubled quotes), and the claims live under `statements`,
+  NOT `claims` (newer REST shape). Three wrong guesses before that landed, each
+  silently returning zero rather than erroring.
+
+### #23 — crate artifact signal by REPOSITORY URL (pipelines/crates/load_crate_repo_signal.py)
+
+The maintainer loader (#22) joins crates.io USERS to people. It cannot answer
+"is the repo we already rated actually installed by anyone", because a
+person-level join never touches the repo. 83% of crates declare a `repository`
+and 78% of those point at github.com — a direct artifact join onto the same
+content_ref the whole github domain is already keyed on. This was overlooked for
+the entire first pass; the dump is fundamentally about artifacts and the
+artifact-level joins match more than the person-level ones.
+
+Measured against the full crawl before writing any loader:
+
+```
+$ crates scanned                     310,628
+$ crate->repo matched our crawl       53,193
+$ of which already rated              24,517
+```
+
+Applied to the graph (which holds only the 100+ star subset, hence the smaller
+number — 7,336 of the 53,193 matches are people we actually have):
+
+```
+{"crates_scanned": 310628, "crates_with_github_repo": 142737,
+ "repos_matched_in_graph": 7336, "edges_updated": 7348, "monorepo_repos": 26283,
+ "before": {"edges_with_crate_downloads": 0},
+ "after":  {"edges_with_crate_downloads": 7348}}
+```
+
+Independently re-derived with json_extract, not the loader's counters:
+
+```
+$ sqlite3 work.sqlite "select count(*) from person_content where domain='github'
+    and json_extract(meta_json,'$.crate_downloads') is not null;"
+7348
+```
+
+**THE PAYOFF — real installs against stars.** This is the yargs-parser inversion
+computed on ground truth rather than inferred from dependent-repo estimates:
+
+```
+dtolnay/unicode-ident       110 stars   1,196,577,185 downloads
+cuviper/autocfg             115         1,141,284,077
+dtolnay/itoa                375         1,171,767,764
+rust-random/getrandom       547         1,708,411,468
+withoutboats/heck           591         1,140,782,656
+rust-lang/cfg-if            637         1,266,601,671
+marshallpierce/rust-base64  723         1,395,121,509
+dtolnay/proc-macro2         922         1,419,083,078
+```
+
+110 stars and 1.2 BILLION downloads. These are load-bearing infrastructure for
+every Rust build on earth, and a star-ranked graph files them below a toy.
+dtolnay appears four times in the top twelve — Round 1 already surfaced him by
+rated value; this is the harder, measured version of the same claim.
+
+One crate per repo is kept (most-downloaded), with crate_count_at_repo recorded
+alongside — 26,283 repos publish more than one crate and writing N conflicting
+rows onto one edge, or silently taking the first, would both be wrong.
+`score` is never touched: stars stay stars, because merging a vote with a
+measurement destroys the comparison that makes either interesting.
+
+### Why load_crates_maintainers.py reported crates_downloads_known: 0
+
+Its docstring claimed downloads live in `crates.csv`. They do not — that header
+is created_at,description,documentation,homepage,id,max_features,
+max_upload_size,name,readme,repository,trustpub_only,updated_at. Downloads live
+in a SEPARATE crate_downloads.csv (310,628 rows) which that loader never opens.
+Third wrong-assumption-about-the-dump bug in one session, all of the same shape:
+the code was consistent with a dump that does not exist. #23 reads the real file.
+
+### Still open on the crates domain
+
+- version_downloads.csv is a DAILY TIME SERIES spanning ~90 days (849 MB).
+  Round 4's momentum signal used three consecutive days and was honestly labelled
+  "a momentary reading, not a trend". This is 30x that window and unloaded.
+- published_by is present on 92% of versions with 33,826 distinct publishers in a
+  400k sample — who actually shipped each release, as distinct from who owns the
+  crate. Per-release authorship exists nowhere else in the graph.
+- yanked (5,826 versions) is a NEGATIVE quality signal — work the author
+  withdrew. The graph has no other source for "the maintainer retracted this".
+- teams.csv (1,559 rows: github_id, login, org_id) is skipped entirely by the
+  owner_kind=0 filter. That is the company graph, with GitHub org identity
+  already resolved, sitting unused.
+
+## Round 16 — 2026-08-04 — organisations become an entity; the crates domain deepened
+
+### #24 — ORGANISATIONS as a first-class entity (pipelines/crates/load_organisations.py)
+
+The long-standing modelling error: organisations lived INSIDE `person` with
+kind='organisation', which is why microsoft, google and apache rank beside
+Jensen Huang in every rated-value query. An organisation is not a person with a
+flag — it has members, it outlives them, and it cannot author anything itself.
+
+crates.io teams is the right seed because org identity is RESOLVED, not guessed:
+`teams.login` has the shape `github:ORG:team`, so the GitHub organisation name is
+embedded. And 13,809 crate-ownership rows carry owner_kind=1, which
+load_crates_maintainers.py drops entirely rather than mint a team as a human.
+
+Three new tables: `organisation`, `person_organisation` (person<->org with
+relation, direction and date range, so Wikidata employment and crates team
+membership can share one shape), `organisation_content` (org -> artifact).
+
+```
+{"teams_seen": 1559, "organisations_new": 1131, "team_owned_crates": 13809,
+ "org_content_edges": 13809, "unparsable_team_logins": 0,
+ "after": {"organisations": 1131, "organisation_content": 13533}}
+```
+
+Verified — real companies, correctly attributed rather than lost:
+
+```
+awslabs|385   paritytech|375   azure|328   rustcrypto|256
+materializeinc|233  googleapis|224  rusoto|221  tailscale|195
+```
+
+No organisation is merged with an existing kind='organisation' person row. That
+merge is an identity claim and belongs under human review — the same law that
+stops two different "John Murray" rows becoming one person.
+
+### #25 — download MOMENTUM from the real series (load_crate_momentum.py)
+
+Round 4's star velocity was three consecutive days and was labelled honestly as
+"a momentary reading, not a trend". version_downloads.csv is a DAILY series:
+
+```
+{"series_days": 92, "window_start": "2026-05-05", "window_end": "2026-08-04",
+ "crates_with_series": 589792, "repos_matched": 7336, "edges_updated": 7348,
+ "trend_omitted_no_baseline": 74,
+ "after": {"edges_with_dl_recent": 7348, "edges_with_dl_trend": 7274}}
+```
+
+30x the window. `dl_trend` is recent-half/earlier-half and is OMITTED (not set to
+infinity) for the 74 crates with no earlier baseline — a crate that did not exist
+yet has no trend, and writing one would be a lie dressed as a number.
+
+**Question unlocked — who is RISING, over a real window:**
+
+```
+knurling-rs/defmt          1187 stars  trend 6.117  8,024,121 recent dl
+Ogeon/palette               824        2.571        3,074,798
+yegor256/micromap           207        2.139        2,365,585
+PyO3/pyo3-async-runtimes    190        1.875        2,384,881
+```
+
+### #26 — publishing ACTS and withdrawn work (load_publisher_signal.py)
+
+Every other edge in the graph says "is associated with". `published_by` says
+"this person cut this release, on this date" — the closest thing to a
+contribution record in the dump, present on 92% of versions.
+
+```
+{"publisher_crate_pairs": 325003, "edges_matched": 77070,
+ "total_releases_attributed": 720772, "total_yanks_attributed": 23288,
+ "after": {"edges_with_releases": 77070, "edges_with_yanked": 77070}}
+```
+
+720,772 releases attributed to actual humans. And `yanked` (23,288 attributed) is
+the graph's FIRST NEGATIVE signal — every other one is positive (stars, ratings,
+downloads, citations). A yank is the author's own judgement that their work was
+broken.
+
+`yank_rate` is written only where releases >= 5 (below that, one yank out of one
+release reads as 100% and means nothing) and is deliberately NOT folded into
+score or rank_score: yanking a broken release is RESPONSIBLE, so treating it as a
+demerit would invert its meaning.
+
+### DEFECT FOUND IN #22 — content_ref holds a bare crate id
+
+The publisher loader first matched ZERO of 325,003 pairs. Cause, found by looking
+at the edges rather than guessing:
+
+```
+$ sqlite3 work.sqlite "select person_id, content_ref from person_content
+    where domain='crates' limit 5;"
+gh:reem|13
+gh:reem|14
+```
+
+load_crates_maintainers.py wrote the raw crate_id into content_ref instead of the
+crate name. `13` is an opaque pointer that means nothing without the dump in
+hand, and it broke the join for every downstream loader. Mitigated here by keying
+on the id and carrying `crate_name` into meta_json; content_ref itself is left
+alone because rewriting a key column is a migration, not a signal load. OPEN.
+
+### Crates domain state after this round
+
+| signal | edges |
+|---|---|
+| maintainer edges (#22) | 87,079 |
+| crate downloads on github edges (#23) | 7,348 |
+| download trend, 92-day (#25) | 7,274 |
+| releases published (#26) | 77,070 |
+| releases yanked (#26) | 77,070 |
+| org -> crate edges (#24) | 13,533 |
+
+### #27 — Wikidata external identities (pipelines/wikidata/load_wikidata_csv_identities.py)
+
+Pulled via the SPARQL query service as CSV rather than the ~100GB entity dump.
+The graph needs a thin slice — which of OUR people carry which identifiers — and
+the query service answers that in seconds.
+
+```
+{"rows_read": 17987, "matched_people": 2078, "unmatched_rows": 15088,
+ "ids_new": 3342,
+ "before": {"x_handle": 1663, "google_scholar": 0, "orcid": 0, "wikidata": 0},
+ "after":  {"x_handle": 2730, "google_scholar": 664, "orcid": 806, "wikidata": 805}}
+```
+
+806 ORCIDs against the 807 predicted by the pre-load overlap check — the
+measurement held.
+
+**Question unlocked — three-domain humans.** People with a published ORCID AND
+github repos AND shipped crates, which the graph could not express at all:
+
+```
+althonos    | orcid | 6 gh repos | 36 crates
+jcreinhold  | orcid | 1          | 36
+niklasf     | orcid | 3          | 15
+RalfJung    | orcid | 2          | 11
+```
+
+Round 1 measured THREE people spanning more than one domain in the entire graph.
+
+### THE OVERLAP LAW — stated because it cost real time this session
+
+A source's headline size says NOTHING about its value to this graph. Only the
+overlap with our population does, and that is a two-line query. Measured:
+
+| source | headline | actually usable here |
+|---|---|---|
+| Wikidata advisor edges | 271,423 | **5** |
+| Wikidata github+ORCID people | 6,824 | **807** |
+| crates.io users | 69,169 | 19,768 matched crawl / 9,872 in graph |
+
+The advisor collapse is the same structural fact Round 1 proved for the
+github<->book name stitch: Wikidata's advisor graph is academics and historical
+figures, our github population is living developers. Populations that do not
+overlap cannot be joined by any method. The staged pipelines/wikidata/
+load_person_person.py is therefore CORRECT IN DESIGN and WRONG IN SOURCE — the
+person_person table is still the right structure, but Wikidata advisors will not
+fill it. Do not run it against that CSV.
+
+RULE: run the overlap query BEFORE writing the loader, not after.
+
+### #28 — ADMISSION ON EVIDENCE OF USE (pipelines/crates/promote_crates_people.py)
+
+The star floor, finally addressed — not by lowering it, but by replacing the
+criterion.
+
+Why not lower it. The floor is baked into the WHOLE pipeline, not just the
+people loader:
+
+```
+$ sqlite3 identity.sqlite "select case when stars>=100 then '100+'
+    when stars>=10 then '10-99' else 'under10' end band, count(*),
+    sum(overall_value is not null) rated from repo_card
+    left join repo_category using(full_name) group by 1;"
+100+   |478907|226963     (47.4% rated)
+10-99  |893266|     0     (0.0%)
+under10|   277|     0     (0.0%)
+```
+
+The rating pass never looked below 100 stars. Admitting that band wholesale
+would grow the graph 3.6x and make it THINNER — 893k people with no quality
+signal of any kind. A worse graph, not a bigger one.
+
+The rule used instead: **admit on external evidence of use.** A crates.io
+publisher is vouched for by download counts measured by a third party — strictly
+better evidence than a star count, and it does not require our rating pass to
+have run.
+
+```
+{"candidates": 68324, "already_in_graph": 9815, "people_created": 58509,
+ "edges_created": 249959, "ext_ids_created": 175527,
+ "before": {"people_total": 280708, "people_tracked": 113, "crates_edges": 87079},
+ "after":  {"people_total": 339217, "people_tracked": 58622, "crates_edges": 337038}}
+```
+
+**280,708 -> 339,217 people (+21%).** They enter as state='tracked', the schema's
+own provision for "we care, nothing linked yet" (written for the 9,395 registry
+people like Andrew Ng with zero content edges). kind stays 'unknown' rather than
+guessed — crates.io accounts include bots and org accounts, and the honest null
+is what person.kind exists to preserve.
+
+**WHO THE FLOOR WAS HIDING** — newly admitted, ranked by measured downloads:
+
+```
+Artyom Pavlov (RustCrypto) | 216 crates | 10,720,459,743 downloads
+Ed Page (clap)             | 138        | 10,576,029,291
+Diggory Hardy              |  38        |  6,865,212,847
+Jacob Pratt (time)         |  19        |  3,725,783,643
+Josh Triplett              |  24        |  3,458,183,075
+Alice Ryhl (Tokio)         |  57        |  3,156,187,336
+```
+
+Core Rust infrastructure maintainers — billions of downloads each — absent from
+a 280k-person graph because their repos carry under 100 stars. This validates
+the promotion rule better than any argument could.
+
+### Schema trap hit on the way
+
+`person` does NOT share person_content's provenance columns. Its real shape is
+(person_id,name,sort_name,kind,state,merged_into,birth_year,death_year,
+primary_tier,rank_score,origin,topics_json,built_at) — provenance is
+`origin`/`built_at`, not `source`/`observed_at`. Assuming symmetry across tables
+raised `sqlite3.OperationalError: table person has no column named source`.
+Read PRAGMA table_info before writing INSERTs, not after.
+
+## Round 17 — 2026-08-04 — the graph becomes relational
+
+### #29 — person_person from CRATE DEPENDENCIES (load_person_dependency.py)
+
+Third attempt at the hardest table in the graph, and the first that works.
+
+```
+Round 4   naive co-membership on shared gh_category  -> 720,107,620 pairs, REJECTED
+Round 14  Wikidata doctoral advisors (P184)          -> 271,423 available, FIVE usable
+Round 17  crate dependency edges                     -> 1,272,495 edges
+```
+
+Why this source and not the others: a dependency is not an inferred affinity, it
+is a DECLARED technical fact. A's software does not build without B's. The
+maintainer wrote it, the package manager machine-checks it, and it has a
+direction that means something. Round 4 said person-person needed "shared RARE
+category, co-citation, or genuine co-contribution, which this data does not
+have". This data has it.
+
+```
+{"dependency_rows": 32243556, "runtime_rows": 27847334,
+ "skipped_non_runtime": 4396222, "self_edges_dropped": 7351980,
+ "pairs_distinct": 1272495,
+ "after": {"person_person_total": 1272495, "depends_on_edges": 1272495}}
+```
+
+kind is NOT flattened: only kind=0 (runtime) loads. 4,396,222 dev and build rows
+were skipped — "I test with your thing" is a different claim from "my thing
+breaks without yours", and merging them repeats the book-roles error where a
+volunteer editor became the second most prolific author in history.
+
+**Question unlocked — WHO IS LOAD-BEARING.** Not who is famous, not who is rated
+well, not even whose artifact is downloaded most. Whose disappearance breaks the
+most other people's software:
+
+```
+person           dependents  evidence rows
+dtolnay              45037       5,442,954
+rust-lang-owner      29243       1,676,743
+carllerche           25999       2,552,317
+kbknapp              23661         471,623
+Darksonn             22771       1,277,452
+huonw                21728         967,336
+seanmonstar          21051       1,159,392
+BurntSushi           20447         758,206
+```
+
+Darksonn (Alice Ryhl, Tokio) was NOT IN THE GRAPH before round #28 admitted her
+on download evidence — 22,771 people depend on her work and a 100-star floor
+made her invisible. The promotion rule and the dependency layer validate each
+other.
+
+`weight` is evidence count, not importance: dtolnay at 5.4M means the relation is
+heavily attested, not that anyone owes him 5.4M favours.
+
+### FOUR NEW SOURCE TYPES found by asking a better question
+
+The session kept asking "what other datasets exist". The better question was
+"what other KINDS OF EDGE exist". Every signal loaded before today was metadata
+ABOUT AN ARTIFACT. These are relations between PEOPLE, and the graph had zero:
+
+1. **Crate dependencies** — loaded above. 1.27M edges.
+2. **GitHub Sponsors** — VERIFIED reachable with existing auth:
+   `gh api graphql` on dtolnay returns sponsorshipsAsMaintainer totalCount=122.
+   A funding edge. Nobody sponsors by accident; it is "this person's work
+   matters enough that I pay for it", which outranks a star, a rating and a
+   download as a statement of value. The graph has NO economic layer at all.
+3. **GitHub org membership** — VERIFIED: organization(login:"tokio-rs")
+   membersWithRole totalCount=29 with logins. This is person_organisation
+   populated DIRECTLY rather than inferred from crates team-name parsing.
+4. **Repo contributors** — VERIFIED: `gh api repos/tokio-rs/tokio/contributors`
+   returns 30. Genuine co-contribution, the exact thing Round 4 said the data
+   did not have.
+
+**AND THE GENERALISATION.** GitHub's own dependency graph API works with current
+auth:
+
+```
+$ gh api graphql -f query='{ repository(owner:"tokio-rs", name:"tokio")
+    { dependencyGraphManifests(first:1) { totalCount } } }'
+{"data":{"repository":{"dependencyGraphManifests":{"totalCount":20}}}}
+```
+
+The dependency insight is NOT Rust-specific. It applies to npm, PyPI, Maven, Go
+— every ecosystem on GitHub. crates.io was the proof of concept for a method,
+not a one-off source.
+
+### CORRECTIONS to earlier claims in this session
+
+- **Open Library's author dump is THIN, contrary to my earlier enthusiasm.**
+  remote_ids appears on 2% of author records (929 of 40,001 sampled). The 98%
+  occupation / 100% VIAF density measured earlier was in their *Wikidata* dump,
+  a different population. It is not a pre-built Gutenberg->Wikidata bridge.
+- **npm replication is dead.** https://replicate.npmjs.com/registry returns
+  "Not Found". The survey worker marked it UNVERIFIED and was right.
