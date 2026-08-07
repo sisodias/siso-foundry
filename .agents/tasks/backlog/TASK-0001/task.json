@@ -1,0 +1,31 @@
+{
+  "id": "TASK-0001",
+  "title": "Open and merge the PR that was never opened for crates-and-relational-layer",
+  "status": "backlog",
+  "priority": "critical",
+  "domain": "data",
+  "category": "infrastructure",
+  "created_at": "2026-08-07T00:00:00Z",
+  "created_by": "GLS-CONSOLIDATION",
+  "evidence": "Branch crates-and-relational-layer on sisodias/siso-foundry: 1 commit, ahead 0 behind, NO PR EVER OPENED. Contains docs/PEOPLE-GRAPH-ENRICHMENT-LOG.md (647 lines).",
+  "verified": false,
+  "target_agent": "",
+  "dependencies": [],
+  "spec": {
+    "description": "This is the most valuable unmerged branch in the estate and no PR was ever opened for it. The enrichment log is the EMPIRICAL ORIGIN of the whole 100x thesis, and the Great Library registry already cites Foundry evidence that depends on it.",
+    "context": "Six rounds with every number re-derived independently using json_extract rather than trusting the loader's own counters. It holds the core measurement everything downstream cites: of 280,708 people exactly THREE span more than one domain (Karpathy, Jensen Huang, Simon Willison) - the structural overlap gap, measured at source. It also records NEGATIVE results that stop work being re-attempted naively: the github-to-book identity stitch is structurally dead (2 matches, both false positives, zero after restricting to plausible human names, with a theoretical ceiling of 419 people); person-person co-membership rejected at 720,107,620 naive pairs; source diversity shown to be a restatement of stars. Losing this branch means re-deriving all of it.",
+    "acceptance_criteria": [
+      "A PR is opened against main and merged",
+      "The enrichment log is reachable from main",
+      "Any Great Library evidence citing Foundry is re-checked against the merged revision"
+    ]
+  },
+  "execution_log": [
+    {
+      "timestamp": "2026-08-07T00:00:00Z",
+      "action": "seeded",
+      "by": "GLS-CONSOLIDATION",
+      "notes": "Seeded from the 2026-08-07 estate consolidation. Durable rationale in .agents/tasks/consolidation-source/."
+    }
+  ]
+}

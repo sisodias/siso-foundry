@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Oracle Streaming Task / Idea / Gap",
+  "description": "Cross-domain backlog entry. Any agent or human may create one. Adopted from the SISO org .tasks convention (SISO_Internal_Lab/.tasks), extended with ui/security categories + a domain tag so UI ideas, security gaps, and future work live in ONE registry.",
+  "type": "object",
+  "required": ["id", "title", "status", "priority", "domain", "created_at"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique ID, format: TASK-XXXX",
+      "pattern": "^TASK-[0-9]{4}$"
+    },
+    "title": { "type": "string", "description": "Short, descriptive title" },
+    "status": {
+      "type": "string",
+      "enum": ["backlog", "queued", "in_progress", "blocked", "completed", "cancelled"],
+      "description": "Lifecycle stage. New ideas/gaps start as 'backlog'."
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["critical", "high", "medium", "low"]
+    },
+    "domain": {
+      "type": "string",
+      "enum": ["ui", "security", "backend", "lifecycle", "infra", "data", "research", "ops"],
+      "description": "Which part of the project this belongs to. Drives the hub Backlog-tab grouping."
+    },
+    "category": {
+      "type": "string",
+      "enum": ["feature", "idea", "gap", "bugfix", "infrastructure", "research", "content", "setup"],
+      "description": "Type. 'idea' = maybe-someday, 'gap' = a found-but-unbuilt surface, 'feature' = committed work."
+    },
+    "target_agent": {
+      "type": "string",
+      "description": "Which agent/lane should handle this (optional until triaged)."
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "created_by": {
+      "type": "string",
+      "description": "'human' (Shaan) or the agent name that logged it."
+    },
+    "evidence": {
+      "type": "string",
+      "description": "file:line proof or the source audit that backs this. Reconcile against PROVEN-LEDGER before flagging a gap (cold agents 'discover' things that already exist)."
+    },
+    "verified": {
+      "type": "boolean",
+      "description": "Has a second pass confirmed this is real (not a false alarm)? Unverified items are candidates, not facts."
+    },
+    "spec": {
+      "type": "object",
+      "properties": {
+        "description": { "type": "string" },
+        "objectives": { "type": "array", "items": { "type": "string" } },
+        "acceptance_criteria": { "type": "array", "items": { "type": "string" } },
+        "context": { "type": "string" },
+        "files_affected": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "dependencies": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "IDs that must complete first."
+    },
+    "execution_log": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": { "type": "string", "format": "date-time" },
+          "action": { "type": "string" },
+          "by": { "type": "string" },
+          "notes": { "type": "string" }
+        }
+      }
+    }
+  }
+}
