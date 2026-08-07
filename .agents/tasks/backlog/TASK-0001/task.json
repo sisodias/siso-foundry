@@ -1,14 +1,14 @@
 {
   "id": "TASK-0001",
   "title": "Open and merge the PR that was never opened for crates-and-relational-layer",
-  "status": "backlog",
+  "status": "done",
   "priority": "critical",
   "domain": "data",
   "category": "infrastructure",
   "created_at": "2026-08-07T00:00:00Z",
   "created_by": "GLS-CONSOLIDATION",
   "evidence": "Branch crates-and-relational-layer on sisodias/siso-foundry: 1 commit, ahead 0 behind, NO PR EVER OPENED. Contains docs/PEOPLE-GRAPH-ENRICHMENT-LOG.md (647 lines).",
-  "verified": false,
+  "verified": true,
   "target_agent": "",
   "dependencies": [],
   "spec": {
@@ -27,5 +27,7 @@
       "by": "GLS-CONSOLIDATION",
       "notes": "Seeded from the 2026-08-07 estate consolidation. Durable rationale in .agents/tasks/consolidation-source/."
     }
-  ]
+  ],
+  "completed_at": "2026-08-07T17:45:00Z",
+  "completion_evidence": "PR #1 opened and merged. main 2c0229b -> 6cf02e0 (merge commit 6cf02e0fb4611ffbeebf9f4c4967626a662b14ef). Verified post-merge on origin/main: 68/68 python files compile, 10 new loaders present, enrichment log at 3176 lines. PREMISE CORRECTION: the task states the GL registry cites evidence that depends on this unmerged branch -- a provenance gap. That was NOT accurate. docs/PEOPLE-GRAPH-ENRICHMENT-LOG.md was ALREADY on foundry main at 2529 lines, already containing the 280,708-people / three-cross-domain-people measurement. This branch APPENDED Rounds 14-17 (647 lines) to it. There was no provenance gap; the merge extends already-public evidence. Verified by md5 of both blobs and a git diff showing 647 insertions, 0 deletions."
 }
