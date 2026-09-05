@@ -1,0 +1,142 @@
+{
+  "schema_version": "0.1.0",
+  "record_type": "industry_value_research",
+  "industry_id": "ecommerce",
+  "industry_name": "US small ecommerce merchants",
+  "as_of": "2026-09-05",
+  "jurisdiction": "United States research pilot; merchant policies, platform permissions, consumer-protection obligations and applicable state/federal privacy rules require an authorized review.",
+  "status": "research_only_not_admitted",
+  "source_frame": "Action Model system-map industry slug ecommerce; taxonomy reference only, not client demand or implementation proof.",
+  "scope_note": "Research covers supervised order administration, payment/refund coordination, privacy handling and fulfillment exception work for small US merchants. No merchant account, payment credential, customer record or live order was accessed.",
+  "summary": "Small merchants can test supervised coordination around orders, refunds, privacy requests and fulfillment exceptions. A workflow may prepare records, route evidence and surface exceptions, but payment/refund authority, privacy decisions, customer remedies and fulfillment release remain with authorized people and systems. Vendor and project pages show capability, not adoption, compliance or savings.",
+  "automation_research": {
+    "finding": "NIST's Privacy Framework describes risk-based privacy management rather than an autonomous decision authority; Shopify's Admin API and Stripe's refund documentation expose controlled operations with account/payment context. Automation should therefore be measured as traceable task assistance with explicit review, not as permission to decide refunds, disclose data or release shipments.",
+    "source_ids": ["nist-privacy-framework", "shopify-refund-api", "stripe-refunds", "usps-shipping"],
+    "forecast_percent": null,
+    "forecast_note": "No independently measured small-merchant automation rate, adoption prevalence or savings estimate is used; documentation establishes capability and constraints only."
+  },
+  "software": [
+    {
+      "name": "Shopify Admin",
+      "capability": "Vendor documentation exposes order-administration, refund mutation and fulfillment objects for an authorized shop; these are operational interfaces, not evidence of merchant installation or outcomes.",
+      "evidence_scope": "vendor_api_documentation_not_installation_or_outcome_proof",
+      "source_ids": ["shopify-refund-api", "shopify-fulfillment-api"],
+      "price": null,
+      "price_note": "Plan, transaction, app and operator costs are merchant-specific and unmeasured."
+    },
+    {
+      "name": "Medusa",
+      "capability": "Open-source commerce platform documentation describes commerce modules including products and orders; deployment can be used as a merchant-owned coordination component subject to integration and rights review.",
+      "evidence_scope": "upstream_documentation_and_repository_capability_not_adoption_or_outcome_proof",
+      "source_ids": ["medusa-order-docs", "repo-medusa"],
+      "price": null,
+      "price_note": "Hosting, engineering, payment provider and operational support costs are merchant-specific and unmeasured."
+    }
+  ],
+  "modules": [
+    {
+      "repository": "medusajs/medusa",
+      "capability": "Commerce platform modules for catalog and order coordination, as described by upstream documentation and repository.",
+      "source_revision": "bda24b9725ac697ec5e8f706b503013e20babf12",
+      "existing_foundry_ref": "intelligence/agency/coverage-inventory.json: candidate S6.medusa; repository medusajs/medusa",
+      "reuse_shape": "Synchronize order state and draft exception queues; keep payment capture, refunds and fulfillment release behind allowlisted authenticated actions and human review.",
+      "rights_state": "Repository metadata and license must be reviewed for the intended edition and deployment; this record does not grant reuse rights.",
+      "source_ids": ["repo-medusa", "medusa-order-docs"],
+      "limits": "Documentation does not prove connector correctness, idempotency, merchant authorization, privacy controls or production reliability."
+    },
+    {
+      "repository": "saleor/saleor",
+      "capability": "GraphQL-first commerce core listed in the existing coverage inventory; relevant as an alternative order/catalog integration surface.",
+      "source_revision": "0a11eb911e006199daa1352ff5b76a07214f43fa",
+      "existing_foundry_ref": "intelligence/agency/coverage-inventory.json: candidate S6.saleor; repository saleor/saleor",
+      "reuse_shape": "Use only for read/prepare/reconcile flows until payment, refund, customer-data and fulfillment permissions are independently tested.",
+      "rights_state": "Upstream repository license and any hosted/enterprise terms require review before reuse; no license conclusion is made here.",
+      "source_ids": ["repo-saleor"],
+      "limits": "Candidate metadata and repository availability do not establish a supported merchant deployment, data-protection posture or outcome."
+    },
+    {
+      "repository": "vendurehq/vendure",
+      "capability": "Commerce framework repository listed in the existing inventory, potentially useful for order and fulfillment integration patterns.",
+      "source_revision": "523b57304c5850b86069de30a97b723a3f4da284",
+      "existing_foundry_ref": "intelligence/agency/coverage-inventory.json: candidate S10.vendurehq-vendure; repository vendurehq/vendure",
+      "reuse_shape": "Prototype read-only reconciliation and exception routing; do not infer payment/refund or shipment authority from framework capability.",
+      "rights_state": "Upstream license and edition/extension terms require review before reuse.",
+      "source_ids": ["repo-vendure"],
+      "limits": "Repository evidence does not prove merchant fit, integration safety, privacy compliance or reliable fulfillment outcomes."
+    }
+  ],
+  "processes": [
+    {
+      "id": "order_administration",
+      "process": "Order intake, status reconciliation and customer-service queue preparation",
+      "automation_boundary": "Normalize incoming order/status events, identify missing fields and draft a traceable queue; do not alter payment state, promise delivery, or make a customer remedy decision.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["shopify-fulfillment-api", "medusa-order-docs", "repo-medusa"],
+      "current_software": ["Shopify Admin", "Medusa"],
+      "github_modules": ["medusajs/medusa", "saleor/saleor", "vendurehq/vendure"],
+      "baseline_required": "Matched orders, intake/reconciliation/review minutes, duplicate or missing-state rate, exception queue aging and actual tool/operator cost.",
+      "metric": "Human minutes per accepted reconciled order, including review/rework and exceptions; unresolved or incorrectly routed order states.",
+      "falsifier": "Reject if review/rework erases net effort reduction or a material order-state error reaches a customer communication or operational handoff.",
+      "human_authority": "Named merchant operator owns customer communication, order corrections, promises and escalation decisions; platform remains system of record.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "payment_refund_coordination",
+      "process": "Refund request intake, evidence assembly and authorized execution handoff",
+      "automation_boundary": "Collect order/payment context, check policy fields and draft a refund recommendation or handoff; never independently approve, calculate a disputed remedy, capture funds or issue a refund.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["shopify-refund-api", "stripe-refunds"],
+      "current_software": ["Shopify Admin"],
+      "github_modules": ["medusajs/medusa", "saleor/saleor"],
+      "baseline_required": "Matched requests, triage/review minutes, correction and duplicate-refund rate, exception aging, chargeback/escalation counts and actual spend.",
+      "metric": "Human minutes per correctly authorized refund handoff, including review/rework; unauthorized, duplicate or incorrect refund actions.",
+      "falsifier": "Reject if net review effort is not reduced or any refund/payment action lacks authenticated authority, policy evidence or required review.",
+      "human_authority": "Authorized merchant/payment operator decides eligibility, amount and execution; payment provider and merchant policies remain authoritative.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "privacy_request_handling",
+      "process": "Customer privacy request intake, identity/evidence routing and response preparation",
+      "automation_boundary": "Log request, route it to the authorized privacy owner and assemble system-held records; do not infer identity, legal scope, retention exception or disclosure decision.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["nist-privacy-framework"],
+      "current_software": ["Shopify Admin"],
+      "github_modules": ["medusajs/medusa", "vendurehq/vendure"],
+      "baseline_required": "Matched requests, intake/search/review minutes, identity-verification failures, missed deadlines, disclosure corrections and actual tool/operator cost.",
+      "metric": "Human minutes per accepted privacy-request packet, including review/rework; unresolved identity, scope or disclosure defects.",
+      "falsifier": "Reject if review does not reduce net effort or an unverified requester, unauthorized disclosure, retention error or missing audit trail survives.",
+      "human_authority": "Named merchant privacy owner decides identity, scope, exemptions, retention and response; automation has no legal or professional authority.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "fulfillment_exceptions",
+      "process": "Shipment status monitoring, exception triage and carrier/customer handoff",
+      "automation_boundary": "Reconcile fulfillment events, flag late/damaged/missing shipments and draft next-step queues; do not promise delivery, select a remedy or release inventory without authorization.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["shopify-fulfillment-api", "usps-shipping"],
+      "current_software": ["Shopify Admin"],
+      "github_modules": ["medusajs/medusa", "vendurehq/vendure"],
+      "baseline_required": "Matched shipments, monitoring/review/exception minutes, stale-event rate, late/misroute rate, customer-contact rework and actual spend.",
+      "metric": "Human minutes per accepted exception resolution handoff, including review/rework; unresolved or incorrectly escalated fulfillment exceptions.",
+      "falsifier": "Reject if exceptions erase time reduction or a wrong carrier/order, unsupported delivery promise or unauthorized remedy reaches the customer.",
+      "human_authority": "Merchant fulfillment lead and carrier/account authorities own shipment release, delivery promises and customer remedy decisions.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    }
+  ],
+  "sources": [
+    {"id": "nist-privacy-framework", "url": "https://www.nist.gov/privacy-framework", "title": "NIST Privacy Framework", "publisher": "National Institute of Standards and Technology", "kind": "government_primary_authority", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Risk-management framework for privacy; does not determine a merchant's legal obligations or authorize automated disclosure decisions."},
+    {"id": "shopify-refund-api", "url": "https://shopify.dev/docs/api/admin-graphql/latest/mutations/refundcreate", "title": "refundCreate mutation", "publisher": "Shopify", "kind": "vendor_primary_documentation", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "API capability and input shape; does not prove plan access, authorization, policy correctness or outcome."},
+    {"id": "shopify-fulfillment-api", "url": "https://shopify.dev/docs/api/admin-graphql/latest/objects/fulfillment", "title": "Fulfillment object", "publisher": "Shopify", "kind": "vendor_primary_documentation", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Fulfillment data model and status fields; does not prove carrier accuracy or merchant adoption."},
+    {"id": "stripe-refunds", "url": "https://docs.stripe.com/refunds", "title": "Refunds", "publisher": "Stripe", "kind": "vendor_primary_documentation", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Payment-provider refund mechanics and constraints; not a merchant policy or authorization decision."},
+    {"id": "usps-shipping", "url": "https://www.usps.com/ship/", "title": "USPS shipping services", "publisher": "United States Postal Service", "kind": "government_service_documentation", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Shipping service context; does not establish a merchant's carrier contract, delivery promise or exception outcome."},
+    {"id": "medusa-order-docs", "url": "https://docs.medusajs.com/resources/commerce-modules/order", "title": "Order module", "publisher": "Medusa", "kind": "project_documentation", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Project capability documentation; no deployment, reliability, adoption or savings proof."},
+    {"id": "repo-medusa", "url": "https://github.com/medusajs/medusa/tree/bda24b9725ac697ec5e8f706b503013e20babf12", "title": "medusajs/medusa", "publisher": "Medusa project", "kind": "source_repository", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Pinned repository view; rights, extensions, deployment and operational suitability require independent review."},
+    {"id": "repo-saleor", "url": "https://github.com/saleor/saleor/tree/0a11eb911e006199daa1352ff5b76a07214f43fa", "title": "saleor/saleor", "publisher": "Saleor project", "kind": "source_repository", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Pinned repository view; capability and candidate inventory are not adoption, compliance or outcome evidence."},
+    {"id": "repo-vendure", "url": "https://github.com/vendurehq/vendure/tree/523b57304c5850b86069de30a97b723a3f4da284", "title": "vendurehq/vendure", "publisher": "Vendure project", "kind": "source_repository", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Pinned repository view; framework capability does not establish merchant fit or fulfillment authority."}
+  ],
+  "value_model_ref": "../economics/observed-value-model.json",
+  "observed_business_value": {"currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "eligible_businesses": null, "societal_value": null, "status": "unmeasured", "reason": "No merchant baseline, measured trial or cost evidence was collected; documentation only supports bounded hypotheses."},
+  "pilot": {"design": "Matched pre/post or parallel-order pilot with allowlisted read/prepare workflows, named merchant approvers, audit logs and separate review of payment/refund, privacy and fulfillment authority.", "record": ["orders and requests processed", "human review/rework/exception minutes", "correction and unauthorized-action counts", "privacy and payment audit outcomes", "carrier/status reconciliation quality", "actual software and operator cost"], "reject_if": ["net review/rework effort is not reduced", "any unauthorized refund, disclosure, payment or shipment action occurs", "critical order, privacy or fulfillment error survives review", "audit trail or identity/permission evidence is incomplete"]},
+  "limitations": ["No merchant interviews, production access, installation counts, market share, pricing, realized savings or regulatory determination were collected.", "Vendor and open-source documentation describes capability, not adoption, reliability, security, compliance or value.", "Payment/refund, privacy and fulfillment decisions remain outside generic workflow authority and require merchant, provider or qualified human review.", "The FTC pages checked for consumer-order and privacy guidance returned 403 to this environment and are not used as supporting evidence; no claim is inferred from that block."],
+  "blocked_sources": [{"url": "https://www.ftc.gov/legal-library/browse/rules/mail-internet-or-telephone-order-merchandise-rule", "status": 403, "note": "FTC page was inaccessible from this environment; excluded from supporting evidence."}, {"url": "https://www.ftc.gov/business-guidance/privacy-security", "status": 403, "note": "FTC page was inaccessible from this environment; excluded from supporting evidence."}]
+}

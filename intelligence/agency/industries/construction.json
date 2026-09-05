@@ -1,0 +1,144 @@
+{
+  "schema_version": "0.1.0",
+  "record_type": "industry_value_research",
+  "industry_id": "construction",
+  "industry_name": "US small construction contractors",
+  "as_of": "2026-09-05",
+  "jurisdiction": "United States research pilot; contract, tax, labor, licensing, building-code, environmental and local permitting requirements remain owner and qualified-professional responsibilities.",
+  "status": "research_only_not_admitted",
+  "source_frame": "Action Model system-map industry slug construction; taxonomy reference only, not demand, adoption or implementation proof.",
+  "scope_note": "Administrative workflow assistance for small construction contractors. The scope excludes engineering, estimating authority, safety sign-off, code or permit approval, trade instructions and unsupervised site decisions.",
+  "summary": "Test supervised intake, schedule coordination, change-order records and invoice-package follow-up against the contractor's incumbent workflow. Preserve professional review of scope, quantities, safety, quality, contract rights, permits and payment approval.",
+  "automation_research": {
+    "finding": "Federal labor recordkeeping and EPA renovation guidance support careful records, retention and trained-person boundaries; vendor pages show workflow capabilities but do not establish installed base, achieved automation or savings. Construction work, safety and technical approvals remain accountable human work.",
+    "source_ids": ["dol-records", "epa-rrp", "sba-standards"],
+    "forecast_percent": null,
+    "forecast_note": "No automation percentage, adoption prevalence or savings forecast is supported by these sources; any value result requires a measured contractor baseline."
+  },
+  "software": [
+    {
+      "name": "Procore",
+      "capability": "Vendor advertises construction project-management capabilities including project information, coordination, documents, financial and field workflows.",
+      "evidence_scope": "vendor_advertised_not_installation_or_outcome_proof",
+      "source_ids": ["procore"],
+      "price": null,
+      "price_note": "No current small-contractor quote, billing basis, implementation cost or outcome measurement verified."
+    },
+    {
+      "name": "Autodesk Construction Cloud",
+      "capability": "Vendor describes a construction cloud platform for connected project information, document coordination and project workflows.",
+      "evidence_scope": "vendor_advertised_not_installation_or_outcome_proof",
+      "source_ids": ["autodesk"],
+      "price": null,
+      "price_note": "No current small-contractor quote, installed-base evidence, implementation cost or achieved savings verified."
+    }
+  ],
+  "modules": [
+    {
+      "repository": "frappe/erpnext",
+      "capability": "Repository describes an open-source ERP with project, CRM, accounting, purchasing and related business records.",
+      "source_revision": "unverified",
+      "existing_foundry_ref": "intelligence/agency/coverage-inventory.json: repository frappe/erpnext",
+      "reuse_shape": "Read-oriented project, customer, timesheet and invoice prototype over redacted fixtures; keep the contractor's accounting and contract authority system of record.",
+      "rights_state": "Coverage inventory marks this as analyzed/inferred with rights review required; verify current license, dependencies, security and deployment obligations before reuse.",
+      "source_ids": ["repo-erpnext"],
+      "limits": "Repository description is not evidence of construction-code compliance, estimating accuracy, payroll/tax correctness, safety, security or production fitness."
+    },
+    {
+      "repository": "InvoicePlane/InvoicePlane",
+      "capability": "Repository describes self-hosted invoicing and client/payment records useful for invoice-package and receivables workflow exploration.",
+      "source_revision": "unverified",
+      "existing_foundry_ref": "intelligence/agency/coverage-inventory.json: repository InvoicePlane/InvoicePlane",
+      "reuse_shape": "Draft invoice status, attachment and follow-up sidecar using redacted records; human approves billing, contract interpretation and submission.",
+      "rights_state": "Coverage inventory records metadata and unclear rights status; verify current repository license, dependencies, security and deployment obligations before reuse.",
+      "source_ids": ["repo-invoiceplane"],
+      "limits": "Repository metadata is not evidence of retainage, lien, tax, payment-application, accounting-control or production support."
+    },
+    {
+      "repository": "opf/openproject",
+      "capability": "Repository describes open-source project management with work packages, schedules, collaboration and reporting.",
+      "source_revision": "unverified",
+      "existing_foundry_ref": "intelligence/agency/coverage-inventory.json: repository opf/openproject",
+      "reuse_shape": "Prototype administrative task and milestone views from approved records; do not infer site status, critical path, quantities or safety from a task board.",
+      "rights_state": "Coverage inventory lists this repository as an existing project-management candidate; verify current license, dependencies, security and deployment obligations before reuse.",
+      "source_ids": ["repo-openproject"],
+      "limits": "Repository capability is not evidence of construction scheduling accuracy, contract compliance, field connectivity, safety or professional authority."
+    }
+  ],
+  "processes": [
+    {
+      "id": "bid_intake_estimate_packet",
+      "process": "Bid invitation, estimate-input and subcontractor-document intake",
+      "automation_boundary": "Collect approved plans, scope notes, due dates and vendor documents; check presence, versions and obvious conflicts for human review. Do not price work, interpret engineering drawings, select means or methods, certify quantities or submit a bid without authorized review.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["procore", "autodesk", "repo-erpnext"],
+      "current_software": ["Procore", "Autodesk Construction Cloud"],
+      "github_modules": ["frappe/erpnext"],
+      "baseline_required": "Matched bid packets, intake/review minutes, missing-version and duplicate rates, rework, late-submission incidents, access errors and actual administrative cost.",
+      "metric": "Net human minutes per complete, correctly versioned bid packet including review, exception and rework effort; late or wrong-submission rate",
+      "falsifier": "Reject if scope/version errors, unauthorized disclosure, missed deadline or review/rework increase, or automation is treated as estimating or engineering authority.",
+      "human_authority": "Authorized estimator, project manager and qualified design/trade professionals control scope interpretation, quantities, price, exclusions, bid approval and submission.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "schedule_coordination",
+      "process": "Administrative schedule, meeting-action and document coordination",
+      "automation_boundary": "Transcribe approved actions, track due dates, link current documents and draft reminders from recorded status. Do not create a construction sequence, direct field labor, resolve conflicts or make weather, safety, quality or critical-path decisions.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["procore", "autodesk", "repo-openproject"],
+      "current_software": ["Procore", "Autodesk Construction Cloud"],
+      "github_modules": ["opf/openproject"],
+      "baseline_required": "Matched meetings and tasks, coordinator minutes, stale/duplicate action items, acknowledgement latency, missed escalations, document-version errors and correction effort.",
+      "metric": "Net human minutes per accurately acknowledged action/document update including review and exception handling; stale-item and wrong-version rates",
+      "falsifier": "Reject if a stale action or wrong document reaches the field, safety/quality escalation is delayed, or review/rework offsets the time reduction.",
+      "human_authority": "Project manager and designated superintendent/qualified professionals approve sequence, field instructions, safety, quality and schedule-impact decisions.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "change_order_record",
+      "process": "Change-order request, approval and contract-record coordination",
+      "automation_boundary": "Assemble dated requests, correspondence, photos and approved cost/schedule fields; flag missing approvals and draft a status packet. Do not determine entitlement, price, causation, code impact or authorize changed work.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["procore", "autodesk", "repo-erpnext"],
+      "current_software": ["Procore", "Autodesk Construction Cloud"],
+      "github_modules": ["frappe/erpnext"],
+      "baseline_required": "Matched change events, assembly/review minutes, missing-evidence and duplicate rates, approval latency, disputed/reworked packets, privacy incidents and actual contract-administration cost.",
+      "metric": "Net human minutes per accepted, traceable change-order packet including review/rework; missing-approval, dispute and unauthorized-work rates",
+      "falsifier": "Reject if an unapproved change is treated as authorized, contract or safety rights are misrepresented, disputes/rework rise, or private documents are misrouted.",
+      "human_authority": "Contract owner, authorized project manager, estimator and qualified design/trade professionals decide entitlement, cost, schedule, technical implications and approval.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "invoice_payment_followup",
+      "process": "Invoice, pay-application and receivables follow-up administration",
+      "automation_boundary": "Check required fields and attachments, reconcile status to approved records and draft follow-ups to verified recipients. Do not calculate or certify earned value, retainage, tax, lien rights or payment approval, and do not send unreviewed demands.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["dol-records", "procore", "repo-invoiceplane", "repo-erpnext"],
+      "current_software": ["Procore", "Autodesk Construction Cloud"],
+      "github_modules": ["InvoicePlane/InvoicePlane", "frappe/erpnext"],
+      "baseline_required": "Matched invoice packages, preparation/review minutes, missing-attachment and duplicate rates, correction/rejection latency, payment follow-up effort, access incidents and actual cash impact.",
+      "metric": "Net human minutes per accurate approved invoice package/follow-up including review and rework; rejection, duplicate, wrong-recipient and aging rates",
+      "falsifier": "Reject if a false amount or deadline is sent, a required record is missing, privacy/contract rights are breached, review/rework rises or cash outcome is claimed without measurement.",
+      "human_authority": "Authorized finance and project personnel, contract owner and accounting/tax professionals approve quantities, billing, retainage, notices, payment decisions and records.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    }
+  ],
+  "sources": [
+    {"id": "dol-records", "url": "https://www.dol.gov/agencies/whd/fact-sheets/21-flsa-recordkeeping", "title": "Recordkeeping Under the Fair Labor Standards Act", "publisher": "U.S. Department of Labor", "kind": "government_guidance", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Supports labor-record accuracy and retention context; does not establish construction automation, compliance for a contractor or savings."},
+    {"id": "epa-rrp", "url": "https://www.epa.gov/lead/renovation-repair-and-painting-program", "title": "Lead Renovation, Repair and Painting Program", "publisher": "U.S. Environmental Protection Agency", "kind": "government_guidance", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Supports trained-person, renovation-record and lead-safety boundaries; does not authorize automated site or safety decisions."},
+    {"id": "sba-standards", "url": "https://www.sba.gov/business-guide/launch-your-business/choose-business-structure", "title": "Choose a business structure", "publisher": "U.S. Small Business Administration", "kind": "government_guidance", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Supports owner/accountability context for small businesses; it is not construction market prevalence, software adoption or workflow evidence."},
+    {"id": "procore", "url": "https://www.procore.com/platform", "title": "Procore construction management platform", "publisher": "Procore", "kind": "vendor", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Vendor capability claims only; no small-contractor installation prevalence, price, accuracy, security or outcome measurement."},
+    {"id": "autodesk", "url": "https://construction.autodesk.com/", "title": "Autodesk Construction Cloud", "publisher": "Autodesk", "kind": "vendor", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Vendor capability claims only; no installed-base, price, implementation, safety or savings proof."},
+    {"id": "repo-erpnext", "url": "https://github.com/frappe/erpnext", "title": "frappe/erpnext repository", "publisher": "Frappe", "kind": "official_repository", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Repository was accessible; revision and production behavior remain unverified. Coverage inventory flags rights review."},
+    {"id": "repo-invoiceplane", "url": "https://github.com/InvoicePlane/InvoicePlane", "title": "InvoicePlane/InvoicePlane repository", "publisher": "InvoicePlane", "kind": "official_repository", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Repository was accessible; coverage inventory records unclear rights status and no production qualification is inferred."},
+    {"id": "repo-openproject", "url": "https://github.com/opf/openproject", "title": "opf/openproject repository", "publisher": "OpenProject", "kind": "official_repository", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Repository was accessible; revision, deployment, security and construction-specific behavior remain unverified."}
+  ],
+  "value_model_ref": "../economics/observed-value-model.json",
+  "observed_business_value": {"currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "eligible_businesses": null, "societal_value": null, "status": "unmeasured", "reason": "No contractor baseline, achieved automation rate, review/rework data, operating cost, displacement proof or eligible-population measurement. Null is not zero."},
+  "pilot": {
+    "design": "Within one authorized contractor, compare matched redacted or synthetic bid, schedule, change-order and invoice packets under the incumbent and supervised candidate workflows; pre-register document-version, privacy, contract, labor and professional-authority gates.",
+    "record": ["packets and actions processed", "baseline human minutes", "assisted human minutes including review/rework", "wrong-version, missed-escalation, unauthorized-disclosure and unapproved-action cases", "actual cancelled spend", "recurring operating cost", "implementation and rollback cost"],
+    "reject_if": ["Human time including review/rework is not lower than matched baseline.", "Any unapproved technical, safety, contract, billing or payment decision or unauthorized disclosure occurs.", "A stale or incomplete record causes a missed deadline, wrong instruction or unapproved work.", "Measured first-year net cash is not positive for a cash-savings offer; released capacity is not cash."]
+  },
+  "limitations": ["This is not engineering, safety, code, permitting, tax, labor, contract or construction advice, product admission or an industry-wide forecast.", "Current software adoption prevalence and subscription prices were not verified; named offerings are not assumed installed.", "No generic repository is claimed to replace the contractor's contract, accounting, document-control, safety or professional-authority systems.", "Rights, security, retention, restoration, integrations, accessibility, field connectivity and state/local requirements remain product-owner gates."]
+}

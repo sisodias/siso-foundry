@@ -1,0 +1,143 @@
+{
+  "schema_version": "0.1.0",
+  "record_type": "industry_value_research",
+  "industry_id": "hospitality",
+  "industry_name": "US small hotels and lodging operators",
+  "as_of": "2026-09-05",
+  "jurisdiction": "United States research pilot for small hotels, inns and lodging operators; local lodging, accessibility, privacy, tax, labor and safety requirements require owner and qualified professional review.",
+  "status": "research_only_not_admitted",
+  "source_frame": "Action Model system-map industry slug hospitality; taxonomy reference only, not demand or implementation proof.",
+  "scope_note": "Supervised guest coordination and operational administration. This record excludes safety determinations, emergency response, guest eligibility decisions, pricing authority and autonomous external commitments.",
+  "summary": "Prioritize reservation inquiry capture, arrival/departure coordination, housekeeping or maintenance task routing, and approved guest follow-up. Compare matched work against the incumbent PMS and require human review for exceptions, identity-sensitive data, safety matters and any commitment to a guest.",
+  "automation_research": {
+    "finding": "NIST privacy guidance supports identifying and governing personal-data processing, while vendor pages show that hotel-management products commonly combine reservations, guest data and operational coordination. Neither source type establishes adoption, automation percentage or achieved savings; guest authority, privacy controls and safety escalation remain human responsibilities.",
+    "source_ids": ["nist-privacy", "qloapps-features", "cloudbeds-hms"],
+    "forecast_percent": null,
+    "forecast_note": "No independent automation, adoption or savings estimate was verified. Product capability pages are vendor claims, not outcome evidence."
+  },
+  "software": [
+    {
+      "name": "QloApps",
+      "capability": "Vendor presents an open-source hotel booking and property-management platform for reservations and hotel operations.",
+      "evidence_scope": "vendor_and_repository_capability_claims_not_installation_or_outcome_proof",
+      "source_ids": ["qloapps-features", "repo-qloapps"],
+      "price": null,
+      "price_note": "No current operator quote, hosting cost, support cost, implementation cost or achieved savings verified."
+    },
+    {
+      "name": "Cloudbeds",
+      "capability": "Vendor advertises a hotel-management system combining reservation management, guest data, payments, distribution and guest-experience functions.",
+      "evidence_scope": "vendor_advertised_not_installation_or_outcome_proof",
+      "source_ids": ["cloudbeds-hms"],
+      "price": null,
+      "price_note": "No current small-operator quote, billing basis, integration cost or measured outcome verified."
+    }
+  ],
+  "modules": [
+    {
+      "repository": "Qloapps/QloApps",
+      "capability": "Repository for the QloApps hotel booking and property-management application; relevant to reservation and lodging-operation workflow exploration.",
+      "source_revision": "unverified",
+      "existing_foundry_ref": "intelligence/agency/coverage-inventory.json: repository Qloapps/QloApps",
+      "reuse_shape": "Read-oriented reservation and room-status prototype over redacted or synthetic fixtures; preserve the operator PMS as authority and require review before guest-facing writes.",
+      "rights_state": "Coverage inventory records OSL-3.0; verify current repository license, dependencies, branding, security and deployment obligations before reuse.",
+      "source_ids": ["repo-qloapps"],
+      "limits": "Repository capability is not evidence of reliable availability, tax treatment, privacy, accessibility, security, support or production fitness."
+    },
+    {
+      "repository": "chatwoot/chatwoot",
+      "capability": "Repository for shared inbox and customer-support conversations, potentially useful for supervised guest inquiry and follow-up queues.",
+      "source_revision": "unverified",
+      "existing_foundry_ref": "intelligence/agency/value-matrix.json: repository chatwoot/chatwoot",
+      "reuse_shape": "Draft and queue guest messages for verified recipients, with human approval and an auditable handoff; do not make reservations, promises or safety decisions.",
+      "rights_state": "Verify current repository license, dependencies, channel terms, security, retention and deployment obligations before reuse.",
+      "source_ids": ["repo-chatwoot"],
+      "limits": "A support-inbox repository does not prove hospitality integrations, identity assurance, emergency handling, privacy compliance or operator adoption."
+    },
+    {
+      "repository": "activepieces/activepieces",
+      "capability": "Repository for visual workflow automation and connectors, potentially useful for bounded task notifications and record synchronization.",
+      "source_revision": "unverified",
+      "existing_foundry_ref": "intelligence/agency/value-matrix.json: repository activepieces/activepieces",
+      "reuse_shape": "Allow-listed, idempotent notifications and task updates between approved systems; require approval gates, replay controls and dead-letter handling for guest-facing actions.",
+      "rights_state": "Verify current repository license, dependencies, connector terms, secrets handling and deployment obligations before reuse.",
+      "source_ids": ["repo-activepieces"],
+      "limits": "Generic automation infrastructure does not establish correct hotel state, recipient identity, availability, safety response or reliable delivery."
+    }
+  ],
+  "processes": [
+    {
+      "id": "reservation_inquiry_coordination",
+      "process": "Reservation inquiry capture, completeness review and handoff",
+      "automation_boundary": "Capture guest-provided dates, party and contact details, deduplicate inquiries and route them to an authorized operator. Do not decide eligibility, guarantee availability, set price, take payment or make a binding reservation without human approval.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["qloapps-features", "cloudbeds-hms", "repo-qloapps", "nist-privacy"],
+      "current_software": ["QloApps", "Cloudbeds"],
+      "github_modules": ["Qloapps/QloApps", "chatwoot/chatwoot"],
+      "baseline_required": "Matched inquiry volume, completeness and routing accuracy, response latency, human review/rework minutes, duplicate or wrong-recipient events, privacy incidents and actual operating cost.",
+      "metric": "Net human minutes per accurately routed inquiry including review, exception handling and correction; stale-response and privacy-error rates.",
+      "falsifier": "Reject if an inquiry is treated as a reservation or eligibility decision, wrong-recipient disclosure occurs, review/rework offsets time saved, or privacy controls fail.",
+      "human_authority": "Authorized lodging staff controls availability, price, eligibility, payment, reservation confirmation and escalation; privacy owner controls access, retention and disclosure.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "arrival_departure_coordination",
+      "process": "Approved arrival, departure and guest-request coordination",
+      "automation_boundary": "Assemble approved arrival or departure instructions from current records, surface missing details and draft messages to verified guests. Do not issue unreviewed access credentials, promise exceptions, alter a booking or provide emergency or safety instructions autonomously.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["cloudbeds-hms", "repo-chatwoot", "repo-activepieces", "nist-privacy"],
+      "current_software": ["Cloudbeds", "QloApps"],
+      "github_modules": ["chatwoot/chatwoot", "activepieces/activepieces"],
+      "baseline_required": "Matched arrival/departure volume, message preparation and review minutes, response latency, correction/retry count, wrong-recipient events and access or safety escalations.",
+      "metric": "Net human minutes per accurate approved coordination message including review and retries; stale-instruction, correction and unauthorized-disclosure rates.",
+      "falsifier": "Reject if stale or wrong instructions increase, a credential or private detail is disclosed, an unapproved commitment is sent, or review/rework eliminates effort reduction.",
+      "human_authority": "Lodging staff approve guest identity, content, access and exceptions; designated safety and operations owners handle safety or emergency matters.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "housekeeping_maintenance_routing",
+      "process": "Room turnover, housekeeping and maintenance task routing",
+      "automation_boundary": "Create and route operator-entered tasks, attach timestamps and evidence, flag missing fields and summarize open work. Do not certify room safety or cleanliness, diagnose hazards, authorize unsafe work or replace inspection and emergency response.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["qloapps-features", "repo-qloapps", "repo-activepieces", "ahla"],
+      "current_software": ["QloApps", "Cloudbeds"],
+      "github_modules": ["Qloapps/QloApps", "activepieces/activepieces"],
+      "baseline_required": "Matched room turns and work orders, routing accuracy, time to assignment, human review/rework minutes, repeat visits, missed escalation counts and actual operating cost.",
+      "metric": "Net human minutes per correctly routed task including review and exception handling; incomplete-record, repeat-visit and missed-critical-escalation rates.",
+      "falsifier": "Reject if critical work is misrouted or delayed, an incomplete record is treated as a safety certification, repeat work or review rises, or private guest data is exposed.",
+      "human_authority": "Housekeeping, maintenance and designated safety personnel determine condition, priority, work authorization and emergency response.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "guest_followup_resolution",
+      "process": "Guest request follow-up, status tracking and resolution handoff",
+      "automation_boundary": "Draft approved follow-ups from current task state, send only to verified recipients and record replies or unresolved items. Do not promise compensation, alter terms, disclose another guest's information or close a safety issue without authorized human review.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["cloudbeds-hms", "repo-chatwoot", "repo-activepieces", "nist-privacy"],
+      "current_software": ["Cloudbeds", "QloApps"],
+      "github_modules": ["chatwoot/chatwoot", "activepieces/activepieces"],
+      "baseline_required": "Matched guest-request volume, first-response and resolution latency, human review/rework minutes, duplicate/wrong-recipient rate, escalation completeness and actual communication cost.",
+      "metric": "Net human minutes per accurate approved follow-up including review, retries and exception escalation; response latency, duplicate-send and privacy-error rates.",
+      "falsifier": "Reject if stale status, wrong-recipient disclosure or duplicate sends increase, a required safety escalation is missed, or review/rework eliminates effort reduction.",
+      "human_authority": "Authorized lodging staff approve content, recipient, commitments, compensation and escalation; safety and management decisions remain with designated humans.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    }
+  ],
+  "sources": [
+    {"id": "nist-privacy", "url": "https://www.nist.gov/privacy-framework", "title": "Privacy Framework", "publisher": "National Institute of Standards and Technology", "kind": "government_framework", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Supports privacy-risk identification and governance boundaries; does not establish hospitality compliance, adoption, automation or savings."},
+    {"id": "qloapps-features", "url": "https://qloapps.com/features/", "title": "Hotel property-management and booking software features", "publisher": "QloApps", "kind": "vendor", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Vendor capability claims about hotel booking and operations; no installation prevalence, price, security or outcome measurement."},
+    {"id": "cloudbeds-hms", "url": "https://www.cloudbeds.com/hotel-management-software/", "title": "Hotel management software", "publisher": "Cloudbeds", "kind": "vendor", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Vendor capability claims about reservations, guest data and operations; no small-operator adoption, price or outcome measurement."},
+    {"id": "ahla", "url": "https://www.ahla.com/", "title": "American Hotel & Lodging Association", "publisher": "American Hotel & Lodging Association", "kind": "industry_association", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Industry context source only; does not validate a particular workflow, automation rate or savings claim."},
+    {"id": "repo-qloapps", "url": "https://github.com/Qloapps/QloApps", "title": "Qloapps/QloApps repository", "publisher": "QloApps", "kind": "official_repository", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Repository was accessible; revision and production behavior remain unverified. Coverage inventory records OSL-3.0, subject to current rights review."},
+    {"id": "repo-chatwoot", "url": "https://github.com/chatwoot/chatwoot", "title": "chatwoot/chatwoot repository", "publisher": "Chatwoot", "kind": "official_repository", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Repository was accessible; hospitality integration, revision, security and production behavior remain unverified."},
+    {"id": "repo-activepieces", "url": "https://github.com/activepieces/activepieces", "title": "activepieces/activepieces repository", "publisher": "Activepieces", "kind": "official_repository", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Repository was accessible; connector behavior, revision, security, delivery guarantees and production fitness remain unverified."}
+  ],
+  "value_model_ref": "../economics/observed-value-model.json",
+  "observed_business_value": {"currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "eligible_businesses": null, "societal_value": null, "status": "unmeasured", "reason": "No operator baseline, achieved automation rate, review/rework data, operating cost, cash displacement or eligible-population measurement. Null is not zero."},
+  "pilot": {
+    "design": "Within one authorized lodging operator, compare matched redacted or synthetic inquiries, arrivals, room tasks and follow-ups under the incumbent and supervised candidate workflows; pre-register recipient, privacy, safety and human-approval gates.",
+    "record": ["requests, stays and tasks processed", "baseline human minutes", "assisted human minutes including review/rework", "routing errors, missed escalations and unauthorized-access cases", "actual cancelled spend", "recurring operating cost", "implementation and rollback cost"],
+    "reject_if": ["Human time including review/rework is not lower than matched baseline.", "Any guest record crosses an unauthorized boundary or an unapproved message, commitment, credential, decision or safety action occurs.", "A workflow is treated as a safety, eligibility, pricing, payment or reservation authority without authorized human review.", "Measured first-year net cash is not positive for a cash-savings offer; released time is reported as capacity, not cash."]
+  },
+  "limitations": ["This is not hospitality, legal, privacy, accessibility, safety, lodging or guest-eligibility advice, product admission or an industry-wide forecast.", "Current software adoption prevalence, subscription prices and achieved savings were not verified; named offerings are not assumed installed.", "No generic repository is claimed to replace a property's PMS, room inspection, access control, payment, safety or professional authority.", "Rights, security, retention, restoration, integrations, accessibility, emergency response and state/local requirements remain product-owner gates."]
+}

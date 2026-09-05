@@ -1,0 +1,133 @@
+{
+  "schema_version": "0.1.0",
+  "record_type": "industry_value_research",
+  "industry_id": "property_management",
+  "industry_name": "US residential property managers",
+  "as_of": "2026-09-05",
+  "jurisdiction": "United States research pilot; state and local housing, landlord-tenant, safety, privacy and fair-housing requirements require owner and counsel review.",
+  "status": "research_only_not_admitted",
+  "source_frame": "Action Model system-map industry slug property_management; taxonomy reference only, not client demand or implementation proof.",
+  "scope_note": "Supervised workflow assistance for residential rental operations. Tenant privacy, lawful owner decisions, habitability and emergency/safety escalation remain human responsibilities; this record is not legal, housing or safety advice.",
+  "summary": "Start with maintenance intake and routing, inspection/turnover evidence, tenant-request follow-up and screening-document completeness. Compare matched work orders and units against the incumbent system; do not automate habitability judgments, adverse screening decisions, rent/lease decisions or emergency response.",
+  "automation_research": {
+    "finding": "EPA lead-safety guidance, FEMA fire-safety guidance and CFPB tenant-screening guidance ground recurring records, disclosures and escalation boundaries. They do not establish an automation rate, adoption prevalence or savings; owner decisions and safety response remain accountable human work.",
+    "source_ids": ["epa-lead", "fema-home-fire", "cfpb-screening"],
+    "forecast_percent": null,
+    "forecast_note": "No independently verified percentage is used; public guidance and vendor capability pages are not an automation or savings forecast."
+  },
+  "software": [
+    {
+      "name": "Buildium",
+      "capability": "Vendor advertises residential property accounting, leasing, maintenance, resident communication and reporting workflows.",
+      "evidence_scope": "vendor_advertised_not_installation_or_outcome_proof",
+      "source_ids": ["buildium"],
+      "price": null,
+      "price_note": "No current manager quote, billing basis, avoided spend or implementation cost verified."
+    },
+    {
+      "name": "AppFolio Property Manager",
+      "capability": "Vendor advertises property operations, maintenance, leasing, resident communication, payments and reporting capabilities.",
+      "evidence_scope": "vendor_advertised_not_installation_or_outcome_proof",
+      "source_ids": ["appfolio"],
+      "price": null,
+      "price_note": "No current manager quote, billing basis, avoided spend or implementation cost verified."
+    }
+  ],
+  "modules": [
+    {
+      "repository": "open-condo-software/condo",
+      "capability": "Repository describes an open-source property-management platform with resident, property and operations workflows.",
+      "source_revision": "unverified",
+      "existing_foundry_ref": "intelligence/agency/coverage-inventory.json: repository open-condo-software/condo",
+      "reuse_shape": "Read-oriented maintenance/request and resident-communication prototype against redacted fixtures; preserve owner system and tenant boundaries.",
+      "rights_state": "Coverage inventory records MIT; verify current repository license, dependencies, security and deployment obligations before reuse.",
+      "source_ids": ["repo-condo"],
+      "limits": "README capability is not evidence of habitability compliance, screening fairness, security, availability, support or production fitness."
+    },
+    {
+      "repository": "etewiah/property_web_builder",
+      "capability": "Repository describes a Rails real-estate website and CRM application useful for property and contact workflow exploration.",
+      "source_revision": "unverified",
+      "existing_foundry_ref": "intelligence/agency/coverage-inventory.json: repository etewiah/property_web_builder",
+      "reuse_shape": "Draft property/contact and inquiry-tracking sidecar only; no lease, rent, screening or owner-decision authority.",
+      "rights_state": "Coverage inventory records MIT; verify current repository license, dependencies, security and deployment obligations before reuse.",
+      "source_ids": ["repo-property-builder"],
+      "limits": "Repository description is not evidence of rental accounting, tenant privacy, maintenance safety, legal compliance or supported production operation."
+    }
+  ],
+  "processes": [
+    {
+      "id": "maintenance_intake_routing",
+      "process": "Tenant maintenance request intake, deduplication and routing",
+      "automation_boundary": "Capture tenant-provided details, attachments and timestamps; detect duplicates and route by owner-configured categories. Do not diagnose hazards, deny habitability, authorize unsafe work or replace emergency response.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["buildium", "appfolio", "repo-condo", "fema-home-fire"],
+      "current_software": ["Buildium", "AppFolio Property Manager"],
+      "github_modules": ["open-condo-software/condo"],
+      "baseline_required": "Matched request volume, first-response and resolution times, routing accuracy, privacy incidents, human review/rework minutes and actual operating cost.",
+      "metric": "Net human minutes per correctly routed request including review, duplicate handling and exception escalation; missed-critical-request rate",
+      "falsifier": "Reject if critical or private requests are misrouted, emergency escalation is delayed, review/rework offsets time saved, or tenant data crosses an unauthorized boundary.",
+      "human_authority": "Property manager or designated maintenance/safety owner determines urgency, vendor authorization and emergency response; tenant communications require authorized recipient and content review.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "inspection_turnover_evidence",
+      "process": "Unit inspection, repair evidence and turnover checklist review",
+      "automation_boundary": "Organize dated photos, checklists, readings and open items; flag missing evidence and compare prior records. Do not certify habitability, infer causation, set deposits or make a safety determination.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["buildium", "appfolio", "repo-condo", "epa-lead"],
+      "current_software": ["Buildium", "AppFolio Property Manager"],
+      "github_modules": ["open-condo-software/condo"],
+      "baseline_required": "Matched unit turns, checklist completeness, inspection/rework minutes, missed-defect and escalation counts, storage/access cost and correction cost.",
+      "metric": "Review minutes per accepted turnover packet; missing-evidence, repeat-visit and critical-defect escalation rates",
+      "falsifier": "Reject if incomplete evidence is accepted as complete, lead or other safety concerns are suppressed, rework is not reduced, or private tenant records are exposed.",
+      "human_authority": "Authorized property manager and qualified inspectors/contractors determine condition, remediation and lawful deposit/lease actions; safety specialists retain technical authority.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "tenant_request_followup",
+      "process": "Tenant and vendor status follow-up",
+      "automation_boundary": "Draft status requests from current work-order state, send approved reminders to verified recipients and record replies. Do not promise repairs, alter lease terms, disclose another tenant's data or send emergency instructions without human control.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["buildium", "appfolio", "repo-property-builder"],
+      "current_software": ["Buildium", "AppFolio Property Manager"],
+      "github_modules": ["etewiah/property_web_builder"],
+      "baseline_required": "Matched follow-up volume, response completeness, human minutes including review/retries, duplicate/wrong-recipient rate and actual communication cost.",
+      "metric": "Net human minutes per accurate approved follow-up; response latency, duplicate-send and privacy-error rate",
+      "falsifier": "Reject if stale status, wrong-recipient disclosure or duplicate sends increase, required escalation is missed, or review/rework eliminates effort reduction.",
+      "human_authority": "Property manager approves recipient, content, commitments and escalation; vendor and owner decisions remain with designated humans.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "screening_document_completeness",
+      "process": "Rental-application and tenant-screening document completeness review",
+      "automation_boundary": "Check whether required fields, consent and source documents are present, segregate access and surface contradictions for review. Do not make or recommend an eligibility, adverse-action, rent, lease or fair-housing decision.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["appfolio", "cfpb-screening", "repo-property-builder"],
+      "current_software": ["AppFolio Property Manager"],
+      "github_modules": ["etewiah/property_web_builder"],
+      "baseline_required": "Matched application volume, completeness precision/recall, human review/rework minutes, access incidents, adverse-action correction rate and actual screening cost.",
+      "metric": "Review minutes per complete application; missing-document, false-flag, correction and unauthorized-access rates",
+      "falsifier": "Reject if a missing field becomes an adverse decision, protected/private data is exposed, false flags or rework rise, or the system is treated as the lawful decision-maker.",
+      "human_authority": "Owner or authorized housing professional makes lawful application and adverse-action decisions and controls notices; privacy/access owner controls retention and disclosure.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    }
+  ],
+  "sources": [
+    {"id": "epa-lead", "url": "https://www.epa.gov/lead/lead-renovation-repair-and-painting-program", "title": "Lead Renovation, Repair and Painting Program", "publisher": "U.S. Environmental Protection Agency", "kind": "government_guidance", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Supports lead-safe renovation/training and record considerations; does not establish automation, compliance for a particular property or savings."},
+    {"id": "fema-home-fire", "url": "https://www.usfa.fema.gov/prevention/home-fires/", "title": "Home fires", "publisher": "U.S. Fire Administration", "kind": "government_guidance", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Supports fire-prevention and alarm-safety context; it is not a property inspection protocol or authorization to automate emergency response."},
+    {"id": "cfpb-screening", "url": "https://www.consumerfinance.gov/ask-cfpb/what-is-a-tenant-screening-report-en-2104/", "title": "What is a tenant screening report?", "publisher": "Consumer Financial Protection Bureau", "kind": "government_guidance", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Supports privacy and accuracy boundaries around tenant-screening reports; does not determine a lawful decision for a particular applicant."},
+    {"id": "buildium", "url": "https://www.buildium.com/features/", "title": "Property management software features", "publisher": "Buildium", "kind": "vendor", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Vendor capability claims only; no installation prevalence, price, accuracy, security or outcome measurement."},
+    {"id": "appfolio", "url": "https://www.appfolio.com/property-management-software", "title": "Property management software", "publisher": "AppFolio", "kind": "vendor", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Vendor capability claims only; no installation prevalence, price, accuracy, security or outcome measurement."},
+    {"id": "repo-condo", "url": "https://github.com/open-condo-software/condo", "title": "open-condo-software/condo repository", "publisher": "open-condo-software", "kind": "official_repository", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Repository was accessible; revision and production behavior remain unverified. Coverage inventory records MIT, subject to current rights review."},
+    {"id": "repo-property-builder", "url": "https://github.com/etewiah/property_web_builder", "title": "etewiah/property_web_builder repository", "publisher": "etewiah", "kind": "official_repository", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Repository was accessible; revision and production behavior remain unverified. Coverage inventory records MIT, subject to current rights review."}
+  ],
+  "value_model_ref": "../economics/observed-value-model.json",
+  "observed_business_value": {"currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "eligible_businesses": null, "societal_value": null, "status": "unmeasured", "reason": "No manager baseline, achieved automation rate, review/rework data, operating cost, displacement proof or eligible-population measurement. Null is not zero."},
+  "pilot": {
+    "design": "Within one authorized manager, compare matched redacted or synthetic requests, inspections, follow-ups and applications under the incumbent and supervised candidate workflows; pre-register privacy, safety and owner-approval gates.",
+    "record": ["units and requests processed", "baseline human minutes", "assisted human minutes including review/rework", "critical errors, missed escalations and unauthorized-access cases", "actual cancelled spend", "recurring operating cost", "implementation and rollback cost"],
+    "reject_if": ["Human time including review/rework is not lower than matched baseline.", "Any tenant record crosses an unauthorized boundary or an unapproved message, decision or safety action occurs.", "A workflow is treated as a habitability, emergency, screening, lease or owner decision without authorized human review.", "Measured first-year net cash is not positive for a cash-savings offer; capacity gains alone are not cash."]
+  },
+  "limitations": ["This is not housing, legal, safety, fair-housing, screening or property-management advice, product admission or an industry-wide forecast.", "Current software adoption prevalence and subscription prices were not verified; named offerings are not assumed installed.", "No generic repository is claimed to replace an owner's property system, inspection records, tenant privacy controls or professional authority.", "Rights, security, retention, restoration, integrations, accessibility, emergency response and state/local requirements remain product-owner gates."]
+}

@@ -1,0 +1,316 @@
+{
+  "schema_version": "0.1.0",
+  "record_type": "industry_value_research",
+  "industry_id": "insurance_agencies",
+  "industry_name": "US independent insurance agencies",
+  "as_of": "2026-09-05",
+  "jurisdiction": "United States independent-agency research pilot; licensing, appointment, privacy and state filing requirements require agency-specific review.",
+  "status": "research_only_not_admitted",
+  "source_frame": "Action Model system-map industry slug insurance_agencies; taxonomy reference only, not demand or implementation proof.",
+  "scope_note": "This record concerns agency-side intake, service and renewal administration. Carriers retain underwriting, claims and policy authority; an agency workflow may prepare or route information but cannot bind coverage, decide a claim or replace a licensed producer.",
+  "summary": "Start with supervised submission intake, document completeness, certificate/service requests and renewal preparation. Existing agency-management products already advertise broad workflow capabilities, so any pilot must compare against the actual incumbent and preserve carrier and licensed-producer authority.",
+  "automation_research": {
+    "finding": "BLS describes insurance-sales-agent work that includes interviewing applicants, explaining policies and contacting existing policyholders. That task inventory supports measuring administrative assistance around collection, reminders and document preparation; it does not establish an automation rate, carrier acceptance or permission to make coverage decisions.",
+    "source_ids": [
+      "bls",
+      "iiaba"
+    ],
+    "forecast_percent": null,
+    "forecast_note": "No independently measured agency automation percentage or adoption rate is used. Vendor feature pages are capability evidence only, not realized savings or prevalence evidence."
+  },
+  "software": [
+    {
+      "name": "Applied Epic",
+      "capability": "Vendor advertises agency-management capabilities spanning client and policy information, workflows, document management and reporting for insurance agencies.",
+      "evidence_scope": "vendor_advertised_not_installation_or_outcome_proof",
+      "source_ids": [
+        "applied-epic"
+      ],
+      "price": null,
+      "price_note": "No public agency-specific quote or avoidable incumbent spend was verified."
+    },
+    {
+      "name": "Vertafore AMS360",
+      "capability": "Vendor advertises a cloud agency-management system for customer, policy, accounting, reporting and workflow administration.",
+      "evidence_scope": "vendor_advertised_not_installation_or_outcome_proof",
+      "source_ids": [
+        "ams360"
+      ],
+      "price": null,
+      "price_note": "No public agency-specific quote or achieved outcome was verified."
+    }
+  ],
+  "modules": [
+    {
+      "repository": "surveyjs/survey-library",
+      "capability": "Schema-driven forms and structured responses useful for supervised applicant or service-request intake.",
+      "source_revision": "unverified; default branch reviewed 2026-09-05",
+      "existing_foundry_ref": "intelligence/agency/value-matrix.json:agency.intake.surveyjs",
+      "reuse_shape": "Version-pinned intake component with SISO-owned schemas, consent, response storage and export; no automatic coverage recommendation or bind action.",
+      "rights_state": "GitHub metadata and project licensing require route-specific review before adoption.",
+      "source_ids": [
+        "repo-surveyjs"
+      ],
+      "limits": "Form capability does not prove accessibility, carrier integration, consent sufficiency, licensing compliance or field-level validation for a particular line of business."
+    },
+    {
+      "repository": "activepieces/activepieces",
+      "capability": "Reusable connectors and event-driven workflow execution for reminders, routing and approved back-office actions.",
+      "source_revision": "unverified; default branch reviewed 2026-09-05",
+      "existing_foundry_ref": "intelligence/agency/value-matrix.json:agency.automation.activepieces",
+      "reuse_shape": "Allowlisted draft/notification flows with explicit producer approval for carrier-facing or client-facing writes.",
+      "rights_state": "Project README distinguishes community and enterprise boundaries; license and connector route need review.",
+      "source_ids": [
+        "repo-activepieces"
+      ],
+      "limits": "Connectors do not prove carrier API permission, idempotency, retry safety, secrets handling or producer authority."
+    },
+    {
+      "repository": "metabase/metabase",
+      "capability": "Read-oriented dashboards and queries for governed service, renewal and exception metrics.",
+      "source_revision": "unverified; default branch reviewed 2026-09-05",
+      "existing_foundry_ref": "intelligence/agency/value-matrix.json:agency.analytics.metabase",
+      "reuse_shape": "Separate read model for operational reporting; never the policy, premium, claims or accounting system of record.",
+      "rights_state": "Project edition and embedding/license route require review before client-facing use.",
+      "source_ids": [
+        "repo-metabase"
+      ],
+      "limits": "Dashboards do not establish data freshness, metric correctness, tenant isolation or permission to expose protected client information."
+    }
+  ],
+  "processes": [
+    {
+      "id": "submission_intake",
+      "process": "New-business submission intake and completeness chase",
+      "automation_boundary": "Collect supplied applicant and risk fields, normalize documents and flag missing or inconsistent items; do not recommend coverage, bind or represent carrier acceptance.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": [
+        "bls",
+        "applied-epic",
+        "repo-surveyjs"
+      ],
+      "current_software": [
+        "Applied Epic",
+        "Vertafore AMS360"
+      ],
+      "github_modules": [
+        "surveyjs/survey-library",
+        "activepieces/activepieces"
+      ],
+      "baseline_required": "Matched submission volume, completeness/error rate, human minutes including chase and review, actual software spend and operator cost.",
+      "metric": "Human minutes per complete, producer-accepted submission, including review, rework and exceptions",
+      "falsifier": "Reject if missing or conflicting risk facts are silently accepted, unauthorized data is exposed, or total reviewed human effort does not decrease.",
+      "human_authority": "Licensed producer or designated agency reviewer decides whether a submission is complete and suitable to send; carrier decides underwriting and acceptance.",
+      "value": {
+        "formula_ref": "observed-value-v0.1",
+        "currency": "USD",
+        "annual_net_cash": null,
+        "annual_capacity_hours": null,
+        "status": "unmeasured"
+      }
+    },
+    {
+      "id": "service_request",
+      "process": "Policy-service request triage and document preparation",
+      "automation_boundary": "Classify incoming service requests, locate policy context and draft a checklist or response for review; do not alter policy terms or issue an endorsement automatically.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": [
+        "applied-epic",
+        "ams360",
+        "repo-activepieces"
+      ],
+      "current_software": [
+        "Applied Epic",
+        "Vertafore AMS360"
+      ],
+      "github_modules": [
+        "activepieces/activepieces",
+        "metabase/metabase"
+      ],
+      "baseline_required": "Matched request volume and class, first-response quality, human minutes including escalations/rework, actual spend and operator cost.",
+      "metric": "Net human minutes per correctly routed and producer-approved request, including exceptions and reopenings",
+      "falsifier": "Reject if a request is routed to the wrong client/policy, stale information is sent, or an external write occurs without approval.",
+      "human_authority": "Agency service owner and licensed producer retain authority over advice, policy changes and carrier communication.",
+      "value": {
+        "formula_ref": "observed-value-v0.1",
+        "currency": "USD",
+        "annual_net_cash": null,
+        "annual_capacity_hours": null,
+        "status": "unmeasured"
+      }
+    },
+    {
+      "id": "certificate",
+      "process": "Certificate-of-insurance request handling",
+      "automation_boundary": "Gather request facts and prepare a draft from verified policy records; require an authorized reviewer before release and never infer coverage beyond the policy.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": [
+        "ams360",
+        "repo-surveyjs",
+        "repo-activepieces"
+      ],
+      "current_software": [
+        "Applied Epic",
+        "Vertafore AMS360"
+      ],
+      "github_modules": [
+        "surveyjs/survey-library",
+        "activepieces/activepieces"
+      ],
+      "baseline_required": "Matched certificate volume, turnaround, correction/reissue rate, human minutes including review, actual spend and operator cost.",
+      "metric": "Human minutes per accurate, authorized certificate, with corrections, exceptions and recipient verification counted",
+      "falsifier": "Reject if a certificate states unsupported coverage, goes to an unauthorized recipient, or review/reissue effort offsets the time reduction.",
+      "human_authority": "Authorized agency staff verifies policy facts and recipient before release; the certificate does not amend policy or create carrier authority.",
+      "value": {
+        "formula_ref": "observed-value-v0.1",
+        "currency": "USD",
+        "annual_net_cash": null,
+        "annual_capacity_hours": null,
+        "status": "unmeasured"
+      }
+    },
+    {
+      "id": "renewal",
+      "process": "Renewal preparation and exception queue",
+      "automation_boundary": "Surface upcoming expirations, missing renewal information and changed fields for producer review; do not select limits, recommend replacement coverage or bind renewal.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": [
+        "bls",
+        "applied-epic",
+        "ams360",
+        "repo-metabase"
+      ],
+      "current_software": [
+        "Applied Epic",
+        "Vertafore AMS360"
+      ],
+      "github_modules": [
+        "metabase/metabase",
+        "activepieces/activepieces"
+      ],
+      "baseline_required": "Matched renewal volume, on-time completion, exception/rework rate, human minutes including producer review, actual spend and operator cost.",
+      "metric": "Human minutes per on-time, producer-approved renewal packet; missed deadlines, exceptions and rework",
+      "falsifier": "Reject if stale or incomplete records suppress a renewal exception, a recommendation is presented as fact, or producer review does not reduce net effort.",
+      "human_authority": "Licensed producer owns coverage comparison, recommendation and renewal/bind decision; carrier owns underwriting and issuance.",
+      "value": {
+        "formula_ref": "observed-value-v0.1",
+        "currency": "USD",
+        "annual_net_cash": null,
+        "annual_capacity_hours": null,
+        "status": "unmeasured"
+      }
+    }
+  ],
+  "sources": [
+    {
+      "id": "bls",
+      "url": "https://www.bls.gov/ooh/sales/insurance-sales-agents.htm",
+      "title": "Insurance Sales Agents",
+      "publisher": "U.S. Bureau of Labor Statistics",
+      "kind": "government_task_inventory",
+      "accessed_at": "2026-09-05",
+      "retrieval_status": 200,
+      "note": "Occupational duties support task decomposition; they are not an agency automation forecast or baseline."
+    },
+    {
+      "id": "iiaba",
+      "url": "https://www.independentagent.com/",
+      "title": "Independent Insurance Agents & Brokers of America",
+      "publisher": "IIABA",
+      "kind": "industry_authority",
+      "accessed_at": "2026-09-05",
+      "retrieval_status": 200,
+      "note": "Industry-body context for independent agencies; does not measure adoption or savings."
+    },
+    {
+      "id": "applied-epic",
+      "url": "https://www.appliedsystems.com/en-us/solutions/agency-management/",
+      "title": "Agency Management Software",
+      "publisher": "Applied Systems",
+      "kind": "vendor",
+      "accessed_at": "2026-09-05",
+      "retrieval_status": 200,
+      "note": "Vendor-advertised capability evidence only; no installed-base or outcome claim. Parent independent recheck later on 2026-09-05 returned HTTP 521; the original lane observation is retained, but current retrieval was not independently reverified.",
+      "independent_recheck": {
+        "as_of": "2026-09-05",
+        "http_status": 521,
+        "status": "not_independently_retrievable"
+      }
+    },
+    {
+      "id": "ams360",
+      "url": "https://www.vertafore.com/products/ams360",
+      "title": "AMS360 agency management system",
+      "publisher": "Vertafore",
+      "kind": "vendor",
+      "accessed_at": "2026-09-05",
+      "retrieval_status": 200,
+      "note": "Vendor-advertised capability evidence only; no quote, adoption or outcome claim."
+    },
+    {
+      "id": "repo-surveyjs",
+      "url": "https://github.com/surveyjs/survey-library",
+      "title": "surveyjs/survey-library",
+      "publisher": "SurveyJS",
+      "kind": "official_repository",
+      "accessed_at": "2026-09-05",
+      "retrieval_status": 200,
+      "note": "Upstream documentation supports form capability; revision and deployment qualification remain unverified."
+    },
+    {
+      "id": "repo-activepieces",
+      "url": "https://github.com/activepieces/activepieces",
+      "title": "activepieces/activepieces",
+      "publisher": "Activepieces",
+      "kind": "official_repository",
+      "accessed_at": "2026-09-05",
+      "retrieval_status": 200,
+      "note": "Upstream documentation supports workflow capability; connector rights and reliability remain unverified."
+    },
+    {
+      "id": "repo-metabase",
+      "url": "https://github.com/metabase/metabase",
+      "title": "metabase/metabase",
+      "publisher": "Metabase",
+      "kind": "official_repository",
+      "accessed_at": "2026-09-05",
+      "retrieval_status": 200,
+      "note": "Upstream documentation supports read-oriented analytics capability; edition, permissions and metric qualification remain unverified."
+    }
+  ],
+  "value_model_ref": "../economics/observed-value-model.json",
+  "observed_business_value": {
+    "currency": "USD",
+    "annual_net_cash": null,
+    "annual_capacity_hours": null,
+    "eligible_businesses": null,
+    "societal_value": null,
+    "status": "unmeasured",
+    "reason": "No agency baseline, invoices, achieved automation rate, review/rework measurement, operating cost, realized cash savings or eligible-population measurement was verified. Null is not zero."
+  },
+  "pilot": {
+    "design": "Within one authorized independent agency, compare matched redacted or synthetic submissions, service requests, certificates and renewals under the incumbent and supervised candidate workflows. Pre-register authority boundaries and rollback conditions before live data.",
+    "record": [
+      "units processed",
+      "baseline human minutes",
+      "assisted human minutes including review and rework",
+      "critical data/authority/privacy errors",
+      "actual cancelled spend",
+      "recurring operating cost",
+      "implementation and rollback cost"
+    ],
+    "reject_if": [
+      "Human effort including review and rework is not lower than the matched baseline.",
+      "Any policy, client or carrier data crosses an unauthorized boundary or an unapproved external write occurs.",
+      "A draft, reminder or extracted field is treated as a coverage decision, bind, claim decision or carrier acceptance.",
+      "Measured first-year net cash is not positive for a cash-savings offer; capacity gains alone are not cash."
+    ]
+  },
+  "limitations": [
+    "This is not insurance, legal, underwriting, claims or financial advice, product admission or an industry-wide value forecast.",
+    "Independent-agency software adoption, prices, carrier acceptance and realized savings were not verified; named offerings are not assumed installed.",
+    "Carrier-versus-agency authority, producer licensing, state rules, privacy/security, accessibility and retention need agency-specific review.",
+    "No generic repository is treated as a replacement for an agency-management system, policy system of record or carrier portal.",
+    "Applied Systems agency-management URL returned HTTP 521 on the independent parent recheck; do not infer fresh capability or availability from that failure."
+  ]
+}

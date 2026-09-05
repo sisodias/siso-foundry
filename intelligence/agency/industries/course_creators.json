@@ -1,0 +1,145 @@
+{
+  "schema_version": "0.1.0",
+  "record_type": "industry_value_research",
+  "industry_id": "course_creators",
+  "industry_name": "US independent online-course creators",
+  "as_of": "2026-09-05",
+  "jurisdiction": "United States research pilot; creator terms, learner agreements, platform rules and applicable federal/state privacy, accessibility and advertising requirements require authorized review.",
+  "status": "research_only_not_admitted",
+  "source_frame": "Action Model system-map industry slug course_creators; taxonomy reference only, not client demand or implementation proof.",
+  "scope_note": "Research covers content production, course administration, learner support and claims/accessibility review for independently operated online courses. No learner records, creator accounts, payment credentials or live course changes were accessed.",
+  "summary": "Independent creators can test supervised assistance for organizing course content, handling routine learner-support triage and reconciling course administration. Accessibility checks, learner privacy, rights, refunds, factual claims and final publication/support authority remain human gates; vendor feature pages and open-source repositories establish capabilities, not adoption or savings.",
+  "automation_research": {
+    "finding": "W3C WCAG 2.2 provides accessibility success criteria, while U.S. Department of Education FERPA guidance describes rights and obligations for covered education records and NIST frames privacy as a risk-management activity. These sources support bounded checklists and evidence capture, not autonomous compliance, instructional or business decisions.",
+    "source_ids": ["wcag22", "ferpa", "nist-privacy-framework"],
+    "forecast_percent": null,
+    "forecast_note": "No independent course-creator automation rate, adoption prevalence or measured savings was found; product and repository capability is not realized automation or outcome evidence."
+  },
+  "software": [
+    {
+      "name": "Teachable",
+      "capability": "Vendor presents hosted tools for creating and selling online courses, including course content, learner access and creator administration.",
+      "evidence_scope": "vendor_advertised_not_installation_or_outcome_proof",
+      "source_ids": ["teachable-features"],
+      "price": null,
+      "price_note": "Pricing, transaction costs, plan limits, migration effort and avoidable spend are client-specific and unmeasured."
+    },
+    {
+      "name": "Kajabi",
+      "capability": "Vendor presents an online-business platform combining course/content delivery with creator marketing, customer and administration features.",
+      "evidence_scope": "vendor_advertised_not_installation_or_outcome_proof",
+      "source_ids": ["kajabi-features"],
+      "price": null,
+      "price_note": "Pricing, feature eligibility, exportability, support workload and avoidable spend are unknown for this research lane."
+    }
+  ],
+  "modules": [
+    {
+      "repository": "chatwoot/chatwoot",
+      "capability": "Shared inbox and customer-support conversation management documented by the upstream product and repository.",
+      "source_revision": "8314676d1bece93d24293e87e80c94e7f5494d67",
+      "existing_foundry_ref": "intelligence/agency/value-matrix.json:agency.communications.chatwoot",
+      "reuse_shape": "Learner-support inbox triage, tagging and draft replies with explicit human send authority; do not make it the learner-record authority.",
+      "rights_state": "Upstream repository and product licensing/edition terms require review before any hosted or forked reuse; preserve source notices and external-channel credentials.",
+      "source_ids": ["repo-chatwoot", "chatwoot-features"],
+      "limits": "Documentation does not prove learner identity mapping, privacy isolation, response quality, consent, retention or support outcomes."
+    },
+    {
+      "repository": "directus/directus",
+      "capability": "Data platform and API/admin interface suitable as a controlled content and course-operations record layer, as described by the upstream repository.",
+      "source_revision": "3df2ba91044924cd2e6537d8ba92085a2f455c80",
+      "existing_foundry_ref": "intelligence/agency/coverage-inventory.json:repository=directus/directus",
+      "reuse_shape": "Model course versions, lesson metadata, review status and support queue references behind SISO identity/ACL; keep payment and learner authority boundaries explicit.",
+      "rights_state": "Upstream license, edition boundaries and deployment obligations require independent review; repository capability is not production qualification.",
+      "source_ids": ["repo-directus"],
+      "limits": "A configurable data layer does not prove tenant isolation, FERPA applicability, retention/deletion correctness, export/restore or instructional record authority."
+    },
+    {
+      "repository": "activepieces/activepieces",
+      "capability": "Workflow automation with reusable connectors, triggers and actions documented by the upstream repository.",
+      "source_revision": "af374df8ae23f973376650f9b83642e2e7985bf3",
+      "existing_foundry_ref": "intelligence/agency/value-matrix.json:agency.automation.activepieces",
+      "reuse_shape": "Allowlisted notifications, checklist creation and support-routing workflows; require approval for learner-facing sends, refunds, access changes or publication.",
+      "rights_state": "Repository distinguishes community code and commercially licensed/enterprise paths; edition, hosting, connector terms and rights require review.",
+      "source_ids": ["repo-activepieces"],
+      "limits": "Connectors do not prove idempotency, privacy controls, reliable retries, learner consent, account authorization or acceptable support outcomes."
+    }
+  ],
+  "processes": [
+    {
+      "id": "course_content_production",
+      "process": "Course outline, lesson assets and accessibility-ready publishing preparation",
+      "automation_boundary": "Organize supplied lesson material, generate a draft checklist and flag missing headings, captions, alternatives or contrast evidence; do not invent instructional claims, copy, rights or accessibility conformance.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["wcag22", "teachable-features", "kajabi-features", "repo-directus"],
+      "current_software": ["Teachable", "Kajabi"],
+      "github_modules": ["directus/directus", "activepieces/activepieces"],
+      "baseline_required": "Matched lessons, creator and reviewer minutes including rework, accessibility defects found after review, publication delay and actual tool/operator cost.",
+      "metric": "Human minutes per accepted lesson, including review and rework; unresolved WCAG-related issues, rights exceptions and factual corrections.",
+      "falsifier": "Reject if review/rework does not reduce net effort or a critical accessibility, rights, privacy or instructional-quality defect reaches publication.",
+      "human_authority": "Creator or named instructional/accessibility reviewer owns lesson content, claims, rights and final publication decision; WCAG is a reference standard, not an automated approval.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "course_administration",
+      "process": "Course versioning, learner access administration and routine enrollment operations",
+      "automation_boundary": "Record approved course/version metadata, route routine access requests and surface exceptions; do not independently grant/ revoke access, issue refunds or alter payment/entitlement authority.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["teachable-features", "kajabi-features", "repo-directus", "repo-activepieces"],
+      "current_software": ["Teachable", "Kajabi"],
+      "github_modules": ["directus/directus", "activepieces/activepieces"],
+      "baseline_required": "Matched enrollment/access cases, handling and review minutes, rework and exception counts, access-error rate, refund/escalation latency and actual spend.",
+      "metric": "Human minutes per correctly resolved administration case, including review and exceptions; unauthorized access, missed revocation and entitlement errors.",
+      "falsifier": "Reject if exception/review effort offsets time reduction or any unauthorized access, mistaken revocation, refund error or unlogged authority transition occurs.",
+      "human_authority": "Creator or authorized platform/payment operator owns entitlement, refund, account and access decisions; automation may route and record only.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "learner_support",
+      "process": "Learner question intake, triage and response drafting",
+      "automation_boundary": "Classify and route routine questions, retrieve approved course facts and draft replies; do not provide individualized professional advice, disclose another learner's data or send without human review.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["chatwoot-features", "repo-chatwoot", "nist-privacy-framework"],
+      "current_software": ["Teachable", "Kajabi"],
+      "github_modules": ["chatwoot/chatwoot", "activepieces/activepieces"],
+      "baseline_required": "Matched support cases, first-response and resolution minutes including review/rework, escalation rate, privacy incidents, incorrect-answer rate and support tooling cost.",
+      "metric": "Human minutes per accepted response, including triage, review and escalations; incorrect, privacy-sensitive or unresolved responses.",
+      "falsifier": "Reject if net handling effort is not reduced or a privacy leak, unsafe/incorrect guidance, missed escalation or unapproved external send occurs.",
+      "human_authority": "Named support operator owns response, escalation and any refund/access decision; specialist or professional questions remain with the appropriate qualified human.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "claims_feedback_review",
+      "process": "Course claims, testimonials and learner-feedback review",
+      "automation_boundary": "Collect source links, organize feedback and flag unsupported or inconsistent claims for review; do not decide truth, endorsement disclosure, outcome guarantees or whether a course is suitable.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["nist-privacy-framework", "repo-directus", "repo-activepieces"],
+      "current_software": ["Kajabi", "Teachable"],
+      "github_modules": ["directus/directus", "activepieces/activepieces"],
+      "baseline_required": "Matched claims/feedback items, sourcing and reviewer minutes including rework, correction/removal rate, unresolved evidence exceptions and tooling cost.",
+      "metric": "Human minutes per approved claim or feedback item, including provenance review and rework; unsupported, misleading, privacy-sensitive or unresolvable items.",
+      "falsifier": "Reject if review/rework does not reduce net effort or an unsupported outcome, fabricated testimonial, privacy violation or missing provenance survives approval.",
+      "human_authority": "Creator and authorized legal/advertising reviewer own claims, disclosures, consent, redaction and publication decisions; automation cannot make professional or regulatory determinations.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    }
+  ],
+  "sources": [
+    {"id": "wcag22", "url": "https://www.w3.org/TR/WCAG22/", "title": "Web Content Accessibility Guidelines (WCAG) 2.2", "publisher": "W3C", "kind": "accessibility_standard", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Normative accessibility criteria and conformance structure; does not prove a course is conformant or that automation can judge conformance."},
+    {"id": "ferpa", "url": "https://studentprivacy.ed.gov/ferpa", "title": "Family Educational Rights and Privacy Act (FERPA)", "publisher": "U.S. Department of Education Student Privacy Policy Office", "kind": "government_guidance", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Explains FERPA scope and rights for covered education records; independent creators and courses may fall outside scope and require an authorized applicability review."},
+    {"id": "nist-privacy-framework", "url": "https://www.nist.gov/privacy-framework", "title": "NIST Privacy Framework", "publisher": "National Institute of Standards and Technology", "kind": "government_framework", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Risk-management framework for privacy; not a legal determination, certification or evidence of a particular implementation."},
+    {"id": "teachable-features", "url": "https://teachable.com/features", "title": "Teachable Features", "publisher": "Teachable", "kind": "vendor_product_page", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Vendor-described creator/course capabilities; does not establish plan availability, adoption, quality, privacy posture or savings."},
+    {"id": "kajabi-features", "url": "https://www.kajabi.com/features", "title": "Kajabi Features", "publisher": "Kajabi", "kind": "vendor_product_page", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Vendor-described course and online-business capabilities; does not establish implementation, adoption, quality or savings."},
+    {"id": "chatwoot-features", "url": "https://chatwoot.com/features", "title": "Chatwoot Features", "publisher": "Chatwoot", "kind": "vendor_product_page", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Vendor-described support and inbox capabilities; does not prove learner-support fit or outcomes."},
+    {"id": "repo-chatwoot", "url": "https://github.com/chatwoot/chatwoot", "title": "Chatwoot repository", "publisher": "Chatwoot", "kind": "upstream_repository", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Repository capability and ownership evidence; license, edition, deployment and security review remain required."},
+    {"id": "repo-directus", "url": "https://github.com/directus/directus", "title": "Directus repository", "publisher": "Directus", "kind": "upstream_repository", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Repository capability and ownership evidence; not runtime qualification or learner-data compliance evidence."},
+    {"id": "repo-activepieces", "url": "https://github.com/activepieces/activepieces", "title": "Activepieces repository", "publisher": "Activepieces", "kind": "upstream_repository", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Repository capability and ownership evidence; connector reliability, rights and privacy boundaries remain unproven."}
+  ],
+  "value_model_ref": "../economics/observed-value-model.json",
+  "observed_business_value": {"currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "eligible_businesses": null, "societal_value": null, "status": "unmeasured", "reason": "No creator baseline, trial measurements, staffing cost, adoption evidence or realized outcome data was collected."},
+  "pilot": {"design": "Small matched pilot of approved lessons, administration cases, support cases and claims/feedback items; log automation time, human review/rework, exceptions, privacy/accessibility/claims defects, escalations and final authority decisions.", "record": ["item counts and case mix", "automation, review, rework and exception minutes", "quality/accessibility/privacy/claims defects", "escalations and human approvals", "actual software/operator cost"], "reject_if": ["net human effort does not fall after review and exception work", "critical quality, accessibility, privacy, rights or authority condition fails", "results cannot be reproduced with source records and human decisions"]},
+  "limitations": ["No independent adoption, market-size, conversion, completion, retention or savings evidence was used.", "Vendor pages and repositories describe capabilities only; no account, deployment, learner data or outcome was tested.", "Accessibility, privacy, advertising/claims and consumer-protection applicability varies by course, audience, state and platform and needs authorized review.", "FERPA may not apply to an independent creator; its inclusion is a scope check, not a legal conclusion.", "No payment, refund, credentialing, assessment or professional-advice workflow is admitted to automation."],
+  "blocked_sources": [
+    {"url": "https://www.ftc.gov/business-guidance/advertising-marketing/endorsements-influencers-reviews", "status": 403, "note": "FTC Endorsement Guides page was blocked during retrieval; no FTC claim was inferred or used as supporting evidence."},
+    {"url": "https://www.ftc.gov/legal-library/browse/rules/childrens-online-privacy-protection-rule-coppa", "status": 403, "note": "FTC COPPA rule page was blocked during retrieval; child-privacy applicability remains an explicit review gap."}
+  ]
+}

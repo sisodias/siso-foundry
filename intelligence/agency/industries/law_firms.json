@@ -1,0 +1,454 @@
+{
+  "schema_version": "0.1.0",
+  "record_type": "industry_value_research",
+  "industry_id": "law_firms",
+  "industry_name": "Law firms",
+  "as_of": "2026-09-05",
+  "jurisdiction": "United States research pilot; state/practice-area requirements still need an authorized firm-specific review.",
+  "status": "research_only_not_admitted",
+  "source_frame": "Action Model system-map industry slug law_firms; taxonomy reference only, not client demand or implementation proof.",
+  "scope_note": "Law firms are the N1 research pilot. HALO is not classified as a law firm by this record. No client/matter data was accessed. Current software means verified marketed capability, not measured installed-base prevalence.",
+  "summary": "Begin with supervised intake, approved-template assembly and evidence-preserving document review. Compare against the firm's existing software before replacing it. Neither exposure estimates nor a repository's features establish cash savings.",
+  "automation_research": {
+    "finding": "An occupational task inventory identifies legal-assistant document preparation, records organization and research. A preregistered 2024 study found errors in the legal AI research tools it tested despite retrieval grounding. This supports decomposing tasks and measuring supervised assistance; it does not supply a law-firm-wide automation rate or a current vendor-performance ranking.",
+    "source_ids": [
+      "onet",
+      "legal-ai-study"
+    ],
+    "forecast_percent": null,
+    "forecast_note": "No independently verified percentage is used. The inaccessible Clio report was not treated as evidence, and task exposure is not realized automation."
+  },
+  "software": [
+    {
+      "name": "MyCase",
+      "capability": "Vendor currently advertises intake, case management, document automation, time/billing and client communication features.",
+      "evidence_scope": "vendor_advertised_not_installation_or_outcome_proof",
+      "source_ids": [
+        "mycase"
+      ],
+      "price": null,
+      "price_note": "No verified billing-basis quote or client invoice; do not count the subscription as cancellable."
+    },
+    {
+      "name": "Actionstep",
+      "capability": "Vendor currently advertises matter/workflow management, intake/conflict checking, document automation, billing and client portal features.",
+      "evidence_scope": "vendor_advertised_not_installation_or_outcome_proof",
+      "source_ids": [
+        "actionstep"
+      ],
+      "price": null,
+      "price_note": "Firm-specific quote and actually avoidable spend unknown."
+    },
+    {
+      "name": "LegalServer",
+      "capability": "Current case-management product explicitly targets civil legal aid, public defenders and government law offices.",
+      "evidence_scope": "negative_control_different_buyer",
+      "source_ids": [
+        "legalserver"
+      ],
+      "price": null,
+      "price_note": "Do not treat a public-interest legal product as a like-for-like incumbent for a private commercial firm."
+    }
+  ],
+  "modules": [
+    {
+      "repository": "jhpyle/docassemble",
+      "capability": "Guided interviews and template-based PDF/RTF/DOCX document assembly.",
+      "source_revision": "1b6678384bc953afeef5c8e2fcde0f5e1c238b6e",
+      "existing_foundry_ref": "intelligence/agency/value-matrix.json:agency entry for jhpyle/docassemble",
+      "reuse_shape": "Version-pinned sidecar with firm-approved interviews/templates; not an autonomous legal adviser.",
+      "rights_state": "GitHub metadata reports MIT; route/dependency/attribution review still required",
+      "source_ids": [
+        "docassemble",
+        "repo-docassemble"
+      ],
+      "limits": "Firm-specific rules, template correctness, privilege, tenancy, retention and integrations unproved."
+    },
+    {
+      "repository": "Open-Source-Legal/OpenContracts",
+      "capability": "Document annotation, structured extraction and citation-linked review, as described in upstream README.",
+      "source_revision": "2cd5230d90cd666e9536103801fdcb118149fba7",
+      "existing_foundry_ref": "intelligence/agency/value-matrix.json:Open-Source-Legal/OpenContracts",
+      "reuse_shape": "Read-oriented evidence extraction/review sidecar; source document and reviewer authority retained.",
+      "rights_state": "GitHub metadata reports MIT; full route review pending",
+      "source_ids": [
+        "repo-opencontracts"
+      ],
+      "limits": "README features are not measured extraction accuracy; do not convert extracted claims into legal conclusions."
+    },
+    {
+      "repository": "documenso/documenso",
+      "capability": "Self-hostable electronic-signature workflow, described by its upstream project.",
+      "source_revision": "2cac63a000e22422bdea449f68b8025e709aa73a",
+      "existing_foundry_ref": "intelligence/agency/value-matrix.json:documenso/documenso",
+      "reuse_shape": "Approved signing sidecar/API only after rights, identity and document-class review.",
+      "rights_state": "GitHub metadata reports AGPL-3.0; obligations and commercial route unresolved",
+      "source_ids": [
+        "repo-documenso"
+      ],
+      "limits": "Feature existence does not establish validity for every document, court process or jurisdiction; no signature was sent."
+    },
+    {
+      "repository": "activepieces/activepieces",
+      "capability": "Typed reusable connector pieces and workflow execution.",
+      "source_revision": "af374df8ae23f973376650f9b83642e2e7985bf3",
+      "existing_foundry_ref": "intelligence/agency/value-matrix.json:activepieces/activepieces",
+      "reuse_shape": "Allowlisted draft/notification workflow with human-approved external writes.",
+      "rights_state": "README separates community MIT and commercially licensed enterprise features; edition/route review required",
+      "source_ids": [
+        "repo-activepieces"
+      ],
+      "limits": "Connector availability does not prove client consent, reliable retries, idempotency or matter-level permissions."
+    },
+    {
+      "repository": "teableio/teable",
+      "capability": "PostgreSQL-backed tables, forms, permissions and API advertised upstream.",
+      "source_revision": "5ef2238883cad7c3980084de9a9031135fb9734f",
+      "existing_foundry_ref": "intelligence/agency/value-matrix.json:teableio/teable",
+      "reuse_shape": "Evidence-bound review/read model; not replacement authority for matter, trust or financial ledgers.",
+      "rights_state": "GitHub SPDX NOASSERTION; edition and route unresolved",
+      "source_ids": [
+        "repo-teable"
+      ],
+      "limits": "Generic table behavior does not implement legal conflict rules, trust accounting or system-of-record migration."
+    }
+  ],
+  "processes": [
+    {
+      "id": "intake",
+      "process": "Client intake and missing-information chase",
+      "automation_boundary": "Collect and normalize supplied fields; flag missing facts and possible matches; never accept a conflict or engagement automatically.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": [
+        "mycase",
+        "actionstep",
+        "docassemble"
+      ],
+      "current_software": [
+        "MyCase",
+        "Actionstep"
+      ],
+      "github_modules": [
+        "jhpyle/docassemble",
+        "activepieces/activepieces"
+      ],
+      "baseline_required": "Matched incumbent workflow volume, quality, human time including review/rework, actual spend and operator cost.",
+      "metric": "Human minutes per complete, accepted intake including review and chase",
+      "falsifier": "Reject if a known conflict/identity ambiguity is suppressed or completed intake takes no less total human time.",
+      "human_authority": "Firm-designated intake reviewer; lawyer owns conflict/engagement decision.",
+      "value": {
+        "formula_ref": "observed-value-v0.1",
+        "currency": "USD",
+        "annual_net_cash": null,
+        "annual_capacity_hours": null,
+        "status": "unmeasured"
+      }
+    },
+    {
+      "id": "assembly",
+      "process": "Approved-template document assembly",
+      "automation_boundary": "Populate approved templates from validated interview answers and return a draft plus field provenance.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": [
+        "onet",
+        "docassemble",
+        "mycase"
+      ],
+      "current_software": [
+        "MyCase",
+        "Actionstep"
+      ],
+      "github_modules": [
+        "jhpyle/docassemble"
+      ],
+      "baseline_required": "Matched incumbent workflow volume, quality, human time including review/rework, actual spend and operator cost.",
+      "metric": "Human minutes per correct, reviewed document; critical field errors",
+      "falsifier": "Reject if version/party/amount/date errors survive review or review effort erases assembly savings.",
+      "human_authority": "Qualified professional approves template/rules and final legal document.",
+      "value": {
+        "formula_ref": "observed-value-v0.1",
+        "currency": "USD",
+        "annual_net_cash": null,
+        "annual_capacity_hours": null,
+        "status": "unmeasured"
+      }
+    },
+    {
+      "id": "evidence_review",
+      "process": "Document extraction and source-linked review",
+      "automation_boundary": "Extract candidate facts with document/version/page references; reviewers accept/reject each finding.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": [
+        "onet",
+        "legal-ai-study",
+        "repo-opencontracts"
+      ],
+      "current_software": [
+        "Actionstep",
+        "MyCase"
+      ],
+      "github_modules": [
+        "Open-Source-Legal/OpenContracts"
+      ],
+      "baseline_required": "Matched incumbent workflow volume, quality, human time including review/rework, actual spend and operator cost.",
+      "metric": "Correct accepted findings per reviewer hour, with unsupported findings counted",
+      "falsifier": "Reject if a finding lacks its supporting source or cross-matter retrieval exposes restricted material.",
+      "human_authority": "Matter owner controls access and interpretation; extracted text is not legal advice.",
+      "value": {
+        "formula_ref": "observed-value-v0.1",
+        "currency": "USD",
+        "annual_net_cash": null,
+        "annual_capacity_hours": null,
+        "status": "unmeasured"
+      }
+    },
+    {
+      "id": "signing",
+      "process": "Approved-document signing coordination",
+      "automation_boundary": "Prepare a signing envelope only from approved immutable content; require explicit release authority.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": [
+        "mycase",
+        "repo-documenso"
+      ],
+      "current_software": [
+        "MyCase"
+      ],
+      "github_modules": [
+        "documenso/documenso"
+      ],
+      "baseline_required": "Matched incumbent workflow volume, quality, human time including review/rework, actual spend and operator cost.",
+      "metric": "Human coordination minutes per correctly completed signing workflow",
+      "falsifier": "Reject if signer/document identity changes undetected or benefit depends on bypassing approval.",
+      "human_authority": "Authorized firm sign-off; no automatic filing or signing.",
+      "value": {
+        "formula_ref": "observed-value-v0.1",
+        "currency": "USD",
+        "annual_net_cash": null,
+        "annual_capacity_hours": null,
+        "status": "unmeasured"
+      }
+    },
+    {
+      "id": "followup",
+      "process": "Client updates and administrative follow-up",
+      "automation_boundary": "Draft status updates from current records; route for review and send only when authorized.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": [
+        "mycase",
+        "actionstep",
+        "repo-activepieces"
+      ],
+      "current_software": [
+        "MyCase",
+        "Actionstep"
+      ],
+      "github_modules": [
+        "activepieces/activepieces"
+      ],
+      "baseline_required": "Matched incumbent workflow volume, quality, human time including review/rework, actual spend and operator cost.",
+      "metric": "Net human minutes per accurate approved update, including exception/retry review",
+      "falsifier": "Reject if stale status is sent as current, recipients cross matter boundaries or retries duplicate an action.",
+      "human_authority": "Firm communication owner retains recipient/content/send control.",
+      "value": {
+        "formula_ref": "observed-value-v0.1",
+        "currency": "USD",
+        "annual_net_cash": null,
+        "annual_capacity_hours": null,
+        "status": "unmeasured"
+      }
+    },
+    {
+      "id": "billing_review",
+      "process": "Time/billing exception review",
+      "automation_boundary": "Surface missing time descriptions, inconsistent identifiers or rejected line items in a read model; keep financial authority upstream.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": [
+        "mycase",
+        "actionstep",
+        "repo-teable"
+      ],
+      "current_software": [
+        "MyCase",
+        "Actionstep"
+      ],
+      "github_modules": [
+        "teableio/teable"
+      ],
+      "baseline_required": "Matched incumbent workflow volume, quality, human time including review/rework, actual spend and operator cost.",
+      "metric": "Review minutes per resolved exception; correction rate; actually recovered contribution margin",
+      "falsifier": "Reject if trust/billing state is overwritten or saved billable hours are counted both as cash and new revenue.",
+      "human_authority": "Billing/accounting owner; no trust-ledger or invoice replacement authorized.",
+      "value": {
+        "formula_ref": "observed-value-v0.1",
+        "currency": "USD",
+        "annual_net_cash": null,
+        "annual_capacity_hours": null,
+        "status": "unmeasured"
+      }
+    }
+  ],
+  "sources": [
+    {
+      "id": "onet",
+      "url": "https://www.onetonline.org/link/summary/23-2011.00",
+      "title": "Paralegals and Legal Assistants — updated 2026",
+      "publisher": "O*NET OnLine",
+      "kind": "government_task_inventory",
+      "accessed_at": "2026-09-05",
+      "retrieval_status": 200,
+      "note": "Observed task inventory, not an automation forecast or firm baseline."
+    },
+    {
+      "id": "legal-ai-study",
+      "url": "https://arxiv.org/abs/2405.20362",
+      "title": "Hallucination-Free? Assessing the Reliability of Leading AI Legal Research Tools",
+      "publisher": "Magesh et al.",
+      "kind": "primary_research",
+      "accessed_at": "2026-09-05",
+      "retrieval_status": 200,
+      "note": "Submitted 30 May 2024; the tested historical systems are not a current-market ranking. Supports verification/quality gates, not a savings percentage."
+    },
+    {
+      "id": "mycase",
+      "url": "https://www.mycase.com/",
+      "title": "8am MyCase legal practice management",
+      "publisher": "MyCase",
+      "kind": "vendor",
+      "accessed_at": "2026-09-05",
+      "retrieval_status": 200,
+      "note": "Capabilities observed on live vendor page; no firm adoption or performance measurement."
+    },
+    {
+      "id": "actionstep",
+      "url": "https://www.actionstep.com/",
+      "title": "Law firm management software",
+      "publisher": "Actionstep",
+      "kind": "vendor",
+      "accessed_at": "2026-09-05",
+      "retrieval_status": 200,
+      "note": "Capabilities observed on live vendor page; not a migration or savings proof."
+    },
+    {
+      "id": "legalserver",
+      "url": "https://www.legalserver.org/",
+      "title": "Case management for civil legal aid and public defenders",
+      "publisher": "LegalServer",
+      "kind": "vendor",
+      "accessed_at": "2026-09-05",
+      "retrieval_status": 200,
+      "note": "Vendor explicitly distinguishes its buyer from for-profit law firms."
+    },
+    {
+      "id": "docassemble",
+      "url": "https://docassemble.org/",
+      "title": "Guided interviews and document assembly",
+      "publisher": "docassemble",
+      "kind": "official_project_docs",
+      "accessed_at": "2026-09-05",
+      "retrieval_status": 200,
+      "note": "Deterministic assembly capability is not evidence that a generated legal document is correct."
+    },
+    {
+      "id": "repo-docassemble",
+      "url": "https://github.com/jhpyle/docassemble/blob/1b6678384bc953afeef5c8e2fcde0f5e1c238b6e/README.md",
+      "title": "jhpyle/docassemble pinned README",
+      "publisher": "jhpyle/docassemble",
+      "kind": "official_repository",
+      "accessed_at": "2026-09-05",
+      "retrieval_status": 200,
+      "note": "Commit identity verified using GitHub API; README review is not executable module qualification."
+    },
+    {
+      "id": "repo-opencontracts",
+      "url": "https://github.com/Open-Source-Legal/OpenContracts/blob/2cd5230d90cd666e9536103801fdcb118149fba7/README.md",
+      "title": "Open-Source-Legal/OpenContracts pinned README",
+      "publisher": "Open-Source-Legal/OpenContracts",
+      "kind": "official_repository",
+      "accessed_at": "2026-09-05",
+      "retrieval_status": 200,
+      "note": "Commit identity verified using GitHub API; README review is not executable module qualification."
+    },
+    {
+      "id": "repo-documenso",
+      "url": "https://github.com/documenso/documenso/blob/2cac63a000e22422bdea449f68b8025e709aa73a/README.md",
+      "title": "documenso/documenso pinned README",
+      "publisher": "documenso/documenso",
+      "kind": "official_repository",
+      "accessed_at": "2026-09-05",
+      "retrieval_status": 200,
+      "note": "Commit identity verified using GitHub API; README review is not executable module qualification."
+    },
+    {
+      "id": "repo-activepieces",
+      "url": "https://github.com/activepieces/activepieces/blob/af374df8ae23f973376650f9b83642e2e7985bf3/README.md",
+      "title": "activepieces/activepieces pinned README",
+      "publisher": "activepieces/activepieces",
+      "kind": "official_repository",
+      "accessed_at": "2026-09-05",
+      "retrieval_status": 200,
+      "note": "Commit identity verified using GitHub API; README review is not executable module qualification."
+    },
+    {
+      "id": "repo-teable",
+      "url": "https://github.com/teableio/teable/blob/5ef2238883cad7c3980084de9a9031135fb9734f/README.md",
+      "title": "teableio/teable pinned README",
+      "publisher": "teableio/teable",
+      "kind": "official_repository",
+      "accessed_at": "2026-09-05",
+      "retrieval_status": 200,
+      "note": "Commit identity verified using GitHub API; README review is not executable module qualification."
+    }
+  ],
+  "value_model_ref": "../economics/observed-value-model.json",
+  "observed_business_value": {
+    "currency": "USD",
+    "annual_net_cash": null,
+    "annual_capacity_hours": null,
+    "eligible_businesses": null,
+    "societal_value": null,
+    "status": "unmeasured",
+    "reason": "No firm baseline, invoices, achieved automation rate, review/rework time, operating cost, displacement proof or eligible-population measurement. Null is not zero."
+  },
+  "pilot": {
+    "design": "Within one authorized firm, compare matched routine work under the incumbent workflow and supervised candidate workflow. Start with synthetic/redacted fixtures; pre-register which documents/actions are in scope before using live data.",
+    "record": [
+      "units processed",
+      "baseline human minutes",
+      "assisted human minutes including review and rework",
+      "critical errors and denied-access cases",
+      "actual cancelled spend",
+      "recurring operating cost",
+      "implementation and rollback cost"
+    ],
+    "reject_if": [
+      "Human time including review/rework is not lower than the matched baseline.",
+      "Any privileged record crosses an unauthorized boundary or an unapproved external action occurs.",
+      "The result depends on treating draft/closed status as accepted legal work.",
+      "Measured first-year net cash is not positive for a cash-savings offer; capacity gains alone are not cash."
+    ]
+  },
+  "limitations": [
+    "This is not legal advice, product admission or an industry-wide value forecast.",
+    "Current software adoption prevalence and current subscription prices were not verified; named offerings are not assumed to be installed.",
+    "No claim that a generic repository replaces the whole legal practice stack.",
+    "Rights, security, accessible UI, restoration and integration behavior remain product-owner gates."
+  ],
+  "blocked_sources": [
+    {
+      "url": "https://www.clio.com/resources/legal-trends/2024-report/",
+      "status": 403,
+      "note": "Not used as evidence"
+    },
+    {
+      "url": "https://www.clio.com/pricing/",
+      "status": 403,
+      "note": "No price inferred"
+    },
+    {
+      "url": "https://www.americanbar.org/groups/professional_responsibility/publications/ethics_opinions/formal_opinion_512/",
+      "status": 403,
+      "note": "No current regulatory assertion derived from inaccessible content"
+    }
+  ]
+}

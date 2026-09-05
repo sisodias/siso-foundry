@@ -1,0 +1,143 @@
+{
+  "schema_version": "0.1.0",
+  "record_type": "industry_value_research",
+  "industry_id": "accounting_firms",
+  "industry_name": "US small accounting firms",
+  "as_of": "2026-09-05",
+  "jurisdiction": "United States research pilot; state accountancy, tax and audit requirements require authorized firm-specific review.",
+  "status": "research_only_not_admitted",
+  "source_frame": "Action Model system-map industry slug accounting_firms; taxonomy reference only, not client demand or implementation proof.",
+  "scope_note": "Bookkeeping assistance is limited to collection, classification, reconciliation and exception preparation. Licensed tax positions, attest opinions, filings and other professional decisions remain with the authorized practitioner.",
+  "summary": "Start with supervised bookkeeping intake, transaction matching, reconciliation exception review and client-request follow-up. Compare against the firm's existing ledger and document controls. No exposure estimate, price, savings or adoption claim is used.",
+  "automation_research": {
+    "finding": "IRS guidance identifies keeping supporting records, journals and ledgers as business recordkeeping work. That grounds an inventory of record-collection and reconciliation controls, but does not establish an automation rate. Tax and audit judgments remain professional-authority work and are outside generic workflow automation.",
+    "source_ids": ["irs-recordkeeping"],
+    "forecast_percent": null,
+    "forecast_note": "No independently verified percentage is used; recordkeeping guidance is not an automation or savings forecast."
+  },
+  "software": [
+    {
+      "name": "QuickBooks Online",
+      "capability": "Vendor advertises accounting, bookkeeping, invoicing, expense and reporting workflows for small businesses.",
+      "evidence_scope": "vendor_advertised_not_installation_or_outcome_proof",
+      "source_ids": ["quickbooks"],
+      "price": null,
+      "price_note": "No current firm quote, billing basis or avoidable spend verified."
+    },
+    {
+      "name": "Xero",
+      "capability": "Vendor advertises cloud accounting, bank reconciliation, invoicing, bills and reporting capabilities.",
+      "evidence_scope": "vendor_advertised_not_installation_or_outcome_proof",
+      "source_ids": ["xero"],
+      "price": null,
+      "price_note": "No current firm quote, billing basis or avoidable spend verified."
+    }
+  ],
+  "modules": [
+    {
+      "repository": "frappe/erpnext",
+      "capability": "Upstream project documents accounting, invoicing and purchasing modules.",
+      "source_revision": "unverified",
+      "existing_foundry_ref": "intelligence/agency/value-matrix.json: agency.finance.erpnext",
+      "reuse_shape": "Named finance-slice connector or sidecar only; preserve the firm's ledger authority and approval boundary.",
+      "rights_state": "Upstream repository and license route require edition, deployment and rights review.",
+      "source_ids": ["erpnext-docs", "repo-erpnext"],
+      "limits": "Feature documentation is not accounting correctness, audit readiness, security, migration or practitioner approval evidence."
+    },
+    {
+      "repository": "arrobalytics/django-ledger",
+      "capability": "Repository describes a Django double-entry accounting framework and financial analysis engine.",
+      "source_revision": "unverified",
+      "existing_foundry_ref": "intelligence/agency/coverage-inventory.json: repository arrobalytics/django-ledger",
+      "reuse_shape": "Read-oriented reconciliation prototype against redacted fixtures; never silently replace the production ledger.",
+      "rights_state": "Coverage inventory records GPL-3.0; dependency and deployment obligations require review.",
+      "source_ids": ["repo-django-ledger"],
+      "limits": "README capability is not evidence of posting controls, tax treatment, audit trail, support or production fitness."
+    },
+    {
+      "repository": "InvoicePlane/InvoicePlane",
+      "capability": "Repository describes self-hosted invoicing and customer/payment record workflows.",
+      "source_revision": "unverified",
+      "existing_foundry_ref": "intelligence/agency/coverage-inventory.json: repository InvoicePlane/InvoicePlane",
+      "reuse_shape": "Draft-invoice or status-review sidecar with explicit human release; not tax calculation or general-ledger authority.",
+      "rights_state": "License, dependencies and supported deployment route require review before any reuse.",
+      "source_ids": ["repo-invoiceplane"],
+      "limits": "Invoice workflow features do not establish jurisdictional tax correctness, collection, authorization or accounting completeness."
+    }
+  ],
+  "processes": [
+    {
+      "id": "bookkeeping_intake",
+      "process": "Client bookkeeping document intake and normalization",
+      "automation_boundary": "Collect supplied statements, receipts and source metadata; detect missing periods or duplicate files; do not infer unsupported transactions or accept a filing position.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["irs-recordkeeping", "quickbooks", "xero"],
+      "current_software": ["QuickBooks Online", "Xero"],
+      "github_modules": ["frappe/erpnext", "InvoicePlane/InvoicePlane"],
+      "baseline_required": "Matched engagement volume, completeness/error rate, human time including chase and rework, actual spend and operator cost.",
+      "metric": "Human minutes per accepted, complete period including review, chase and duplicate handling",
+      "falsifier": "Reject if missing source records, duplicate transactions or unauthorized client data exposure increases, or total reviewed effort is not reduced.",
+      "human_authority": "Firm-designated bookkeeper reviews source completeness; licensed practitioner controls tax/audit use and conclusions.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "transaction_classification",
+      "process": "Transaction categorization and coding suggestion",
+      "automation_boundary": "Suggest categories and surface ambiguous or unsupported transactions with source links; never finalize tax treatment, journal authority or audit evidence without review.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["irs-recordkeeping", "quickbooks", "xero", "repo-django-ledger"],
+      "current_software": ["QuickBooks Online", "Xero"],
+      "github_modules": ["arrobalytics/django-ledger", "frappe/erpnext"],
+      "baseline_required": "Matched transaction volume, coding accuracy, human review/rework time, exception rate and actual operating cost.",
+      "metric": "Correct accepted classifications per reviewer hour; exception and correction rate",
+      "falsifier": "Reject if unsupported classifications survive review, review/rework offsets time saved, or a suggestion is treated as a professional tax decision.",
+      "human_authority": "Authorized accounting professional approves coding policy and tax/audit treatment.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "reconciliation_exceptions",
+      "process": "Bank and ledger reconciliation exception review",
+      "automation_boundary": "Match candidate transactions and identify unexplained variances with provenance; do not post, write off or certify balances automatically.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["irs-recordkeeping", "quickbooks", "xero", "erpnext-docs"],
+      "current_software": ["QuickBooks Online", "Xero"],
+      "github_modules": ["frappe/erpnext", "arrobalytics/django-ledger"],
+      "baseline_required": "Matched account/period volume, match precision, unresolved exceptions, human review/rework time and rollback/operating cost.",
+      "metric": "Review minutes per resolved exception; unmatched and correction rate; critical balance discrepancies",
+      "falsifier": "Reject if a balance is marked reconciled without evidence, exception review is not lower, or an unauthorized posting/overwrite occurs.",
+      "human_authority": "Firm accounting owner reviews and approves reconciliation; practitioner retains reporting and attest authority.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "client_followup",
+      "process": "Client request and bookkeeping-status follow-up",
+      "automation_boundary": "Draft requests from current workpapers and exception state; route for approval and send only to authorized recipients; do not provide tax or audit conclusions.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["quickbooks", "xero", "repo-invoiceplane"],
+      "current_software": ["QuickBooks Online", "Xero"],
+      "github_modules": ["InvoicePlane/InvoicePlane"],
+      "baseline_required": "Matched request volume, response completeness, human minutes including review/retries, duplicate-send rate and actual spend.",
+      "metric": "Net human minutes per accurate approved request; response and duplicate/error rate",
+      "falsifier": "Reject if stale status or wrong-client records are sent, retries duplicate requests, or review/rework eliminates any effort reduction.",
+      "human_authority": "Firm communication owner approves recipient/content/send; qualified professional owns any tax or audit answer.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    }
+  ],
+  "sources": [
+    {"id": "irs-recordkeeping", "url": "https://www.irs.gov/businesses/small-businesses-self-employed/recordkeeping", "title": "Recordkeeping", "publisher": "Internal Revenue Service", "kind": "government_guidance", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Supports recordkeeping and source-document inventory; does not establish automation, adoption, savings or authority to make tax/audit decisions."},
+    {"id": "quickbooks", "url": "https://quickbooks.intuit.com/accounting/", "title": "Accounting software", "publisher": "Intuit QuickBooks", "kind": "vendor", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Vendor capability claims only; no installation prevalence, price, accuracy or outcome measurement."},
+    {"id": "xero", "url": "https://www.xero.com/us/accounting-software/", "title": "Accounting software", "publisher": "Xero", "kind": "vendor", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Vendor capability claims only; no installation prevalence, price, accuracy or outcome measurement."},
+    {"id": "erpnext-docs", "url": "https://docs.frappe.io/erpnext/user/manual/en/accounts", "title": "Accounts documentation", "publisher": "Frappe ERPNext", "kind": "official_project_docs", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Documentation describes product capabilities; it is not evidence of client suitability or accounting authority."},
+    {"id": "repo-erpnext", "url": "https://github.com/frappe/erpnext", "title": "frappe/erpnext repository", "publisher": "Frappe ERPNext", "kind": "official_repository", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Repository was accessible; revision is unverified and no executable qualification was performed."},
+    {"id": "repo-django-ledger", "url": "https://github.com/arrobalytics/django-ledger", "title": "arrobalytics/django-ledger repository", "publisher": "arrobalytics/django-ledger", "kind": "official_repository", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Repository was accessible; coverage inventory records GPL-3.0, while revision and production behavior remain unverified."},
+    {"id": "repo-invoiceplane", "url": "https://github.com/InvoicePlane/InvoicePlane", "title": "InvoicePlane repository", "publisher": "InvoicePlane", "kind": "official_repository", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Repository was accessible; revision, rights route and production behavior remain unverified."}
+  ],
+  "value_model_ref": "../economics/observed-value-model.json",
+  "observed_business_value": {"currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "eligible_businesses": null, "societal_value": null, "status": "unmeasured", "reason": "No firm baseline, invoices, achieved automation rate, review/rework data, operating cost, displacement proof or eligible-population measurement. Null is not zero."},
+  "pilot": {
+    "design": "Within one authorized firm, compare matched redacted or synthetic bookkeeping periods under the incumbent and supervised candidate workflows; pre-register permitted transaction classes and professional approval points.",
+    "record": ["units and periods processed", "baseline human minutes", "assisted human minutes including review/rework", "critical errors and unauthorized-access cases", "actual cancelled spend", "recurring operating cost", "implementation and rollback cost"],
+    "reject_if": ["Human time including review/rework is not lower than matched baseline.", "Any client record crosses an unauthorized boundary or an unapproved posting/send occurs.", "A classification, reconciliation or draft is treated as a tax/audit decision without authorized review.", "Measured first-year net cash is not positive for a cash-savings offer; capacity gains alone are not cash."]
+  },
+  "limitations": ["This is not tax, audit, accounting or legal advice, product admission or an industry-wide forecast.", "Current software adoption prevalence and subscription prices were not verified; named offerings are not assumed installed.", "No generic repository is claimed to replace a firm's ledger, workpapers, controls or professional authority.", "Rights, security, privacy, restoration, integrations, accessibility and jurisdiction-specific requirements remain product-owner gates."]
+}

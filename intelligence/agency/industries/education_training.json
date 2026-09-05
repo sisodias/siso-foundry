@@ -1,0 +1,144 @@
+{
+  "schema_version": "0.1.0",
+  "record_type": "industry_value_research",
+  "industry_id": "education_training",
+  "industry_name": "US adult vocational and continuing-education providers",
+  "as_of": "2026-09-05",
+  "jurisdiction": "United States research pilot; provider, funder, state workforce and program-specific reporting requirements require authorized review.",
+  "status": "research_only_not_admitted",
+  "source_frame": "Action Model system-map industry slug education_training; taxonomy reference only, not demand, eligibility or implementation proof.",
+  "scope_note": "Covers administrative workflows for adult vocational, workforce and continuing education providers. It excludes child data, admissions or credential decisions, professional-licensing decisions, grading authority and claims about learner outcomes.",
+  "summary": "Start with supervised learner intake, cohort logistics, attendance/progress evidence and completion-report preparation. Keep the provider's learning, student and reporting systems authoritative until a pilot proves record accuracy, privacy, accessibility and lower reviewed effort. No adoption, price, savings or outcome forecast is used.",
+  "automation_research": {
+    "finding": "US Department of Labor guidance describes workforce and apprenticeship programs with participant, training and completion/reporting responsibilities. That grounds an inventory of intake, scheduling, attendance and evidence-preservation work, but does not establish an automation rate; eligibility, admissions, credential and licensing decisions remain authorized human work.",
+    "source_ids": ["dol-wioa", "dol-apprenticeship"],
+    "forecast_percent": null,
+    "forecast_note": "Program guidance is not an automation, adoption or savings forecast; no independently verified percentage is used."
+  },
+  "software": [
+    {
+      "name": "Canvas LMS",
+      "capability": "Vendor describes a learning-management platform for course content, assignments, assessment, communication and reporting workflows.",
+      "evidence_scope": "vendor_advertised_not_installation_or_outcome_proof",
+      "source_ids": ["canvas"],
+      "price": null,
+      "price_note": "No provider quote, billing basis, installation or avoidable incumbent spend verified."
+    },
+    {
+      "name": "Frappe Learning",
+      "capability": "Official project documentation describes an open-source learning platform with courses, enrollments, assessments and learning progress features.",
+      "evidence_scope": "official_project_docs_not_deployment_or_outcome_proof",
+      "source_ids": ["frappe-learning-docs"],
+      "price": null,
+      "price_note": "No hosting, implementation, support or provider operating cost verified."
+    }
+  ],
+  "modules": [
+    {
+      "repository": "frappe/lms",
+      "capability": "Upstream project presents a learning-management application with course, enrollment and learning-progress workflows.",
+      "source_revision": "unverified",
+      "existing_foundry_ref": "intelligence/agency/coverage-inventory.json: repository frappe/lms (candidate line 158)",
+      "reuse_shape": "Read-oriented course/enrollment sidecar or controlled pilot against synthetic records; preserve the provider's system of record and approval boundaries.",
+      "rights_state": "Coverage inventory records AGPL-3.0; edition, dependencies, deployment and rights obligations require review.",
+      "source_ids": ["repo-frappe-lms", "frappe-learning-docs"],
+      "limits": "Project documentation and repository presence do not prove accessibility, privacy, integrations, reporting correctness, support or production fitness."
+    },
+    {
+      "repository": "bigbluebutton/bigbluebutton",
+      "capability": "Upstream project provides a web-conferencing system useful for supervised live classes and session records.",
+      "source_revision": "unverified",
+      "existing_foundry_ref": "intelligence/agency/coverage-inventory.json: repository bigbluebutton/bigbluebutton (atlas reference COM-10:34:1)",
+      "reuse_shape": "Optional live-session link and attendance-evidence adapter; do not infer participation, mastery or completion from connection events alone.",
+      "rights_state": "Upstream license, hosting, recording and data-retention route require review before reuse.",
+      "source_ids": ["repo-bigbluebutton", "bigbluebutton-docs"],
+      "limits": "Conference capability is not evidence of instructional quality, learner identity, attendance validity, accessibility or credential authority."
+    },
+    {
+      "repository": "activepieces/activepieces",
+      "capability": "Upstream project describes visual automation, connectors and workflow execution useful for approved reminders and status synchronization.",
+      "source_revision": "unverified",
+      "existing_foundry_ref": "intelligence/agency/value-matrix.json: agency.automation.activepieces",
+      "reuse_shape": "Allowlisted, idempotent notifications and record-routing sidecar with human approval before external writes; never an admissions, eligibility, grading or credential-decision engine.",
+      "rights_state": "Existing value-matrix route is community-core/service-oriented; edition, license, connectors and deployment obligations require review.",
+      "source_ids": ["repo-activepieces"],
+      "limits": "Connector availability does not prove learner consent, permissioning, retry safety, privacy, accessibility or reporting compliance."
+    }
+  ],
+  "processes": [
+    {
+      "id": "learner_intake",
+      "process": "Adult learner or employer-sponsored training intake and record completeness review",
+      "automation_boundary": "Normalize supplied contact, cohort, prerequisite and consent fields; detect missing or duplicate records; do not decide admission, eligibility, accommodation, funding or licensing status.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["dol-wioa", "canvas", "frappe-learning-docs", "repo-frappe-lms"],
+      "current_software": ["Canvas LMS", "Frappe Learning"],
+      "github_modules": ["frappe/lms", "activepieces/activepieces"],
+      "baseline_required": "Matched intake volume, completeness and duplicate rate, human review/chase/rework minutes, privacy incidents and actual operating spend.",
+      "metric": "Net human minutes per complete, authorized intake record including exceptions and rework",
+      "falsifier": "Reject if unauthorized fields are collected, records are merged incorrectly, protected information crosses a permission boundary, or total reviewed effort is not reduced.",
+      "human_authority": "Provider-designated admissions or program staff control intake policy, eligibility, accommodations, consent and any funding decision.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "cohort_logistics",
+      "process": "Cohort, instructor and live-session logistics coordination",
+      "automation_boundary": "Draft schedules, reminders and approved roster changes from current records; flag conflicts; do not assign a learner to a regulated pathway or promise a seat, accommodation or credential.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["dol-apprenticeship", "canvas", "bigbluebutton-docs", "repo-bigbluebutton", "repo-activepieces"],
+      "current_software": ["Canvas LMS"],
+      "github_modules": ["bigbluebutton/bigbluebutton", "activepieces/activepieces"],
+      "baseline_required": "Matched cohort/session volume, schedule and roster error rate, reminder retries, human review/rework time and actual spend.",
+      "metric": "Net human minutes per accurate, approved session change; roster, duplicate-send and missed-session exceptions",
+      "falsifier": "Reject if a stale or wrong-recipient reminder is sent, a roster change is unauthorized, accessibility or accommodation needs are lost, or review/rework offsets the effort reduction.",
+      "human_authority": "Program and instructor owners approve schedules, rosters, accommodations, cancellations and learner communications.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "attendance_progress_evidence",
+      "process": "Attendance and learner-progress evidence collection and exception review",
+      "automation_boundary": "Collect attendance or activity events and surface missing, conflicting or late evidence with provenance; do not infer mastery, make a grade or treat a connection event as completion.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["dol-wioa", "canvas", "bigbluebutton-docs", "repo-bigbluebutton", "repo-frappe-lms"],
+      "current_software": ["Canvas LMS", "Frappe Learning"],
+      "github_modules": ["bigbluebutton/bigbluebutton", "frappe/lms"],
+      "baseline_required": "Matched learner/session volume, evidence completeness and correction rate, reviewer/rework minutes, access incidents and operating cost.",
+      "metric": "Review minutes per accepted evidence packet; missing/incorrect event rate and unresolved exceptions",
+      "falsifier": "Reject if attendance is falsely asserted, evidence provenance is lost, critical exceptions rise, or a system event is used as a grading, completion or credential decision without authorized review.",
+      "human_authority": "Instructor or designated program staff validate attendance/progress evidence and retain grading, completion and accommodation authority.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "completion_reporting",
+      "process": "Completion and workforce-program report preparation",
+      "automation_boundary": "Assemble approved attendance, progress and completion fields into a reviewable report with source links; do not award a credential, determine eligibility, certify a licensure requirement or submit without authorized sign-off.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["dol-wioa", "dol-apprenticeship", "frappe-learning-docs", "repo-frappe-lms", "repo-activepieces"],
+      "current_software": ["Frappe Learning", "Canvas LMS"],
+      "github_modules": ["frappe/lms", "activepieces/activepieces"],
+      "baseline_required": "Matched reporting units, field completeness and correction/rejection rate, human review/rework minutes, submission incidents and actual spend.",
+      "metric": "Net human minutes per accurate, approved report; correction, rejection, late and unauthorized-submission rate",
+      "falsifier": "Reject if unsupported completion or eligibility appears in a report, an unauthorized submission occurs, material corrections increase, or review/rework removes the effort reduction.",
+      "human_authority": "Authorized provider/funder reporting owner approves completion, eligibility, credential and submission decisions.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    }
+  ],
+  "sources": [
+    {"id": "dol-wioa", "url": "https://www.dol.gov/agencies/eta/wioa", "title": "Workforce Innovation and Opportunity Act", "publisher": "U.S. Department of Labor", "kind": "government_guidance", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Supports the existence of workforce-program participant and reporting responsibilities; does not establish automation, adoption, savings or a generic eligibility decision."},
+    {"id": "dol-apprenticeship", "url": "https://www.dol.gov/agencies/eta/apprenticeship", "title": "Apprenticeship", "publisher": "U.S. Department of Labor", "kind": "government_program_guidance", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Supports supervised training and program administration context; does not prove provider outcomes, compliance or credential authority."},
+    {"id": "canvas", "url": "https://www.instructure.com/canvas", "title": "Canvas", "publisher": "Instructure", "kind": "vendor", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Vendor capability claims only; no installation prevalence, price, accessibility, security or achieved outcome is inferred."},
+    {"id": "frappe-learning-docs", "url": "https://docs.frappe.io/learning", "title": "Learning documentation", "publisher": "Frappe", "kind": "official_project_docs", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Project documentation supports named learning features only; it is not deployment, support, accessibility or provider-suitability evidence."},
+    {"id": "repo-frappe-lms", "url": "https://github.com/frappe/lms", "title": "frappe/lms repository", "publisher": "Frappe", "kind": "official_repository", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Repository was accessible; revision and production behavior remain unverified; coverage inventory records AGPL-3.0."},
+    {"id": "bigbluebutton-docs", "url": "https://docs.bigbluebutton.org/", "title": "BigBlueButton documentation", "publisher": "BigBlueButton", "kind": "official_project_docs", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Documentation supports conferencing capability only; it does not validate attendance, identity, accessibility or completion evidence."},
+    {"id": "repo-bigbluebutton", "url": "https://github.com/bigbluebutton/bigbluebutton", "title": "bigbluebutton/bigbluebutton repository", "publisher": "BigBlueButton", "kind": "official_repository", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Repository was accessible; revision, hosting, retention and production behavior remain unverified."},
+    {"id": "repo-activepieces", "url": "https://github.com/activepieces/activepieces", "title": "activepieces/activepieces repository", "publisher": "Activepieces", "kind": "official_repository", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Repository was accessible; revision, edition/license route and production behavior remain unverified."}
+  ],
+  "value_model_ref": "../economics/observed-value-model.json",
+  "observed_business_value": {"currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "eligible_businesses": null, "societal_value": null, "status": "unmeasured", "reason": "No provider baseline, achieved automation rate, review/rework data, operating cost, avoided spend or eligible-population measurement. Null is not zero."},
+  "pilot": {
+    "design": "Within one authorized provider, compare matched redacted or synthetic cohorts and reporting periods under the incumbent and supervised candidate workflows; pre-register permitted fields, approval points and retention rules.",
+    "record": ["units and cohorts processed", "baseline human minutes", "assisted human minutes including review/rework", "missing/duplicate/correction and privacy incidents", "actual cancelled spend", "recurring operating cost", "implementation and rollback cost"],
+    "reject_if": ["Human time including review/rework is not lower than matched baseline.", "Any learner record crosses an unauthorized boundary or an unapproved external send/submission occurs.", "Attendance, progress, completion, eligibility, credential or licensing authority is inferred from an automation event without authorized review.", "Measured first-year net cash is not positive for a cash-savings offer; capacity gains alone are not cash."]
+  },
+  "limitations": ["This is not admissions, credentialing, licensing, education, legal or workforce-program advice, product admission or an industry-wide forecast.", "Child data is out of scope; adult-provider systems may still contain sensitive learner information requiring data minimization and access controls.", "Current software adoption prevalence, prices, learner outcomes, accessibility and security were not verified; named offerings are not assumed installed.", "No generic repository is claimed to replace a provider's student, learning, reporting or professional-authority systems; rights, privacy, retention, accessibility, restoration and jurisdiction-specific requirements remain product-owner gates."]
+}

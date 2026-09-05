@@ -1,0 +1,149 @@
+{
+  "schema_version": "0.1.0",
+  "record_type": "industry_value_research",
+  "industry_id": "saas",
+  "industry_name": "US B2B software-as-a-service firms",
+  "as_of": "2026-09-05",
+  "jurisdiction": "United States research pilot; customer contracts, privacy obligations, security commitments and incident authority require an authorized owner.",
+  "status": "research_only_not_admitted",
+  "source_frame": "Action Model system-map industry slug saas; taxonomy reference only, not demand or implementation proof.",
+  "scope_note": "Research covers B2B SaaS support, customer onboarding and internal operating coordination. No customer data, production systems or external communications were accessed.",
+  "summary": "Start with supervised support triage, onboarding completeness and incident-status coordination using existing systems of record. Vendor capabilities and open-source repositories establish possible workflow shapes, not installed base, compliance, response quality or savings.",
+  "automation_research": {
+    "finding": "NIST incident-response guidance describes preparation, detection, response and recovery as coordinated organizational activities. It supports explicit ownership, evidence preservation and review gates, but does not establish what share of SaaS work can be automated or any achieved outcome.",
+    "source_ids": ["nist-incident"],
+    "forecast_percent": null,
+    "forecast_note": "No automation forecast or adoption prevalence is established from guidance or vendor claims."
+  },
+  "software": [
+    {
+      "name": "HubSpot Service Hub",
+      "capability": "Vendor advertises help desk, ticketing, knowledge base, customer portal and service reporting capabilities for support teams.",
+      "evidence_scope": "vendor_advertised_not_installation_or_outcome_proof",
+      "source_ids": ["hubspot-service"],
+      "price": null,
+      "price_note": "No verified quote, billing basis, adoption count or measured support outcome."
+    },
+    {
+      "name": "Jira Service Management",
+      "capability": "Vendor advertises request intake, queues, knowledge management, incident/change workflows and service operations reporting.",
+      "evidence_scope": "vendor_advertised_not_installation_or_outcome_proof",
+      "source_ids": ["atlassian-jsm"],
+      "price": null,
+      "price_note": "No verified quote, installed base or measured reduction in effort."
+    }
+  ],
+  "modules": [
+    {
+      "repository": "chatwoot/chatwoot",
+      "capability": "Shared inbox and customer conversation workflow suitable for supervised support intake and response drafting.",
+      "source_revision": "unverified",
+      "existing_foundry_ref": "intelligence/agency/value-matrix.json:agency.communications.chatwoot",
+      "reuse_shape": "Permission-scoped support inbox with human approval before external sends; preserve the incumbent ticket/customer authority.",
+      "rights_state": "Upstream repository and deployment/license boundary require route-specific review before reuse.",
+      "source_ids": ["repo-chatwoot"],
+      "limits": "Repository capability does not prove tenant isolation, identity mapping, retention, channel consent, SLA accuracy or production suitability."
+    },
+    {
+      "repository": "formbricks/formbricks",
+      "capability": "Self-hostable survey and feedback collection useful for onboarding checkpoints and post-resolution feedback.",
+      "source_revision": "unverified",
+      "existing_foundry_ref": "intelligence/agency/coverage-inventory.json:formbricks/formbricks",
+      "reuse_shape": "Versioned, purpose-limited feedback forms; keep account, support and consent authority in the selected system of record.",
+      "rights_state": "Coverage inventory marks rights/reuse analysis as requiring review; no production adoption is implied.",
+      "source_ids": ["repo-formbricks"],
+      "limits": "Forms do not establish representative feedback, accessibility, consent, retention, identity or causal product-health evidence."
+    },
+    {
+      "repository": "n8n-io/n8n",
+      "capability": "Workflow automation and integrations useful for idempotent internal notifications, synchronization and approval queues.",
+      "source_revision": "unverified",
+      "existing_foundry_ref": "intelligence/agency/coverage-inventory.json:n8n-io/n8n",
+      "reuse_shape": "Allowlisted, logged draft/status workflows with retries and human approval for customer-visible or irreversible actions.",
+      "rights_state": "Upstream license and hosted-versus-self-hosted distribution boundary require route-specific review.",
+      "source_ids": ["repo-n8n"],
+      "limits": "Connectors do not prove authorization, secret handling, idempotency, replay safety, data residency or incident rollback."
+    }
+  ],
+  "processes": [
+    {
+      "id": "support_intake_triage",
+      "process": "Customer support intake, classification and routing",
+      "automation_boundary": "Normalize supplied requests, identify duplicates and route against approved queues; draft acknowledgements only. Do not infer entitlement, severity, liability or a final resolution without authorized review.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["hubspot-service", "atlassian-jsm", "repo-chatwoot", "nist-incident"],
+      "current_software": ["HubSpot Service Hub", "Jira Service Management"],
+      "github_modules": ["chatwoot/chatwoot", "n8n-io/n8n"],
+      "baseline_required": "Matched request volume, routing/duplicate/error rates, first-response and resolution times, human review/rework/exception minutes and actual spend.",
+      "metric": "Net reviewed human minutes per correctly routed request, including rework, escalations and privacy/permission exceptions",
+      "falsifier": "Reject if material requests are misrouted, unauthorized data is exposed, stale acknowledgements are sent or net reviewed effort does not fall.",
+      "human_authority": "Named support lead controls severity, entitlement interpretation, customer response and escalation decisions.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "customer_onboarding",
+      "process": "New customer onboarding checklist, milestone tracking and handoff",
+      "automation_boundary": "Track approved milestones, flag missing inputs and draft reminders; do not declare readiness, make implementation commitments or alter contract scope.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["hubspot-service", "repo-formbricks", "repo-n8n"],
+      "current_software": ["HubSpot Service Hub", "Jira Service Management"],
+      "github_modules": ["formbricks/formbricks", "n8n-io/n8n"],
+      "baseline_required": "Matched onboarding volume, milestone completeness and slippage, reviewer/rework/exception time, handoff errors and actual spend.",
+      "metric": "Net human minutes per complete, accepted onboarding handoff; missing-input, rework and escalation rate",
+      "falsifier": "Reject if customer data is collected without purpose, a dependency is silently skipped, scope is misrepresented or total reviewed effort is not reduced.",
+      "human_authority": "Implementation owner and account authority approve scope, readiness, access and customer commitments.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "incident_status_coordination",
+      "process": "Service incident intake, internal coordination and status updates",
+      "automation_boundary": "Collect approved signals, open a coordination record, summarize known facts and draft updates; do not declare severity, root cause, customer impact or resolution without incident authority.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["nist-incident", "atlassian-jsm", "repo-n8n", "repo-chatwoot"],
+      "current_software": ["Jira Service Management", "HubSpot Service Hub"],
+      "github_modules": ["n8n-io/n8n", "chatwoot/chatwoot"],
+      "baseline_required": "Matched incident volume, detection-to-acknowledgement and update times, review/rework/exception minutes, duplicate-message rate and actual spend.",
+      "metric": "Net reviewed human minutes per accurate, authorized incident update; stale, duplicate and escalation exceptions",
+      "falsifier": "Reject if an unverified impact or resolution is published, an unauthorized recipient receives data, evidence is lost or net effort is not reduced.",
+      "human_authority": "Named incident commander or service owner controls severity, public status, root-cause language and recovery declaration.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "feedback_operations_review",
+      "process": "Support feedback collection and recurring operations review",
+      "automation_boundary": "Collect approved feedback, group themes for review and surface missing evidence; do not infer customer health, churn intent, compliance posture or roadmap priority as a decision.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["repo-formbricks", "hubspot-service", "nist-ai-rmf"],
+      "current_software": ["HubSpot Service Hub", "Jira Service Management"],
+      "github_modules": ["formbricks/formbricks", "n8n-io/n8n"],
+      "baseline_required": "Matched feedback volume and response rate, review/rework/exception minutes, coding disagreement and privacy/access incidents.",
+      "metric": "Reviewer minutes per evidence-linked operations brief; correction, nonresponse and permission-exception rates",
+      "falsifier": "Reject if unsupported themes drive an operational decision, sensitive responses are exposed, sampling changes silently or review effort does not fall.",
+      "human_authority": "Product/support operations owner interprets feedback and approves service, roadmap and customer-health actions.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    }
+  ],
+  "sources": [
+    {"id": "nist-incident", "url": "https://csrc.nist.gov/pubs/sp/800/61/r3/final", "title": "Incident Response Recommendations and Considerations", "publisher": "National Institute of Standards and Technology", "kind": "government_guidance", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Primary incident-response guidance used for ownership, evidence and review boundaries; not SaaS automation or outcome evidence."},
+    {"id": "nist-ai-rmf", "url": "https://www.nist.gov/itl/ai-risk-management-framework", "title": "AI Risk Management Framework", "publisher": "National Institute of Standards and Technology", "kind": "government_guidance", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Risk-management guidance for bounded human review and measurement; not customer-health or savings evidence."},
+    {"id": "hubspot-service", "url": "https://www.hubspot.com/products/service", "title": "Service Hub", "publisher": "HubSpot", "kind": "vendor", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Vendor-marketed capabilities only; no installation, adoption, price or outcome claim."},
+    {"id": "atlassian-jsm", "url": "https://www.atlassian.com/software/jira/service-management", "title": "Jira Service Management", "publisher": "Atlassian", "kind": "vendor", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Vendor-marketed service-management capabilities only; no installed-base or savings claim."},
+    {"id": "repo-chatwoot", "url": "https://github.com/chatwoot/chatwoot", "title": "Chatwoot", "publisher": "Chatwoot", "kind": "open_source_project", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Upstream repository supports shared-inbox capability; revision, rights, tenancy and production suitability remain unverified."},
+    {"id": "repo-formbricks", "url": "https://github.com/formbricks/formbricks", "title": "Formbricks", "publisher": "Formbricks", "kind": "open_source_project", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Upstream repository supports feedback-form capability; rights, response quality and production suitability remain unverified."},
+    {"id": "repo-n8n", "url": "https://github.com/n8n-io/n8n", "title": "n8n", "publisher": "n8n", "kind": "open_source_project", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Upstream repository supports workflow-automation capability; license boundary, connector safety and production suitability remain unverified."}
+  ],
+  "value_model_ref": "../economics/observed-value-model.json",
+  "observed_business_value": {"currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "eligible_businesses": null, "societal_value": null, "status": "unmeasured", "reason": "No customer baseline, measured trial, price, staffing cost or outcome evidence was supplied; released time is capacity rather than cash."},
+  "pilot": {
+    "design": "Run a time-boxed, read/draft-only pilot on matched synthetic or consented support and onboarding records. Compare incumbent and pilot net human effort, review/rework, exceptions, permission/privacy incidents, stale updates and authority checkpoints.",
+    "record": ["matched volume and cohort definition", "human minutes including review/rework and exceptions", "routing, milestone and update accuracy", "privacy, permission and evidence-preservation incidents", "software spend and avoidable-cost evidence"],
+    "reject_if": ["unauthorized customer-visible or irreversible action", "critical privacy, permission or evidence failure", "no net effort reduction after review/rework", "unsupported claim of automation percentage, adoption or cash savings"]
+  },
+  "limitations": [
+    "Vendor pages and GitHub READMEs establish advertised/project capability only, not adoption, accuracy, security, compliance, price or savings.",
+    "No customer, support, onboarding, incident or product-usage records were accessed; no production workflow was executed.",
+    "No SaaS-firm baseline, measured trial, contract review, privacy assessment or accessibility evaluation is included.",
+    "All module revisions are unverified and modules are not admitted for production use; no customer data or external send is authorized.",
+    "NIST guidance bounds process authority and evidence handling but is not a SaaS-specific automation study."
+  ]
+}

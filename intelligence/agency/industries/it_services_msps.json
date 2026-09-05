@@ -1,0 +1,139 @@
+{
+  "schema_version": "0.1.0",
+  "record_type": "industry_value_research",
+  "industry_id": "it_services_msps",
+  "industry_name": "US small managed IT service providers",
+  "as_of": "2026-09-05",
+  "jurisdiction": "United States research pilot; customer contracts, data-processing terms, security obligations and named customer authority require review.",
+  "status": "research_only_not_admitted",
+  "source_frame": "Action Model system-map industry slug it_services_msps; taxonomy reference only, not client demand or implementation proof.",
+  "scope_note": "Research covers supervised service-desk triage, incident/change preparation, customer onboarding/offboarding and recurring service reporting for small US MSPs. No customer tenant, credential, endpoint, ticket or production change was accessed.",
+  "summary": "Small MSPs can test bounded intake, routing, evidence assembly and reporting around an existing approval chain. Incident severity, customer authority, privileged access, production changes and security conclusions remain human-owned; product pages and project repositories establish capability, not adoption, quality or savings.",
+  "automation_research": {
+    "finding": "O*NET describes computer user support specialists as diagnosing user problems, documenting resolutions and communicating with users; NIST incident-response guidance emphasizes preparation, detection/analysis, response and recovery with defined roles. These sources support supervised workflow assistance, not autonomous remediation or security authority.",
+    "source_ids": ["onet-support-specialists", "nist-ir-800-61r3"],
+    "forecast_percent": null,
+    "forecast_note": "No independently measured MSP automation rate or savings is used; occupational and incident-response guidance describe work and controls, not realized adoption or outcomes."
+  },
+  "software": [
+    {
+      "name": "HaloPSA",
+      "capability": "Vendor advertises PSA capabilities spanning service desk/ticketing, incident and change workflows, SLA handling, asset context and reporting for IT service providers.",
+      "evidence_scope": "vendor_advertised_not_installation_or_outcome_proof",
+      "source_ids": ["halopsa-features"],
+      "price": null,
+      "price_note": "No verified customer plan, seat cost, migration cost or avoidable spend; price and cancellation value remain unknown."
+    },
+    {
+      "name": "Freshservice",
+      "capability": "Vendor describes IT service-management workflows for incidents, service requests, changes, assets and knowledge, with automation features subject to configured permissions and review.",
+      "evidence_scope": "vendor_advertised_not_installation_or_outcome_proof",
+      "source_ids": ["freshservice-itsm"],
+      "price": null,
+      "price_note": "No verified customer plan, adoption, configuration effort or avoidable spend; price and savings remain unknown."
+    }
+  ],
+  "modules": [
+    {
+      "repository": "makeplane/plane",
+      "capability": "Open-source work-item and project operations platform with triage and delivery primitives documented by the upstream project.",
+      "source_revision": "5f7d92784c403f76284f0f16718f320221dc7fec",
+      "existing_foundry_ref": "intelligence/agency/value-matrix.json:agency.delivery.plane",
+      "reuse_shape": "Customer-approved backlog and change-preparation work items; preserve customer/project boundaries and require approval before any operational action.",
+      "rights_state": "Upstream license, distribution and trademark obligations require review before reuse; source evidence does not qualify a production deployment.",
+      "source_ids": ["repo-plane"],
+      "limits": "Repository capability does not prove tenant isolation, customer authorization, SLA correctness, integration reliability or safe production-change execution."
+    },
+    {
+      "repository": "chatwoot/chatwoot",
+      "capability": "Shared inbox and customer-support conversation platform documented by the upstream project; useful for controlled customer communications around tickets and incidents.",
+      "source_revision": "b354a9550e1fb59fa537a9c384232cb076213e72",
+      "existing_foundry_ref": "intelligence/agency/value-matrix.json:agency.communications.chatwoot",
+      "reuse_shape": "Route inbound customer messages into a reviewable queue and draft acknowledgements; require named approval for external sends and preserve channel identity.",
+      "rights_state": "Upstream repository licensing and hosted/self-hosted route require review; customer communication authority remains outside the module.",
+      "source_ids": ["repo-chatwoot"],
+      "limits": "Conversation features do not prove identity mapping, channel credential revocation, replay handling, customer consent or incident-resolution quality."
+    },
+    {
+      "repository": "activepieces/activepieces",
+      "capability": "Visual automation runtime with reusable connectors, triggers and actions documented by the upstream repository.",
+      "source_revision": "af374df8ae23f973376650f9b83642e2e7985bf3",
+      "existing_foundry_ref": "intelligence/agency/value-matrix.json:agency.automation.activepieces",
+      "reuse_shape": "Allowlisted ticket notifications, evidence collection and report synchronization with approval transitions, idempotency and dead-letter handling required.",
+      "rights_state": "Community and enterprise licensing boundaries require review; connector credentials must remain governed by the owning environment.",
+      "source_ids": ["repo-activepieces"],
+      "limits": "Connectors do not prove customer consent, least privilege, retry safety, idempotency, tenant isolation or permission to make a production change."
+    }
+  ],
+  "processes": [
+    {
+      "id": "ticket_triage",
+      "process": "Inbound support request triage and routing",
+      "automation_boundary": "Classify and summarize the submitted request, suggest queue/SLA metadata and surface missing context; do not infer severity, customer entitlement or authorization from incomplete text, and do not close a ticket without review.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["onet-support-specialists", "halopsa-features", "freshservice-itsm", "repo-chatwoot", "repo-activepieces"],
+      "current_software": ["HaloPSA", "Freshservice"],
+      "github_modules": ["chatwoot/chatwoot", "activepieces/activepieces"],
+      "baseline_required": "Matched requests, first-touch and routing minutes, review/rework and exception minutes, misroute/escalation rate, SLA outcome and actual tool/operator cost.",
+      "metric": "Human minutes per correctly routed and acknowledged request, including review, rework and exceptions; misroutes, missed SLA risks and unsupported classifications.",
+      "falsifier": "Reject if review/rework and exception effort do not reduce net effort, or a critical severity, entitlement, privacy or SLA error reaches the customer workflow.",
+      "human_authority": "Named service-desk lead owns severity, entitlement, customer communication and escalation decisions.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "incident_change_preparation",
+      "process": "Incident evidence assembly and change-request preparation",
+      "automation_boundary": "Assemble approved ticket, timeline, logs and proposed runbook fields; identify missing evidence and draft a change record, but never diagnose conclusively, select a remediation, or execute a privileged/production change.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["nist-ir-800-61r3", "halopsa-features", "freshservice-itsm", "repo-plane", "repo-activepieces"],
+      "current_software": ["HaloPSA", "Freshservice"],
+      "github_modules": ["makeplane/plane", "activepieces/activepieces"],
+      "baseline_required": "Matched incidents/changes, evidence-collection and review/rework minutes, missing-field and rollback-plan rates, approval latency, failed/rolled-back changes and actual cost.",
+      "metric": "Human minutes per complete, approved incident/change packet, including reconciliation, review and exceptions; evidence gaps, unauthorized actions and change defects.",
+      "falsifier": "Reject if packet review does not reduce net effort, evidence provenance is incomplete, or any unapproved privileged or production action occurs.",
+      "human_authority": "Incident commander and authorized customer/change approver own diagnosis, risk acceptance, rollback and production execution.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "customer_lifecycle",
+      "process": "Customer onboarding and offboarding checklist coordination",
+      "automation_boundary": "Track approved checklist items, dependencies, evidence and reminders across systems; do not create accounts, grant/revoke access or attest completion without an authorized operator and customer record.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["onet-support-specialists", "halopsa-features", "freshservice-itsm", "repo-plane", "repo-activepieces"],
+      "current_software": ["HaloPSA", "Freshservice"],
+      "github_modules": ["makeplane/plane", "activepieces/activepieces"],
+      "baseline_required": "Matched lifecycle events, coordination/review/rework minutes, missing-evidence and exception counts, access-change approval latency, completion defects and actual cost.",
+      "metric": "Human minutes per reconciled, authorized lifecycle event, including review and exception handling; missed approvals, stale access and incomplete evidence.",
+      "falsifier": "Reject if net coordination effort is not reduced or a stale, overbroad or unauthorized access change is made or left unreviewed.",
+      "human_authority": "Named customer owner and authorized MSP operator own identity, access, data-retention and completion attestations.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "service_reporting",
+      "process": "Monthly service review and SLA/reporting pack",
+      "automation_boundary": "Reconcile approved ticket, SLA, incident and change data and draft a traceable service report; do not infer causality, promise remediation or conceal missing/late data.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["onet-support-specialists", "halopsa-features", "freshservice-itsm", "repo-plane"],
+      "current_software": ["HaloPSA", "Freshservice"],
+      "github_modules": ["makeplane/plane"],
+      "baseline_required": "Matched reporting periods, extraction/reconciliation/review minutes, data completeness, correction and exception rates, meeting preparation time and actual cost.",
+      "metric": "Human minutes per accepted report, including reconciliation, review and rework; missing/incorrect SLA fields and unsupported causal or risk claims.",
+      "falsifier": "Reject if reconciliation and review erase time reduction, material data is missing without disclosure, or an unsupported service/security claim reaches the customer.",
+      "human_authority": "MSP service manager and customer approver own metric definitions, interpretation, commitments and risk decisions.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    }
+  ],
+  "sources": [
+    {"id": "onet-support-specialists", "url": "https://www.onetonline.org/link/summary/15-1232.00", "title": "15-1232.00 Computer User Support Specialists", "publisher": "O*NET OnLine", "kind": "occupational_authority", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "US occupational task and work-activity context; does not estimate MSP adoption, automation or savings."},
+    {"id": "nist-ir-800-61r3", "url": "https://csrc.nist.gov/pubs/sp/800/61/r3/final", "title": "SP 800-61 Revision 3: Incident Response Recommendations and Considerations", "publisher": "National Institute of Standards and Technology", "kind": "government_primary_guidance", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Incident-response roles and lifecycle guidance; not a license to automate diagnosis, authority or production changes and not a savings estimate."},
+    {"id": "halopsa-features", "url": "https://www.halopsa.com/features", "title": "HaloPSA Features", "publisher": "HaloPSA", "kind": "vendor_product_page", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Vendor capability claims for PSA workflows; no independent adoption, quality, pricing or outcome evidence."},
+    {"id": "freshservice-itsm", "url": "https://www.freshworks.com/freshservice/it-service-management/", "title": "Freshservice IT Service Management", "publisher": "Freshworks", "kind": "vendor_product_page", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Vendor capability claims for ITSM workflows; no independent adoption, quality, pricing or outcome evidence."},
+    {"id": "repo-plane", "url": "https://github.com/makeplane/plane/tree/5f7d92784c403f76284f0f16718f320221dc7fec", "title": "makeplane/plane", "publisher": "GitHub / Plane", "kind": "source_repository", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Pinned upstream repository evidence; licensing, deployment, upgrade, restore and tenant-boundary review remain required."},
+    {"id": "repo-chatwoot", "url": "https://github.com/chatwoot/chatwoot/tree/b354a9550e1fb59fa537a9c384232cb076213e72", "title": "chatwoot/chatwoot", "publisher": "GitHub / Chatwoot", "kind": "source_repository", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Pinned upstream repository evidence; repository capability does not prove communication authority, isolation or operational outcomes."},
+    {"id": "repo-activepieces", "url": "https://github.com/activepieces/activepieces/tree/af374df8ae23f973376650f9b83642e2e7985bf3", "title": "activepieces/activepieces", "publisher": "GitHub / Activepieces", "kind": "source_repository", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Pinned upstream repository evidence; community/enterprise licensing and connector safety boundaries require review."}
+  ],
+  "value_model_ref": "../economics/observed-value-model.json",
+  "observed_business_value": {"currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "eligible_businesses": null, "societal_value": null, "status": "unmeasured", "reason": "No customer baseline, authorization, adoption, pricing or controlled-pilot data was available; missing data is not zero."},
+  "pilot": {"design": "Paired, approval-gated pilot on matched support requests, incidents/changes, lifecycle events and service reports; compare incumbent workflow with the same evidence and record review, rework, exceptions, authority checks and correctness.", "record": ["human minutes by stage", "review and rework minutes", "approval and exception counts", "evidence completeness and provenance", "SLA/report correctness and unauthorized-action checks", "actual incremental and avoidable costs"], "reject_if": ["net human effort is not reduced", "critical severity, evidence, privacy or authority error survives review", "unapproved privileged or production action occurs", "material report or SLA claim lacks provenance"]},
+  "limitations": ["No MSP customer data, incumbent configuration, credentials, endpoint telemetry or production changes were accessed.", "Vendor pages and GitHub repositories establish stated capability only; they do not establish adoption, reliability, security qualification or measured savings.", "No pricing, labor rates, baseline volumes, cancellation evidence or controlled pilot exists, so all monetary value and capacity outcomes remain unmeasured.", "Tenant isolation, least privilege, retention, backup/restore, integration retries and customer-specific contractual obligations require separate verification."]
+}

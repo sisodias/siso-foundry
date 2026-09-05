@@ -1,0 +1,292 @@
+{
+  "schema_version": "0.1.0",
+  "record_type": "industry_value_research",
+  "industry_id": "marketing_social_media_agencies",
+  "industry_name": "US marketing and social-media agencies",
+  "as_of": "2026-09-05",
+  "jurisdiction": "United States research pilot; client contracts, platform terms and applicable state/federal advertising rules require an authorized review.",
+  "status": "research_only_not_admitted",
+  "source_frame": "Action Model system-map industry slug marketing_social_media_agencies; taxonomy reference only, not client demand or implementation proof.",
+  "scope_note": "Research covers supervised campaign planning, production, approval, publication and reporting for agency-managed client accounts. No client account, personal data, platform token or live post was accessed.",
+  "summary": "Agencies can test supervised drafting, scheduling and reporting around an existing approval chain. Platform permissions, consent, disclosures, account ownership and human release authority remain gates; vendor feature pages do not establish adoption, quality or savings.",
+  "automation_research": {
+    "finding": "O*NET describes marketing-manager work including planning programs, coordinating promotional activities and measuring campaign results. Platform publishing APIs document permission and media/account constraints, so automation should be measured as bounded task assistance rather than autonomous campaign authority.",
+    "source_ids": [
+      "onet-marketing-manager",
+      "meta-content-publishing",
+      "tiktok-content-posting"
+    ],
+    "forecast_percent": null,
+    "forecast_note": "No independently measured agency automation rate is used; task descriptions and API capability are not realized automation or adoption evidence."
+  },
+  "software": [
+    {
+      "name": "Buffer Publish",
+      "capability": "Vendor advertises composing, scheduling and publishing social posts across connected channels, with review-oriented publishing workflows.",
+      "evidence_scope": "vendor_advertised_not_installation_or_outcome_proof",
+      "source_ids": [
+        "buffer-publish"
+      ],
+      "price": null,
+      "price_note": "No verified client billing basis or avoidable spend; price and cancellation value remain unknown."
+    },
+    {
+      "name": "listmonk",
+      "capability": "Open-source self-hosted newsletter/list management and campaign delivery; useful for consent-bound email operations adjacent to social campaigns.",
+      "evidence_scope": "upstream_documentation_and_repository_capability_not_adoption_or_outcome_proof",
+      "source_ids": [
+        "listmonk-docs",
+        "repo-listmonk"
+      ],
+      "price": null,
+      "price_note": "Deployment, deliverability, consent synchronization and operational cost are client-specific and unmeasured."
+    }
+  ],
+  "modules": [
+    {
+      "repository": "activepieces/activepieces",
+      "capability": "Workflow automation with reusable connector pieces and triggers/actions, as described by the upstream repository.",
+      "source_revision": "af374df8ae23f973376650f9b83642e2e7985bf3",
+      "existing_foundry_ref": "intelligence/agency/value-matrix.json:agency.automation.activepieces",
+      "reuse_shape": "Allowlisted draft, notification and report-sync workflows; require explicit approval for external publication or sends.",
+      "rights_state": "Upstream metadata and README distinguish community MIT code from commercially licensed enterprise features; edition and route review required.",
+      "source_ids": [
+        "repo-activepieces"
+      ],
+      "limits": "Connector availability does not prove client consent, reliable retries, idempotency, platform permission or account-level isolation."
+    },
+    {
+      "repository": "knadh/listmonk",
+      "capability": "Self-hosted subscriber/list management and newsletter campaign delivery documented by the project.",
+      "source_revision": "594b74056dd8a0d3a7621a32898ee38bfbe10e96",
+      "existing_foundry_ref": "intelligence/agency/value-matrix.json:agency.marketing.listmonk",
+      "reuse_shape": "Consent-bound email sidecar with synchronized suppression/unsubscribe state; not the CRM contact authority.",
+      "rights_state": "Repository metadata reports AGPL-3.0; obligations, hosting and integration route require review.",
+      "source_ids": [
+        "listmonk-docs",
+        "repo-listmonk"
+      ],
+      "limits": "Project documentation does not prove deliverability, consent quality, client authorization or campaign outcomes."
+    }
+  ],
+  "processes": [
+    {
+      "id": "content_calendar",
+      "process": "Campaign brief to channel-specific content calendar",
+      "automation_boundary": "Normalize an approved brief into draft channel variants, dates and required assets; do not infer claims, audience permissions or final strategy.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": [
+        "onet-marketing-manager",
+        "buffer-publish",
+        "repo-activepieces"
+      ],
+      "current_software": [
+        "Buffer Publish"
+      ],
+      "github_modules": [
+        "activepieces/activepieces"
+      ],
+      "baseline_required": "Matched briefs, human minutes including review/rework, correction rate, approval wait time and actual software/operator cost.",
+      "metric": "Human minutes per approved calendar, including revisions and exceptions; rejected or unsupported claims per calendar.",
+      "falsifier": "Reject if total review/rework effort is not reduced or an unsupported claim, audience/consent mismatch or missed approval survives.",
+      "human_authority": "Named client/agency approver owns strategy, claims, audience and release decision.",
+      "value": {
+        "formula_ref": "observed-value-v0.1",
+        "currency": "USD",
+        "annual_net_cash": null,
+        "annual_capacity_hours": null,
+        "status": "unmeasured"
+      }
+    },
+    {
+      "id": "creative_production",
+      "process": "Approved campaign asset and copy production",
+      "automation_boundary": "Prepare drafts from approved claims, brand rules and supplied assets; preserve provenance and require human accessibility, factual and brand review.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": [
+        "onet-marketing-manager",
+        "buffer-publish"
+      ],
+      "current_software": [
+        "Buffer Publish"
+      ],
+      "github_modules": [
+        "activepieces/activepieces"
+      ],
+      "baseline_required": "Matched assets, production/review minutes, rework and correction counts, approval latency and spend.",
+      "metric": "Human minutes per approved asset/package, including review and rework; critical factual, rights or accessibility defects.",
+      "falsifier": "Reject if review does not reduce net effort or a factual, rights, disclosure or accessibility defect reaches client approval.",
+      "human_authority": "Client/agency approver owns claims, rights, disclosure and final creative acceptance.",
+      "value": {
+        "formula_ref": "observed-value-v0.1",
+        "currency": "USD",
+        "annual_net_cash": null,
+        "annual_capacity_hours": null,
+        "status": "unmeasured"
+      }
+    },
+    {
+      "id": "publishing",
+      "process": "Cross-platform scheduling and publication",
+      "automation_boundary": "Queue only explicitly approved content to authorized accounts; surface platform errors and never bypass permissions, consent or release gates.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": [
+        "meta-content-publishing",
+        "tiktok-content-posting",
+        "buffer-publish",
+        "repo-activepieces"
+      ],
+      "current_software": [
+        "Buffer Publish"
+      ],
+      "github_modules": [
+        "activepieces/activepieces"
+      ],
+      "baseline_required": "Matched posts, scheduling and exception minutes, failed/late publication rate, approvals and actual spend.",
+      "metric": "Human minutes per successfully approved and published post, including exception handling; unauthorized or failed publication count.",
+      "falsifier": "Reject if unauthorized/incorrect-account publication occurs, exceptions erase time reduction or platform permission/consent evidence is incomplete.",
+      "human_authority": "Named account owner or agency approver authorizes each release; platform account authority remains external.",
+      "value": {
+        "formula_ref": "observed-value-v0.1",
+        "currency": "USD",
+        "annual_net_cash": null,
+        "annual_capacity_hours": null,
+        "status": "unmeasured"
+      }
+    },
+    {
+      "id": "reporting",
+      "process": "Campaign delivery and performance reporting",
+      "automation_boundary": "Collect available delivery metrics, reconcile missing data and draft a traceable report; do not claim causality or optimization without human interpretation and baseline context.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": [
+        "onet-marketing-manager",
+        "meta-content-publishing",
+        "tiktok-content-posting"
+      ],
+      "current_software": [
+        "Buffer Publish"
+      ],
+      "github_modules": [
+        "activepieces/activepieces"
+      ],
+      "baseline_required": "Matched reporting periods, extraction/reconciliation/review minutes, data completeness, correction rate and actual tool/operator cost.",
+      "metric": "Human minutes per accepted report, including reconciliation and rework; missing/incorrect metric fields and unsupported causal statements.",
+      "falsifier": "Reject if report errors or reconciliation effort offset time saved, or a material metric/causal claim lacks provenance and review.",
+      "human_authority": "Agency analyst and client approver own interpretation, recommendations and business decisions.",
+      "value": {
+        "formula_ref": "observed-value-v0.1",
+        "currency": "USD",
+        "annual_net_cash": null,
+        "annual_capacity_hours": null,
+        "status": "unmeasured"
+      }
+    }
+  ],
+  "sources": [
+    {
+      "id": "onet-marketing-manager",
+      "url": "https://www.onetonline.org/link/summary/11-2021.00",
+      "title": "11-2021.00 Marketing Managers",
+      "publisher": "O*NET OnLine",
+      "kind": "occupational_authority",
+      "accessed_at": "2026-09-05",
+      "retrieval_status": 200,
+      "note": "Task and work-activity context; does not estimate agency automation or savings."
+    },
+    {
+      "id": "meta-content-publishing",
+      "url": "https://developers.facebook.com/docs/instagram-api/guides/content-publishing",
+      "title": "Instagram Platform: Content Publishing",
+      "publisher": "Meta",
+      "kind": "platform_primary_documentation",
+      "accessed_at": "2026-09-05",
+      "retrieval_status": 200,
+      "note": "API flow and prerequisites; availability and permissions remain account-specific."
+    },
+    {
+      "id": "tiktok-content-posting",
+      "url": "https://developers.tiktok.com/doc/content-posting-api-get-started/",
+      "title": "Content Posting API: Get Started",
+      "publisher": "TikTok for Developers",
+      "kind": "platform_primary_documentation",
+      "accessed_at": "2026-09-05",
+      "retrieval_status": 200,
+      "note": "API onboarding and authorization constraints; does not prove posting approval or outcomes."
+    },
+    {
+      "id": "buffer-publish",
+      "url": "https://buffer.com/publish",
+      "title": "Social Media Publishing",
+      "publisher": "Buffer",
+      "kind": "vendor_product_page",
+      "accessed_at": "2026-09-05",
+      "retrieval_status": 200,
+      "note": "Vendor capability claims only; no adoption or measured outcome evidence."
+    },
+    {
+      "id": "listmonk-docs",
+      "url": "https://listmonk.app/docs/",
+      "title": "listmonk Documentation",
+      "publisher": "listmonk project",
+      "kind": "project_documentation",
+      "accessed_at": "2026-09-05",
+      "retrieval_status": 200,
+      "note": "Project capability and operating documentation; no deliverability or outcome proof."
+    },
+    {
+      "id": "repo-listmonk",
+      "url": "https://github.com/knadh/listmonk/tree/594b74056dd8a0d3a7621a32898ee38bfbe10e96",
+      "title": "knadh/listmonk",
+      "publisher": "GitHub / knadh",
+      "kind": "source_repository",
+      "accessed_at": "2026-09-05",
+      "retrieval_status": 200,
+      "note": "Pinned repository evidence; license and deployment obligations require review."
+    },
+    {
+      "id": "repo-activepieces",
+      "url": "https://github.com/activepieces/activepieces/tree/af374df8ae23f973376650f9b83642e2e7985bf3",
+      "title": "activepieces/activepieces",
+      "publisher": "GitHub / Activepieces",
+      "kind": "source_repository",
+      "accessed_at": "2026-09-05",
+      "retrieval_status": 200,
+      "note": "Pinned repository evidence; community/enterprise licensing boundary requires review."
+    }
+  ],
+  "value_model_ref": "../economics/observed-value-model.json",
+  "observed_business_value": {
+    "currency": "USD",
+    "annual_net_cash": null,
+    "annual_capacity_hours": null,
+    "eligible_businesses": null,
+    "societal_value": null,
+    "status": "unmeasured",
+    "reason": "No client baseline, authorization, adoption, pricing or controlled pilot data was available; missing data is not zero."
+  },
+  "pilot": {
+    "design": "Paired, approval-gated pilot on a bounded set of client-approved campaigns; compare incumbent workflow with the same brief and count preparation, review, rework, exceptions, publication correctness and reporting reconciliation.",
+    "record": [
+      "human minutes by stage",
+      "review and rework minutes",
+      "approval and exception counts",
+      "permission/consent/disclosure checks",
+      "published-content correctness",
+      "actual incremental and avoidable costs"
+    ],
+    "reject_if": [
+      "net human effort is not reduced",
+      "unauthorized account or unapproved content is published",
+      "critical factual, rights, disclosure, privacy or accessibility condition fails",
+      "reporting errors or missing provenance are not caught before client delivery"
+    ]
+  },
+  "limitations": [
+    "No client data, account tokens, live posts or campaign results were accessed.",
+    "Vendor and project documentation establish advertised capability, not adoption, prevalence, quality or savings.",
+    "Platform API availability, permissions, review requirements and terms vary by account, region and product.",
+    "FTC pages were inaccessible during retrieval; no FTC claim is used as supporting evidence.",
+    "No prices, staffing rates, conversion lift or cash savings are asserted."
+  ]
+}

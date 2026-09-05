@@ -1,0 +1,131 @@
+{
+  "schema_version": "0.1.0",
+  "record_type": "industry_value_research",
+  "industry_id": "logistics_freight",
+  "industry_name": "US logistics and freight service firms",
+  "as_of": "2026-09-05",
+  "jurisdiction": "United States research pilot; carrier, safety, hours-of-service, privacy, contract and state requirements require qualified owner review.",
+  "status": "research_only_not_admitted",
+  "source_frame": "Action Model system-map industry slug logistics_freight; taxonomy reference only, not client demand or implementation proof.",
+  "scope_note": "Supervised coordination of freight-service records, dispatch communications, shipment status and billing evidence. This record does not perform customs, regulated routing, carrier-authority or safety decisions.",
+  "summary": "Start with load-intake completeness, dispatch packet coordination, shipment exception follow-up and proof-of-delivery billing reconciliation. Compare matched work against the incumbent TMS or dispatch process; keep carrier selection, hours-of-service, routing, claims and customer commitments with authorized humans.",
+  "automation_research": {
+    "finding": "49 CFR Part 395 establishes hours-of-service and recordkeeping requirements that bound any dispatch assistant. Vendor pages show workflow capabilities, not an automation rate, adoption prevalence or achieved savings; regulated and commercial authority remains human.",
+    "source_ids": ["ecfr-hos", "descartes-tms", "onfleet-platform"],
+    "forecast_percent": null,
+    "forecast_note": "No independently verified percentage is used; regulation and vendor capability pages do not establish automation or savings forecasts."
+  },
+  "software": [
+    {
+      "name": "Descartes Transportation Management",
+      "capability": "Vendor advertises transportation-management capabilities for planning, execution, visibility and freight workflows.",
+      "evidence_scope": "vendor_advertised_not_installation_or_outcome_proof",
+      "source_ids": ["descartes-tms"],
+      "price": null,
+      "price_note": "No current quote, billing basis, avoided spend or implementation cost verified."
+    },
+    {
+      "name": "Onfleet",
+      "capability": "Vendor advertises delivery management, dispatch, tracking, notifications and proof-of-delivery workflows.",
+      "evidence_scope": "vendor_advertised_not_installation_or_outcome_proof",
+      "source_ids": ["onfleet-platform"],
+      "price": null,
+      "price_note": "No current quote, billing basis, avoided spend or implementation cost verified."
+    }
+  ],
+  "modules": [
+    {
+      "repository": "fleetbase/fleetbase",
+      "capability": "Repository presents an open logistics and supply-chain operating system with orders, fleet and shipment-oriented workflows.",
+      "source_revision": "unverified",
+      "existing_foundry_ref": "intelligence/agency/coverage-inventory.json: repository fleetbase/fleetbase (S10.fleetbase-fleetbase)",
+      "reuse_shape": "Read-oriented load, order and status sidecar over redacted fixtures; preserve incumbent dispatch/TMS authority and human approval for external actions.",
+      "rights_state": "Coverage inventory records AGPL-3.0 with high reuse risk; verify current license, dependencies, security and deployment obligations before reuse.",
+      "source_ids": ["repo-fleetbase"],
+      "limits": "Repository capability is not evidence of carrier authority, regulatory compliance, security, availability, integrations or production fitness."
+    },
+    {
+      "repository": "GreaterWMS/GreaterWMS",
+      "capability": "Repository presents a warehouse-management application with inventory and warehouse workflow capabilities.",
+      "source_revision": "unverified",
+      "existing_foundry_ref": "intelligence/agency/coverage-inventory.json: repository GreaterWMS/GreaterWMS (S10.GreaterWMS-GreaterWMS)",
+      "reuse_shape": "Inventory and fulfillment evidence prototype only, using synthetic or redacted records; no authority over freight release, routing or customer commitments.",
+      "rights_state": "Coverage inventory records Apache-2.0; verify current repository license, dependencies, security and deployment obligations before reuse.",
+      "source_ids": ["repo-greaterwms"],
+      "limits": "README capability is not evidence of warehouse controls, carrier compliance, scan accuracy, integrations, support or production operation."
+    }
+  ],
+  "processes": [
+    {
+      "id": "load_intake_completeness",
+      "process": "Customer load-intake and shipment-record completeness review",
+      "automation_boundary": "Capture requested pickup, delivery, commodity, equipment and contact fields; flag missing or contradictory fields for review. Do not quote binding terms, classify regulated goods or accept a shipment without authorized review.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["descartes-tms", "repo-fleetbase"],
+      "current_software": ["Descartes Transportation Management", "Onfleet"],
+      "github_modules": ["fleetbase/fleetbase"],
+      "baseline_required": "Matched load volume, intake and correction minutes, incomplete-field and duplicate rates, exception escalations, privacy incidents and actual operating cost.",
+      "metric": "Net human minutes per accepted complete load record including review, rework and exception handling; missed-critical-field rate",
+      "falsifier": "Reject if unsafe or regulated details are silently accepted, correction/rework rises, critical fields are missed or private data crosses an unauthorized boundary.",
+      "human_authority": "Authorized operations staff determine acceptance, terms, commodity treatment and customer commitments; qualified safety and compliance personnel retain authority.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "dispatch_packet_coordination",
+      "process": "Dispatch packet preparation and driver/carrier confirmation",
+      "automation_boundary": "Assemble approved load details, contact records and timestamps; draft confirmation requests and surface missing acknowledgements. Do not select carriers, assign unsafe work, alter hours-of-service records or issue binding instructions without human approval.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["onfleet-platform", "ecfr-hos", "repo-fleetbase"],
+      "current_software": ["Onfleet", "Descartes Transportation Management"],
+      "github_modules": ["fleetbase/fleetbase"],
+      "baseline_required": "Matched dispatches, packet-preparation and review minutes, acknowledgement latency, correction/reissue count, HOS-related exception count and communication cost.",
+      "metric": "Net human minutes per accurately acknowledged dispatch packet including review and rework; missing-acknowledgement and unsafe-instruction rate",
+      "falsifier": "Reject if an acknowledgement is mistaken for legal or safety clearance, HOS records are changed or obscured, rework offsets time saved, or an unapproved instruction is sent.",
+      "human_authority": "Dispatcher and designated carrier/safety authority approve assignment, instructions, records and escalations; the system is not a carrier-authority substitute.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "shipment_exception_followup",
+      "process": "Shipment-status exception detection and approved follow-up",
+      "automation_boundary": "Normalize status events, flag stale or contradictory milestones and draft follow-ups to verified recipients. Do not infer fault, promise delivery, change routing or send customer claims responses without human review.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["onfleet-platform", "descartes-tms", "repo-fleetbase"],
+      "current_software": ["Onfleet", "Descartes Transportation Management"],
+      "github_modules": ["fleetbase/fleetbase"],
+      "baseline_required": "Matched shipments, exception detection precision, response latency, review/rework minutes, duplicate/wrong-recipient sends, claims escalations and actual communication cost.",
+      "metric": "Net human minutes per accurately triaged and approved exception; stale-event, duplicate-send, missed-escalation and privacy-error rates",
+      "falsifier": "Reject if stale or incorrect status causes a customer commitment, routing or claims error, review/rework is not reduced, or an escalation is missed.",
+      "human_authority": "Operations lead approves status interpretation, customer commitments, routing changes and claims/escalations; verified recipients and channel controls remain mandatory.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "pod_billing_reconciliation",
+      "process": "Proof-of-delivery and freight-billing evidence reconciliation",
+      "automation_boundary": "Match approved delivery events, signed or electronic proof, accessorial evidence and invoice fields; surface mismatches for review. Do not approve payment, waive claims, alter invoices or determine contractual liability.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["onfleet-platform", "descartes-tms", "repo-greaterwms"],
+      "current_software": ["Onfleet", "Descartes Transportation Management"],
+      "github_modules": ["GreaterWMS/GreaterWMS"],
+      "baseline_required": "Matched invoice volume, reconciliation and rework minutes, mismatch precision/recall, duplicate-payment and dispute counts, review latency and actual processing cost.",
+      "metric": "Net human minutes per correctly reconciled invoice packet including exception review; false-match, missed-mismatch and duplicate-payment rates",
+      "falsifier": "Reject if a mismatch is silently accepted, payment or claim authority is bypassed, false matches/rework rise, or evidence is unavailable for audit.",
+      "human_authority": "Authorized finance and operations staff approve invoices, accessorials, claims and contractual interpretations; the workflow only organizes evidence.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    }
+  ],
+  "sources": [
+    {"id": "ecfr-hos", "url": "https://www.ecfr.gov/current/title-49/subtitle-B/chapter-III/subchapter-B/part-395", "title": "49 CFR Part 395 — Hours of Service of Drivers", "publisher": "Electronic Code of Federal Regulations", "kind": "regulation", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Supports hours-of-service and recordkeeping boundaries; does not authorize software to make safety, routing or carrier decisions and is not legal advice."},
+    {"id": "descartes-tms", "url": "https://www.descartes.com/solutions/transportation-management", "title": "Transportation Management", "publisher": "The Descartes Systems Group", "kind": "vendor", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Vendor capability claims only; no installation prevalence, price, accuracy, security or outcome measurement."},
+    {"id": "onfleet-platform", "url": "https://onfleet.com/", "title": "Onfleet delivery management platform", "publisher": "Onfleet", "kind": "vendor", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Vendor capability claims only; no installation prevalence, price, accuracy, security or outcome measurement."},
+    {"id": "repo-fleetbase", "url": "https://github.com/fleetbase/fleetbase", "title": "fleetbase/fleetbase repository", "publisher": "Fleetbase", "kind": "official_repository", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Repository was accessible; revision and production behavior remain unverified. Coverage inventory records AGPL-3.0 and high reuse risk, subject to current rights review."},
+    {"id": "repo-greaterwms", "url": "https://github.com/GreaterWMS/GreaterWMS", "title": "GreaterWMS/GreaterWMS repository", "publisher": "GreaterWMS", "kind": "official_repository", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Repository was accessible; revision and production behavior remain unverified. Coverage inventory records Apache-2.0, subject to current rights review."}
+  ],
+  "value_model_ref": "../economics/observed-value-model.json",
+  "observed_business_value": {"currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "eligible_businesses": null, "societal_value": null, "status": "unmeasured", "reason": "No firm baseline, achieved automation rate, review/rework data, operating cost, displacement proof or eligible-population measurement. Null is not zero."},
+  "pilot": {
+    "design": "Within one authorized freight operator, compare matched redacted or synthetic loads, dispatches, exceptions and invoice packets under the incumbent and supervised candidate workflows; pre-register HOS, privacy, approval and rollback gates.",
+    "record": ["loads and packets processed", "baseline human minutes", "assisted human minutes including review/rework", "critical errors, missed escalations and unauthorized-access cases", "actual cancelled spend", "recurring operating cost", "implementation and rollback cost"],
+    "reject_if": ["Human time including review/rework is not lower than matched baseline.", "Any HOS, carrier-authority, routing, payment or customer commitment action occurs without authorized human approval.", "Private shipment, driver or customer data crosses an unauthorized boundary or a critical exception is missed.", "Measured first-year net cash is not positive for a cash-savings offer; capacity gains alone are not cash."]
+  },
+  "limitations": ["This is not transportation, safety, customs, legal, regulatory or carrier-authority advice, product admission or an industry-wide forecast.", "Current software adoption prevalence and subscription prices were not verified; named offerings are not assumed installed.", "No generic repository is claimed to replace a TMS, WMS, carrier records, HOS records, contractual authority or professional judgment.", "Rights, security, retention, restoration, integrations, accessibility, data quality, claims handling and state/local requirements remain product-owner gates."]
+}

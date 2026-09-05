@@ -1,0 +1,142 @@
+{
+  "schema_version": "0.1.0",
+  "record_type": "industry_value_research",
+  "industry_id": "healthcare_medical_practices",
+  "industry_name": "US ambulatory medical practices",
+  "as_of": "2026-09-05",
+  "jurisdiction": "United States research pilot; state licensure, payer, privacy and practice-specific requirements require authorized review.",
+  "status": "research_only_not_admitted",
+  "source_frame": "Action Model system-map industry slug healthcare_medical_practices; taxonomy reference only, not client demand or implementation proof.",
+  "scope_note": "Administrative workflow research only: scheduling, intake completeness, authorization-status coordination and approved follow-up. No diagnosis, triage, treatment, coding judgment or other clinical decision is delegated.",
+  "summary": "Start with supervised administrative queues that preserve the practice's EHR, privacy controls and staff authority. Measure review, rework and exception effort against matched baseline records; no adoption, savings or clinical-outcome claim is made.",
+  "automation_research": {
+    "finding": "HealthIT.gov describes HIPAA privacy and security basics, including safeguards around protected health information. That supports a privacy-preserving administrative inventory, not permission to automate clinical decisions or a forecast of automation prevalence.",
+    "source_ids": ["healthit-hipaa-basics"],
+    "forecast_percent": null,
+    "forecast_note": "No independently verified percentage is used; privacy guidance is not an automation or savings forecast."
+  },
+  "software": [
+    {
+      "name": "OpenEMR",
+      "capability": "Project describes an open-source electronic health record and medical practice management system with scheduling, billing and patient-facing administrative capabilities.",
+      "evidence_scope": "project_and_vendor_capability_claims_not_installation_or_outcome_proof",
+      "source_ids": ["openemr-features"],
+      "price": null,
+      "price_note": "No current practice quote, hosting cost or avoidable spend verified."
+    },
+    {
+      "name": "Jane App",
+      "capability": "Vendor advertises online booking, appointment scheduling, reminders and practice-management workflows for healthcare and wellness practices.",
+      "evidence_scope": "vendor_advertised_not_installation_or_outcome_proof",
+      "source_ids": ["jane-online-booking"],
+      "price": null,
+      "price_note": "No current practice quote, billing basis or achieved savings verified."
+    }
+  ],
+  "modules": [
+    {
+      "repository": "openemr/openemr",
+      "capability": "Repository for the OpenEMR electronic health record and medical practice management project; useful as a source-owned system boundary reference for scheduling and administrative records.",
+      "source_revision": "unverified",
+      "existing_foundry_ref": "intelligence/agency/coverage-inventory.json: candidate S10.openemr-openemr",
+      "reuse_shape": "Read-oriented administrative sidecar or explicitly scoped connector; preserve the practice's EHR, permissions, audit trail and clinician authority.",
+      "rights_state": "Coverage inventory records GPL-3.0 and a source-owned-fork route; edition, deployment and rights obligations require review.",
+      "source_ids": ["repo-openemr"],
+      "limits": "Repository and README capability are not evidence of HIPAA configuration, interoperability correctness, support, security, migration or production fitness."
+    },
+    {
+      "repository": "activepieces/activepieces",
+      "capability": "Repository describes visual workflow automation, triggers, actions and connectors that could route bounded administrative events.",
+      "source_revision": "unverified",
+      "existing_foundry_ref": "intelligence/agency/value-matrix.json: agency.automation.activepieces",
+      "reuse_shape": "Allow-listed, approval-gated workflow for non-clinical queue routing and reminders; no unrestricted PHI write or external send.",
+      "rights_state": "Value matrix records a community-core service plus SISO pieces route; license, hosting, tenant isolation and connector rights require review.",
+      "source_ids": ["repo-activepieces"],
+      "limits": "Repository capability is not evidence of healthcare compliance, secure deployment, connector correctness, idempotency or measured effort reduction."
+    },
+    {
+      "repository": "n8n-io/n8n",
+      "capability": "Repository describes node-based workflow automation and integrations that could support bounded administrative notifications and queue transformations.",
+      "source_revision": "unverified",
+      "existing_foundry_ref": "intelligence/agency/coverage-inventory.json: repository n8n-io/n8n",
+      "reuse_shape": "Prototype against synthetic or redacted records, with explicit approval before any practice-system write or patient communication.",
+      "rights_state": "Repository license and deployment terms require current edition and commercial-use review before reuse.",
+      "source_ids": ["repo-n8n"],
+      "limits": "README capability is not evidence of HIPAA eligibility, secure operations, clinical safety, support or production qualification."
+    }
+  ],
+  "processes": [
+    {
+      "id": "appointment_scheduling",
+      "process": "Appointment request intake, scheduling and reminder queue",
+      "automation_boundary": "Collect stated appointment preferences, check configured availability and draft or queue reminders; do not triage symptoms, select clinical urgency, recommend care or override staff scheduling policy.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["openemr-features", "jane-online-booking", "healthit-hipaa-basics"],
+      "current_software": ["OpenEMR", "Jane App"],
+      "github_modules": ["openemr/openemr", "activepieces/activepieces"],
+      "baseline_required": "Matched appointment requests, completion and error rate, staff minutes including review/rework, no-show/reminder exceptions, privacy incidents and actual software/operating cost.",
+      "metric": "Net staff minutes per correctly scheduled, approved appointment; reschedule, duplicate, reminder and privacy-exception rate",
+      "falsifier": "Reject if wrong-provider/time bookings, unauthorized disclosures, symptom-based triage or review/rework increase, or total effort is not reduced.",
+      "human_authority": "Practice-designated scheduling staff approve bookings, exceptions and patient communications; licensed clinicians retain all clinical authority.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "intake_completeness",
+      "process": "Administrative intake and demographic/document completeness review",
+      "automation_boundary": "Check required fields, identify duplicates or missing administrative documents and return a request for completion; do not infer diagnoses, clinical history, eligibility or consent.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["openemr-features", "repo-activepieces", "healthit-hipaa-basics"],
+      "current_software": ["OpenEMR"],
+      "github_modules": ["openemr/openemr", "activepieces/activepieces"],
+      "baseline_required": "Matched intake volume, field/document completeness accuracy, staff review and chase time, correction/rework rate, unauthorized-access events and operating cost.",
+      "metric": "Net staff minutes per accepted complete intake; missing-field, duplicate, correction and privacy-exception rate",
+      "falsifier": "Reject if incomplete or incorrect records pass acceptance, sensitive information is exposed, or review/chase/rework effort is not lower.",
+      "human_authority": "Authorized practice staff review identity, consent and administrative completeness; clinicians determine whether information is clinically sufficient.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "authorization_status",
+      "process": "Referral and payer authorization-status queue coordination",
+      "automation_boundary": "Track supplied referral and authorization statuses, dates and missing administrative artifacts; draft staff follow-up and escalate exceptions. Do not determine medical necessity, coverage, coding, eligibility or approval.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["repo-n8n", "repo-activepieces", "healthit-hipaa-basics"],
+      "current_software": ["OpenEMR"],
+      "github_modules": ["n8n-io/n8n", "activepieces/activepieces"],
+      "baseline_required": "Matched referrals, status freshness and accuracy, staff minutes including payer follow-up/rework, aged exceptions, privacy incidents and operating cost.",
+      "metric": "Net staff minutes per accurately updated authorization-status item; stale, duplicate, wrong-patient and unresolved-exception rate",
+      "falsifier": "Reject if stale or wrong-patient statuses drive action, medical-necessity/coverage judgments are automated, or exception and review effort does not fall.",
+      "human_authority": "Practice authorization staff and payer-designated contacts control submissions and decisions; clinicians retain medical-necessity authority.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "approved_followup",
+      "process": "Approved administrative follow-up and records-request routing",
+      "automation_boundary": "Draft status, scheduling or records-request messages from current queue state, route for approval and log delivery; do not provide clinical advice, results interpretation or treatment guidance.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["jane-online-booking", "repo-n8n", "healthit-hipaa-basics"],
+      "current_software": ["Jane App"],
+      "github_modules": ["n8n-io/n8n", "activepieces/activepieces"],
+      "baseline_required": "Matched message/request volume, correct-recipient rate, human review/rework and retry minutes, duplicate-send/privacy exceptions and operating cost.",
+      "metric": "Net staff minutes per accurate approved request; response, duplicate, wrong-recipient and privacy-exception rate",
+      "falsifier": "Reject if a message contains clinical advice, stale or wrong-patient information is sent, duplicate retries occur, or review/rework removes effort reduction.",
+      "human_authority": "Authorized practice staff approve recipient, content and send; clinicians own any clinical response or interpretation.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    }
+  ],
+  "sources": [
+    {"id": "healthit-hipaa-basics", "url": "https://www.healthit.gov/topic/privacy-security-and-hipaa/hipaa-basics", "title": "Health Insurance Portability and Accountability Act (HIPAA) Basics", "publisher": "HealthIT.gov, Office of the National Coordinator for Health Information Technology", "kind": "government_guidance", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Supports privacy/security boundary and safeguards framing; does not establish automation permission, compliance for a product, adoption, savings or clinical authority."},
+    {"id": "openemr-features", "url": "https://open-emr.org/wiki/index.php/OpenEMR_Features", "title": "OpenEMR Features", "publisher": "OpenEMR", "kind": "official_project_docs", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Project feature claims for EHR and practice-management workflows; not installation, security, interoperability or outcome proof."},
+    {"id": "jane-online-booking", "url": "https://www.jane.app/features/online-booking", "title": "Online booking", "publisher": "Jane App", "kind": "vendor", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Vendor capability claims for booking and reminders; no practice adoption, price, accuracy or achieved savings verified."},
+    {"id": "repo-openemr", "url": "https://github.com/openemr/openemr", "title": "openemr/openemr repository", "publisher": "OpenEMR", "kind": "official_repository", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Repository was accessible; revision, configuration, deployment, rights obligations and production behavior remain unverified."},
+    {"id": "repo-activepieces", "url": "https://github.com/activepieces/activepieces", "title": "activepieces/activepieces repository", "publisher": "Activepieces", "kind": "official_repository", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Repository was accessible; automation capability is not healthcare compliance or production qualification evidence."},
+    {"id": "repo-n8n", "url": "https://github.com/n8n-io/n8n", "title": "n8n-io/n8n repository", "publisher": "n8n", "kind": "official_repository", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Repository was accessible; license edition, PHI controls, deployment and production behavior require separate review."}
+  ],
+  "value_model_ref": "../economics/observed-value-model.json",
+  "observed_business_value": {"currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "eligible_businesses": null, "societal_value": null, "status": "unmeasured", "reason": "No practice baseline, achieved automation rate, review/rework data, operating cost, displacement proof or eligible-population measurement. Null is not zero."},
+  "pilot": {
+    "design": "Within one authorized practice, compare matched synthetic or redacted administrative queues under the incumbent and supervised candidate workflows; pre-register permitted fields, approval points and rollback conditions.",
+    "record": ["units processed", "baseline staff minutes", "assisted staff minutes including review/rework", "wrong-record, privacy and critical exception cases", "actual cancelled spend", "recurring operating cost", "implementation and rollback cost"],
+    "reject_if": ["Human time including review/rework is not lower than matched baseline.", "Any patient or practice record crosses an unauthorized boundary or an unapproved message/write occurs.", "A workflow makes or appears to make a clinical, coverage, medical-necessity or treatment decision.", "Measured first-year net cash is not positive for a cash-savings offer; capacity gains alone are not cash."]
+  },
+  "limitations": ["This is not medical, legal, privacy, billing or clinical advice, product admission or an industry-wide forecast.", "Current practice adoption prevalence, subscription prices and achieved savings were not verified; named offerings are not assumed installed.", "No generic repository is claimed to replace a practice's EHR, payer authority, privacy controls or professional judgment.", "Rights, HIPAA/security configuration, BAA and vendor terms, restoration, integrations, accessibility and state-specific requirements remain product-owner gates."]
+}

@@ -1,0 +1,308 @@
+{
+  "schema_version": "0.1.0",
+  "record_type": "industry_value_research",
+  "industry_id": "recruiting_staffing",
+  "industry_name": "US recruiting and staffing agencies",
+  "as_of": "2026-09-05",
+  "jurisdiction": "United States research pilot; client, state and local employment requirements require authorized review.",
+  "status": "research_only_not_admitted",
+  "source_frame": "Action Model system-map industry slug recruiting_staffing; taxonomy reference only, not demand or implementation proof.",
+  "scope_note": "Research covers agency recruiting operations from requisition intake through candidate coordination. Employment, selection, compensation and eligibility decisions remain with authorized people; no candidate or client data was accessed.",
+  "summary": "Start with supervised requisition intake, scheduling and evidence-preserving status coordination. Existing ATS/CRM remains the system of record until a pilot proves quality, privacy, permissioning and net effort reduction. Vendor capability and repository features do not establish adoption, fairness or savings.",
+  "automation_research": {
+    "finding": "O*NET describes human-resources-specialist tasks including recruiting, screening and interviewing applicants. NIST's AI Risk Management Framework and the EEOC's employment-AI materials support risk identification, documentation and human oversight; the EEOC page was inaccessible in this run and is not used as supporting evidence. No independently verified percentage of recruiting work automated is established.",
+    "source_ids": [
+      "onet-hr",
+      "nist-ai-rmf"
+    ],
+    "forecast_percent": null,
+    "forecast_note": "Task descriptions and risk guidance are not realized automation, prevalence or outcome evidence; no forecast is used."
+  },
+  "software": [
+    {
+      "name": "Greenhouse",
+      "capability": "Vendor advertises applicant tracking, structured hiring workflows, interview planning, reporting and integrations for recruiting teams.",
+      "evidence_scope": "vendor_advertised_not_installation_or_outcome_proof",
+      "source_ids": [
+        "greenhouse"
+      ],
+      "price": null,
+      "price_note": "No verified quote, billing basis or avoidable incumbent spend."
+    },
+    {
+      "name": "Workable",
+      "capability": "Vendor advertises recruiting software with job publishing, candidate sourcing, applicant tracking, interview coordination and reporting features.",
+      "evidence_scope": "vendor_advertised_not_installation_or_outcome_proof",
+      "source_ids": [
+        "workable"
+      ],
+      "price": null,
+      "price_note": "No verified quote, adoption count or measured recruiting outcome."
+    }
+  ],
+  "modules": [
+    {
+      "repository": "activepieces/activepieces",
+      "capability": "Reusable connectors and governed workflow execution suitable for draft notifications, reminders and status synchronization.",
+      "source_revision": "unverified",
+      "existing_foundry_ref": "intelligence/agency/value-matrix.json:agency.automation.activepieces",
+      "reuse_shape": "Allowlisted, idempotent coordination workflows with human approval before external writes; never an employment-decision engine.",
+      "rights_state": "Upstream repository and edition/license boundary require route-specific review before reuse.",
+      "source_ids": [
+        "repo-activepieces"
+      ],
+      "limits": "Connector availability does not prove candidate consent, retry safety, ATS permissions, privacy controls or lawful selection."
+    },
+    {
+      "repository": "calcom/cal.diy",
+      "capability": "Booking, availability and routing workflows useful for recruiter-screen and interview scheduling.",
+      "source_revision": "abffde336e744e15cf69626c10e436d6172bc406",
+      "existing_foundry_ref": "intelligence/agency/value-matrix.json:agency.scheduling.calcom",
+      "reuse_shape": "Reference-only scheduling pattern; reject production staffing adoption under the current upstream warning.",
+      "rights_state": "Upstream repository and Community/enterprise feature boundary require route-specific review.",
+      "source_ids": [
+        "repo-calcom"
+      ],
+      "limits": "Pinned upstream README recommends personal, non-production use and removes Teams, Organizations, Workflows and SSO. This does not qualify for production staffing. Availability correctness, accommodations, consent and ATS integration remain unproved."
+    },
+    {
+      "repository": "surveyjs/survey-library",
+      "capability": "Schema-driven forms and structured responses useful for requisition intake, interview feedback and candidate consent capture.",
+      "source_revision": "unverified",
+      "existing_foundry_ref": "intelligence/agency/value-matrix.json:agency.intake.surveyjs",
+      "reuse_shape": "Owned form layer for approved fields and versioned responses; keep candidate and hiring records under the selected system of record.",
+      "rights_state": "Upstream library and separate commercial products must be reviewed before adopting a distribution path.",
+      "source_ids": [
+        "repo-surveyjs"
+      ],
+      "limits": "Forms do not establish data minimization, retention, accessibility, fairness or authorization policy."
+    }
+  ],
+  "processes": [
+    {
+      "id": "requisition_intake",
+      "process": "Client requisition intake and completeness review",
+      "automation_boundary": "Normalize supplied role, location, schedule and authorization fields; flag missing or inconsistent inputs; do not approve a requisition, infer protected traits or invent requirements.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": [
+        "onet-hr",
+        "greenhouse",
+        "repo-surveyjs"
+      ],
+      "current_software": [
+        "Greenhouse",
+        "Workable"
+      ],
+      "github_modules": [
+        "surveyjs/survey-library",
+        "activepieces/activepieces"
+      ],
+      "baseline_required": "Matched requisition volume, completeness/error rate, human time including review/rework, actual software spend and operator cost.",
+      "metric": "Net human minutes per complete, approved requisition, including exceptions and rework",
+      "falsifier": "Reject if material role constraints are silently altered, privacy-sensitive fields are collected without purpose, or total reviewed effort does not fall.",
+      "human_authority": "Authorized account/recruiting lead approves role requirements, client commitments and lawful data collection.",
+      "value": {
+        "formula_ref": "observed-value-v0.1",
+        "currency": "USD",
+        "annual_net_cash": null,
+        "annual_capacity_hours": null,
+        "status": "unmeasured"
+      }
+    },
+    {
+      "id": "candidate_coordination",
+      "process": "Candidate sourcing, screening coordination and interview scheduling",
+      "automation_boundary": "Deduplicate supplied records, route approved outreach drafts and offer available interview slots; do not rank, reject, infer protected characteristics or make an employment recommendation.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": [
+        "onet-hr",
+        "greenhouse",
+        "workable",
+        "repo-calcom"
+      ],
+      "current_software": [
+        "Greenhouse",
+        "Workable"
+      ],
+      "github_modules": [
+        "calcom/cal.diy",
+        "activepieces/activepieces"
+      ],
+      "baseline_required": "Matched candidate/interview volume, response and scheduling error rates, human time including exception handling, and actual spend.",
+      "metric": "Net human minutes per correctly scheduled, consent-respecting interview; duplicate/misroute and accommodation exceptions",
+      "falsifier": "Reject if an unauthorized or stale message is sent, candidate availability/accommodation is mishandled, or an automated screen changes access to a human review.",
+      "human_authority": "Recruiter and client hiring authority control sourcing criteria, screening, accommodation and selection decisions.",
+      "value": {
+        "formula_ref": "observed-value-v0.1",
+        "currency": "USD",
+        "annual_net_cash": null,
+        "annual_capacity_hours": null,
+        "status": "unmeasured"
+      }
+    },
+    {
+      "id": "interview_feedback",
+      "process": "Interview feedback collection and evidence-linked review",
+      "automation_boundary": "Collect structured feedback against approved rubrics, show missing fields and preserve provenance; do not convert text into a score or disposition without authorized review.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": [
+        "nist-ai-rmf",
+        "greenhouse",
+        "repo-surveyjs"
+      ],
+      "current_software": [
+        "Greenhouse",
+        "Workable"
+      ],
+      "github_modules": [
+        "surveyjs/survey-library"
+      ],
+      "baseline_required": "Matched interview volume, missing/changed feedback rate, reviewer and rework time, access incidents and incumbent spend.",
+      "metric": "Reviewer minutes per complete feedback packet; correction rate and permission/privacy exceptions",
+      "falsifier": "Reject if ungrounded inferences, disparate error patterns, unauthorized access or missing reviewer acknowledgement survive the workflow.",
+      "human_authority": "Named recruiter and hiring panel retain interpretation, disposition and employment-decision authority.",
+      "value": {
+        "formula_ref": "observed-value-v0.1",
+        "currency": "USD",
+        "annual_net_cash": null,
+        "annual_capacity_hours": null,
+        "status": "unmeasured"
+      }
+    },
+    {
+      "id": "placement_followup",
+      "process": "Client/candidate status updates and placement follow-up",
+      "automation_boundary": "Draft status updates from current approved records, surface missing placement milestones and schedule reminders; require review before external sends and keep payroll/contract authority upstream.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": [
+        "workable",
+        "repo-activepieces",
+        "nist-ai-rmf"
+      ],
+      "current_software": [
+        "Greenhouse",
+        "Workable"
+      ],
+      "github_modules": [
+        "activepieces/activepieces",
+        "calcom/cal.diy"
+      ],
+      "baseline_required": "Matched placement volume, timely/accurate update rate, human review/rework and exception effort, and actual avoidable spend.",
+      "metric": "Net human minutes per accurate approved update, including retries, opt-outs and exception review",
+      "falsifier": "Reject if stale or unauthorized status is sent, recipients cross candidate/client boundaries, duplicate reminders occur, or the process bypasses employment/contract authority.",
+      "human_authority": "Recruiting/account lead controls recipient, content, candidate status, placement and client communication decisions.",
+      "value": {
+        "formula_ref": "observed-value-v0.1",
+        "currency": "USD",
+        "annual_net_cash": null,
+        "annual_capacity_hours": null,
+        "status": "unmeasured"
+      }
+    }
+  ],
+  "sources": [
+    {
+      "id": "onet-hr",
+      "url": "https://www.onetonline.org/link/summary/13-1071.00",
+      "title": "Human Resources Specialists",
+      "publisher": "O*NET OnLine",
+      "kind": "government_task_inventory",
+      "accessed_at": "2026-09-05",
+      "retrieval_status": 200,
+      "note": "Task and work-activity inventory; not a forecast, adoption measure or performance claim."
+    },
+    {
+      "id": "nist-ai-rmf",
+      "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+      "title": "AI Risk Management Framework",
+      "publisher": "National Institute of Standards and Technology",
+      "kind": "government_guidance",
+      "accessed_at": "2026-09-05",
+      "retrieval_status": 200,
+      "note": "Risk-management guidance used to bound oversight, documentation and measurement; not recruiting-specific outcome evidence."
+    },
+    {
+      "id": "greenhouse",
+      "url": "https://www.greenhouse.com/platform",
+      "title": "Greenhouse recruiting platform",
+      "publisher": "Greenhouse",
+      "kind": "vendor",
+      "accessed_at": "2026-09-05",
+      "retrieval_status": 200,
+      "note": "Vendor-marketed capabilities only; no installation, price, prevalence or savings claim."
+    },
+    {
+      "id": "workable",
+      "url": "https://www.workable.com/recruiting-software",
+      "title": "Recruiting software",
+      "publisher": "Workable",
+      "kind": "vendor",
+      "accessed_at": "2026-09-05",
+      "retrieval_status": 200,
+      "note": "Vendor-marketed capabilities only; no installation, price, prevalence or savings claim."
+    },
+    {
+      "id": "repo-activepieces",
+      "url": "https://github.com/activepieces/activepieces",
+      "title": "Activepieces",
+      "publisher": "Activepieces",
+      "kind": "open_source_project",
+      "accessed_at": "2026-09-05",
+      "retrieval_status": 200,
+      "note": "Upstream repository documentation supports capability existence; revision and production suitability remain unverified."
+    },
+    {
+      "id": "repo-calcom",
+      "url": "https://github.com/calcom/cal.diy/blob/abffde336e744e15cf69626c10e436d6172bc406/README.md",
+      "title": "Cal.diy community edition — non-production warning",
+      "publisher": "Cal.com",
+      "kind": "open_source_project",
+      "accessed_at": "2026-09-05",
+      "retrieval_status": 200,
+      "note": "Parent independently read pinned README: personal/non-production recommendation and removal of enterprise features. Reference only, not production adoption."
+    },
+    {
+      "id": "repo-surveyjs",
+      "url": "https://github.com/surveyjs/survey-library",
+      "title": "SurveyJS survey-library",
+      "publisher": "SurveyJS",
+      "kind": "open_source_project",
+      "accessed_at": "2026-09-05",
+      "retrieval_status": 200,
+      "note": "Upstream repository documentation supports form-library capability; commercial product boundary and production suitability remain unverified."
+    }
+  ],
+  "value_model_ref": "../economics/observed-value-model.json",
+  "observed_business_value": {
+    "currency": "USD",
+    "annual_net_cash": null,
+    "annual_capacity_hours": null,
+    "eligible_businesses": null,
+    "societal_value": null,
+    "status": "unmeasured",
+    "reason": "No client baseline, measured trial, price, staffing cost or outcome evidence was supplied; released time is not counted as cash."
+  },
+  "pilot": {
+    "design": "Run a time-boxed, read/draft-only pilot on a matched sample of requisitions and interviews with synthetic or consented records. Compare incumbent and pilot net human effort, review/rework, exceptions, permission/privacy incidents, accessibility accommodations and decision-authority checkpoints.",
+    "record": [
+      "volume and matched cohort definition",
+      "human minutes including review/rework and exceptions",
+      "accuracy, duplicate/misroute and stale-record rate",
+      "privacy, permission, accommodation and bias-review incidents",
+      "software spend and avoidable-cost evidence"
+    ],
+    "reject_if": [
+      "any unauthorized employment recommendation or disposition",
+      "critical privacy, permission or accommodation failure",
+      "no net effort reduction after review/rework",
+      "unsupported claim of cash savings or automation percentage"
+    ]
+  },
+  "limitations": [
+    "EEOC employment-AI page returned 403 during retrieval and is not used as evidence.",
+    "No candidate, client, placement, compensation or selection records were accessed.",
+    "Vendor pages and GitHub READMEs establish advertised/project capability only, not adoption, fairness, accuracy, price or savings.",
+    "No recruiting-agency baseline, measured trial, state/local law review or accessibility evaluation is included.",
+    "All module revisions are unverified; no module was executed or deployed."
+  ]
+}

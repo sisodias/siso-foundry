@@ -1,0 +1,143 @@
+{
+  "schema_version": "0.1.0",
+  "record_type": "industry_value_research",
+  "industry_id": "real_estate",
+  "industry_name": "US real-estate brokerages",
+  "as_of": "2026-09-05",
+  "jurisdiction": "United States brokerage-operations research pilot; state licensing, brokerage supervision, privacy, fair-housing and transaction requirements require local review.",
+  "status": "research_only_not_admitted",
+  "source_frame": "Action Model system-map industry slug real_estate; taxonomy reference only, not demand or implementation proof.",
+  "scope_note": "This record covers supervised listing, lead and transaction coordination. It does not provide legal or financial advice, select or recommend property or financing, determine eligibility, negotiate, make fair-housing decisions, or replace a broker, attorney, lender, or other authorized professional.",
+  "summary": "Start with administrative listing and transaction coordination: capture supplied facts, route requests, maintain checklists and prepare drafts for review. Follow Up Boss and Propertybase demonstrate that incumbents already advertise lead, listing and deal workflow capabilities; any pilot must measure against the actual brokerage stack and retain licensed-professional authority.",
+  "automation_research": {
+    "finding": "DOJ describes the Fair Housing Act as prohibiting discrimination in housing transactions, while CFPB Regulation X governs real-estate settlement-service conduct. Those authorities support a narrow automation boundary around clerical collection, routing, reminders and draft preparation; they do not establish an automation rate or authorize software to decide advertising, access, steering, financing or settlement matters.",
+    "source_ids": ["doj-fha", "cfpb-respa"],
+    "forecast_percent": null,
+    "forecast_note": "No independently measured brokerage automation percentage, adoption rate or realized saving is used. Vendor feature pages are capability evidence only, not prevalence or outcome evidence."
+  },
+  "software": [
+    {
+      "name": "Follow Up Boss",
+      "capability": "Vendor advertises a real-estate team operating system for contact, task and deal organization, lead engagement, routing, reminders, integrations and team visibility.",
+      "evidence_scope": "vendor_advertised_not_installation_or_outcome_proof",
+      "source_ids": ["follow-up-boss"],
+      "price": null,
+      "price_note": "No brokerage-specific quote, incumbent spend or realized outcome was verified."
+    },
+    {
+      "name": "Propertybase",
+      "capability": "Vendor advertises a Salesforce-powered real-estate CRM covering lead capture/routing, listings, deal pipeline, commissions, marketing and reporting.",
+      "evidence_scope": "vendor_advertised_not_installation_or_outcome_proof",
+      "source_ids": ["propertybase"],
+      "price": null,
+      "price_note": "The page displays a vendor price point, but no brokerage-specific quote, actual spend or achieved outcome was verified; value remains null."
+    }
+  ],
+  "modules": [
+    {
+      "repository": "etewiah/property_web_builder",
+      "capability": "Property websites and embeddable listing widgets for publishing supplied property information.",
+      "source_revision": "34ed1756762bf3d4ba55b4eabda93e798e9ca6aa",
+      "existing_foundry_ref": "intelligence/agency/coverage-inventory.json:S1.property-web-builder",
+      "reuse_shape": "Version-pinned presentation module fed only by broker-approved listing facts; preserve an approval step and do not infer availability, pricing, accessibility or protected-class targeting.",
+      "rights_state": "README and GitHub metadata indicate an open-source project; license, content rights and production hardening require route-specific review.",
+      "source_ids": ["repo-property-web-builder"],
+      "limits": "Website/widget capability does not prove MLS permission, listing accuracy, accessibility, fair-housing compliance, syndication rights or secure multi-tenancy."
+    },
+    {
+      "repository": "open-condo-software/condo",
+      "capability": "Open-source property-management workflows for tickets, resident contacts, properties, payment tracking, invoices and a service marketplace.",
+      "source_revision": "0b53f64cece266e6d0fd87e47dca78dcdae8d5b5",
+      "existing_foundry_ref": "intelligence/agency/coverage-inventory.json:S1.condo",
+      "reuse_shape": "Use only as a supervised property/service request and checklist pattern, with SISO-owned identity, permissions and records; never as a ledger, escrow, settlement or advice authority.",
+      "rights_state": "README and GitHub metadata indicate an open-source project; license, deployment, data protection and production qualification require review.",
+      "source_ids": ["repo-condo"],
+      "limits": "Property-management features do not prove brokerage, MLS, escrow, accounting, tenant-law, fair-housing or settlement compliance."
+    },
+    {
+      "repository": "espocrm/espocrm",
+      "capability": "General CRM for leads, contacts, sales opportunities, campaigns, cases, custom entities and REST-backed records.",
+      "source_revision": "8b4f900085d2e21097b72c8cc27e14cb1de5cbd8",
+      "existing_foundry_ref": "intelligence/agency/coverage-inventory.json:CRM-06:49:1",
+      "reuse_shape": "Use as a read/write coordination record only with broker-approved schemas, audit trail and explicit approval for external communications; no property, financing or fair-housing decisioning.",
+      "rights_state": "Official README supports open-source/customization claims; edition, license and integration/security route require review before adoption.",
+      "source_ids": ["repo-espocrm"],
+      "limits": "Generic CRM capability does not prove MLS synchronization, transaction-law compliance, data accuracy, fair-housing controls or authority to send binding communications."
+    }
+  ],
+  "processes": [
+    {
+      "id": "listing_intake_and_publish",
+      "process": "Listing intake, completeness check and broker-approved publication",
+      "automation_boundary": "Collect supplied listing facts and media, flag missing fields, maintain an approval checklist and prepare a draft listing for review; do not invent facts, set price, choose audience, make accessibility/fair-housing determinations or publish without authorization.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["doj-fha", "follow-up-boss", "propertybase", "repo-property-web-builder"],
+      "current_software": ["Follow Up Boss", "Propertybase"],
+      "github_modules": ["etewiah/property_web_builder", "espocrm/espocrm"],
+      "baseline_required": "Matched listing volume, completeness and correction rate, human minutes including review/rework/exceptions, actual software spend and operator cost.",
+      "metric": "Human minutes per accurate, broker-approved published listing, including review, corrections and exceptions",
+      "falsifier": "Reject if unsupported or discriminatory content is published, a critical field is silently changed, or reviewed human effort does not decrease.",
+      "human_authority": "Broker or designated authorized staff verifies facts, advertising and fair-housing compliance and approves publication; software does not decide audience, eligibility, steering or lawful treatment.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "lead_and_showing_coordination",
+      "process": "Lead intake, response routing and showing coordination",
+      "automation_boundary": "Capture inquiries, deduplicate supplied contact details, route by broker-defined rules, send approved scheduling options and track confirmations; do not qualify protected classes, steer, recommend a property, or make an eligibility/financing decision.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["doj-fha", "follow-up-boss", "propertybase", "repo-espocrm"],
+      "current_software": ["Follow Up Boss", "Propertybase"],
+      "github_modules": ["espocrm/espocrm", "open-condo-software/condo"],
+      "baseline_required": "Matched inquiry/showing volume, response and confirmation times, misroutes, human minutes including review/rework/exceptions, actual spend and operator cost.",
+      "metric": "Net human minutes per correctly routed and confirmed showing, including exceptions, reschedules and review",
+      "falsifier": "Reject if routing or messaging uses protected-class proxies, sends to the wrong person/property, exposes data, or review/rework offsets the time reduction.",
+      "human_authority": "Brokerage staff retain authority over client communication, property recommendations, access and any fair-housing compliance judgment.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "transaction_milestone_coordination",
+      "process": "Under-contract milestone, document and inspection-request coordination",
+      "automation_boundary": "Maintain a broker-configured checklist, request missing supplied documents, schedule reminders and prepare a review queue; do not interpret contracts, advise on inspection/financing, calculate settlement amounts or release funds.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["cfpb-respa", "propertybase", "repo-condo", "repo-espocrm"],
+      "current_software": ["Propertybase"],
+      "github_modules": ["open-condo-software/condo", "espocrm/espocrm"],
+      "baseline_required": "Matched transaction volume, on-time milestone rate, missing-document and rework rate, human minutes including review/exceptions, actual spend and operator cost.",
+      "metric": "Human minutes per on-time, correctly documented broker-approved milestone, including review, rework and exceptions",
+      "falsifier": "Reject if a deadline, obligation or settlement fact is misrepresented, an unauthorized external write occurs, or net reviewed effort is not lower.",
+      "human_authority": "Broker, attorney, lender, settlement provider and other authorized parties retain contract, legal, lending, settlement and funds authority; the workflow only coordinates supplied facts and reminders.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    },
+    {
+      "id": "post_close_service_followup",
+      "process": "Post-close handoff, service-request intake and referral follow-up",
+      "automation_boundary": "Log a client request, route it to the selected authorized provider, prepare a status checklist and record acknowledgement; do not recommend financial/legal products, give advice, alter a contract or make a provider/eligibility decision.",
+      "evidence_state": "capability_supported_value_hypothesis",
+      "source_ids": ["cfpb-respa", "follow-up-boss", "repo-condo", "repo-espocrm"],
+      "current_software": ["Follow Up Boss"],
+      "github_modules": ["open-condo-software/condo", "espocrm/espocrm"],
+      "baseline_required": "Matched request volume and class, acknowledgement and resolution times, misroute/reopen rate, human minutes including review/rework/exceptions, actual spend and operator cost.",
+      "metric": "Net human minutes per correctly routed and acknowledged request, with review, exceptions and reopenings counted",
+      "falsifier": "Reject if a referral is represented as advice or endorsement, a request is misrouted, private data is exposed, or review/rework eliminates the net effort reduction.",
+      "human_authority": "Client and the selected licensed or otherwise authorized provider decide advice, product, legal and financial matters; brokerage staff approve communications and retain supervision.",
+      "value": {"formula_ref": "observed-value-v0.1", "currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "status": "unmeasured"}
+    }
+  ],
+  "sources": [
+    {"id": "doj-fha", "url": "https://www.justice.gov/crt/fair-housing-act-1", "title": "The Fair Housing Act", "publisher": "U.S. Department of Justice, Civil Rights Division", "kind": "government_authority", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Official legal authority used to bound housing-discrimination and steering-sensitive workflow decisions; not a compliance opinion for a particular brokerage."},
+    {"id": "cfpb-respa", "url": "https://www.consumerfinance.gov/rules-policy/regulations/1024/", "title": "12 CFR Part 1024 - Real Estate Settlement Procedures Act (Regulation X)", "publisher": "Consumer Financial Protection Bureau", "kind": "government_regulation", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Official regulation source used to keep settlement and referral workflows supervised; not legal or financial advice."},
+    {"id": "follow-up-boss", "url": "https://www.followupboss.com/", "title": "The Real Estate Team OS - Follow Up Boss", "publisher": "Follow Up Boss", "kind": "vendor", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Vendor-advertised feature evidence for contacts, tasks, deals, routing and engagement; no installation, adoption or outcome claim."},
+    {"id": "propertybase", "url": "https://www.propertybase.com/", "title": "Propertybase by Lone Wolf | Salesforce-powered real estate CRM", "publisher": "Propertybase by Lone Wolf", "kind": "vendor", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "Vendor-advertised feature and pricing-page evidence for leads, listings, deals and reporting; no installed-base or realized-savings claim."},
+    {"id": "repo-property-web-builder", "url": "https://github.com/etewiah/property_web_builder", "title": "etewiah/property_web_builder", "publisher": "Ed Tewiah / GitHub", "kind": "official_repository", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "README supports real-estate website and listing-widget capability; rights, MLS permission and production qualification remain unverified."},
+    {"id": "repo-condo", "url": "https://github.com/open-condo-software/condo", "title": "open-condo-software/condo", "publisher": "Open Condo Software / GitHub", "kind": "official_repository", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "README supports property-management ticket/contact/property/payment/invoice capability; brokerage and settlement qualification remain unverified."},
+    {"id": "repo-espocrm", "url": "https://github.com/espocrm/espocrm", "title": "espocrm/espocrm", "publisher": "EspoCRM / GitHub", "kind": "official_repository", "accessed_at": "2026-09-05", "retrieval_status": 200, "note": "README supports general CRM records, opportunities and customization; real-estate integration, security and production qualification remain unverified."}
+  ],
+  "value_model_ref": "../economics/observed-value-model.json",
+  "observed_business_value": {"currency": "USD", "annual_net_cash": null, "annual_capacity_hours": null, "eligible_businesses": null, "societal_value": null, "status": "unmeasured", "reason": "No brokerage baseline, invoices, achieved automation rate, reviewed/reworked effort, operating cost, realized cash saving or eligible-population measurement was verified. Null is not zero."},
+  "pilot": {
+    "design": "Within one supervised brokerage, compare matched redacted or synthetic listings, inquiries, showings, transaction milestones and service requests under the incumbent and candidate workflows. Pre-register authority, privacy, fair-housing and rollback conditions before live data.",
+    "record": ["units processed", "baseline human minutes", "assisted human minutes including review and rework", "critical data, authority, privacy and fair-housing errors", "actual cancelled spend", "recurring operating cost", "implementation and rollback cost"],
+    "reject_if": ["Human effort including review and rework is not lower than the matched baseline.", "Any protected or private data crosses an unauthorized boundary or an unapproved external write occurs.", "A listing, route, reminder or extracted field is treated as legal, financial, fair-housing, financing, settlement or other professional advice/decision.", "Measured first-year net cash is not positive for a cash-savings offer; capacity gains alone are not cash."]
+  },
+  "limitations": ["This is not real-estate, legal, financial, lending, settlement, fair-housing or professional advice, product admission or an industry-wide value forecast.", "Brokerage software adoption, prices, MLS permissions, realized savings and outcome prevalence were not independently verified; named offerings are not assumed installed.", "State licensing, broker supervision, fair-housing, privacy/security, accessibility, advertising, referral, disclosure, contract and records-retention requirements need local review.", "No generic repository is treated as a replacement for an MLS, brokerage CRM, transaction-management, accounting, escrow, lender or settlement system of record."]
+}
