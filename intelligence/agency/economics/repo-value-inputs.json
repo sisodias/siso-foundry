@@ -1,0 +1,821 @@
+{
+  "schema_version": "0.1.0",
+  "record_type": "observed_repo_value_inputs",
+  "as_of": "2026-09-05",
+  "consumer": "N1 law-firm research pilot; bounded general primitives also relevant to later industry lanes",
+  "formula_ref": "observed-value-model.json",
+  "scope": "Ten repos selected from the existing value matrix. Exact GitHub default-branch commit and pinned README/licence blob metadata fetched read-only on the observation date. No donor code executed or copied. Documentary capability is not code/host qualification.",
+  "cards": [
+    {
+      "card_id": "n2.jhpyle.docassemble.2026-09-05",
+      "repository": "jhpyle/docassemble",
+      "source_revision": "1b6678384bc953afeef5c8e2fcde0f5e1c238b6e",
+      "readme_blob_sha": "fc344e44ac1a1e37ce342bcd8d909d7f862ec11d",
+      "license_blob_sha": "a3c07394e73d6ea435819becf552648534a4e996",
+      "process": "Guided intake and approved-template document assembly",
+      "mechanism": "Interview inputs produce structured drafts through Python/YAML/Markdown, documented by the project.",
+      "client_archetype": "US small professional-service firm; law-firm research pilot, not an observed customer",
+      "currency": "USD",
+      "adoption_route": "sidecar",
+      "rights_state": "MIT declaration; route, dependencies and attribution review still pending",
+      "admission": "not_admitted",
+      "source_evidence_state": "pinned_upstream_metadata_and_primary_documentation",
+      "historical_evidence_note": "The value-matrix's historical evidence remains unchanged; it is not transferred to this consumer.",
+      "source_references": [
+        "intelligence/agency/value-matrix.json#jhpyle/docassemble",
+        "https://github.com/jhpyle/docassemble/blob/1b6678384bc953afeef5c8e2fcde0f5e1c238b6e/README.md",
+        "https://github.com/jhpyle/docassemble/blob/1b6678384bc953afeef5c8e2fcde0f5e1c238b6e/LICENSE.txt",
+        "https://docassemble.org/"
+      ],
+      "evidence_gates": {
+        "existing_corpus_membership": true,
+        "exact_upstream_revision": true,
+        "bounded_mechanism_primary_documentation": true,
+        "route_rights_review": false,
+        "customer_baseline": false,
+        "comparative_outcome_quality": false,
+        "complete_change_and_operating_cost": false
+      },
+      "inputs": {
+        "verified_cancelled_software_spend": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "verified_realized_labor_cash_savings": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "verified_incremental_contribution_margin": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "verified_risk_loss_reduction": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "annual_operating_cost": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "first_year_change_cost": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "annual_units": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "baseline_human_minutes_per_unit": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "assisted_human_minutes_per_unit": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        }
+      },
+      "benefit_overlap": "Alternative/adjacent capabilities, not an additive bundle. Shared cancelled spend and saved work may be claimed at most once.",
+      "reason_not_to_choose": "Templates and lawyer acceptance are not supplied by the runtime; measured review effort may erase savings.",
+      "next_proof": "With owner authorization, measure a matched bounded incumbent/candidate workflow; preserve quality and authority; capture review/rework, actual cancellable spend, operation, implementation and removal cost.",
+      "falsifier": "Reject the value claim if reviewed human effort does not decrease, critical quality/authority fails, cancellable spend is not actually removable, or measured net cash is non-positive."
+    },
+    {
+      "card_id": "n2.Open-Source-Legal.OpenContracts.2026-09-05",
+      "repository": "Open-Source-Legal/OpenContracts",
+      "source_revision": "2cd5230d90cd666e9536103801fdcb118149fba7",
+      "readme_blob_sha": "64db70566a619248b9a41d5184578d70cddb40e9",
+      "license_blob_sha": "762b912b7bcb86e1b7ce883da4064b2d794c09b9",
+      "process": "Source-linked document fact extraction/review",
+      "mechanism": "Upstream README describes annotation, extraction and a citation graph behind APIs.",
+      "client_archetype": "US small professional-service firm; law-firm research pilot, not an observed customer",
+      "currency": "USD",
+      "adoption_route": "read_only_sidecar",
+      "rights_state": "MIT declaration; deployment/dependency review pending",
+      "admission": "not_admitted",
+      "source_evidence_state": "pinned_upstream_metadata_and_primary_documentation",
+      "historical_evidence_note": "The value-matrix's historical evidence remains unchanged; it is not transferred to this consumer.",
+      "source_references": [
+        "intelligence/agency/value-matrix.json#Open-Source-Legal/OpenContracts",
+        "https://github.com/Open-Source-Legal/OpenContracts/blob/2cd5230d90cd666e9536103801fdcb118149fba7/README.md",
+        "https://github.com/Open-Source-Legal/OpenContracts/blob/2cd5230d90cd666e9536103801fdcb118149fba7/LICENSE"
+      ],
+      "evidence_gates": {
+        "existing_corpus_membership": true,
+        "exact_upstream_revision": true,
+        "bounded_mechanism_primary_documentation": true,
+        "route_rights_review": false,
+        "customer_baseline": false,
+        "comparative_outcome_quality": false,
+        "complete_change_and_operating_cost": false
+      },
+      "inputs": {
+        "verified_cancelled_software_spend": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "verified_realized_labor_cash_savings": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "verified_incremental_contribution_margin": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "verified_risk_loss_reduction": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "annual_operating_cost": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "first_year_change_cost": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "annual_units": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "baseline_human_minutes_per_unit": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "assisted_human_minutes_per_unit": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        }
+      },
+      "benefit_overlap": "Alternative/adjacent capabilities, not an additive bundle. Shared cancelled spend and saved work may be claimed at most once.",
+      "reason_not_to_choose": "An extracted citation is not a correct legal conclusion; no measured accuracy or privilege-isolation proof.",
+      "next_proof": "With owner authorization, measure a matched bounded incumbent/candidate workflow; preserve quality and authority; capture review/rework, actual cancellable spend, operation, implementation and removal cost.",
+      "falsifier": "Reject the value claim if reviewed human effort does not decrease, critical quality/authority fails, cancellable spend is not actually removable, or measured net cash is non-positive."
+    },
+    {
+      "card_id": "n2.documenso.documenso.2026-09-05",
+      "repository": "documenso/documenso",
+      "source_revision": "2cac63a000e22422bdea449f68b8025e709aa73a",
+      "readme_blob_sha": "ad4d7c5b9f0b7a6be53296888a8e5fd0719bc267",
+      "license_blob_sha": "0ad25db4bd1d86c452db3f9602ccdbe172438f52",
+      "process": "Approved-document signature coordination",
+      "mechanism": "Self-hostable electronic-signing workflow documented upstream.",
+      "client_archetype": "US small professional-service firm; law-firm research pilot, not an observed customer",
+      "currency": "USD",
+      "adoption_route": "sidecar",
+      "rights_state": "AGPL-3.0 text observed; route obligations and document-class acceptance unresolved",
+      "admission": "not_admitted",
+      "source_evidence_state": "pinned_upstream_metadata_and_primary_documentation",
+      "historical_evidence_note": "The value-matrix's historical evidence remains unchanged; it is not transferred to this consumer.",
+      "source_references": [
+        "intelligence/agency/value-matrix.json#documenso/documenso",
+        "https://github.com/documenso/documenso/blob/2cac63a000e22422bdea449f68b8025e709aa73a/README.md",
+        "https://github.com/documenso/documenso/blob/2cac63a000e22422bdea449f68b8025e709aa73a/LICENSE"
+      ],
+      "evidence_gates": {
+        "existing_corpus_membership": true,
+        "exact_upstream_revision": true,
+        "bounded_mechanism_primary_documentation": true,
+        "route_rights_review": false,
+        "customer_baseline": false,
+        "comparative_outcome_quality": false,
+        "complete_change_and_operating_cost": false
+      },
+      "inputs": {
+        "verified_cancelled_software_spend": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "verified_realized_labor_cash_savings": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "verified_incremental_contribution_margin": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "verified_risk_loss_reduction": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "annual_operating_cost": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "first_year_change_cost": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "annual_units": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "baseline_human_minutes_per_unit": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "assisted_human_minutes_per_unit": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        }
+      },
+      "benefit_overlap": "Alternative/adjacent capabilities, not an additive bundle. Shared cancelled spend and saved work may be claimed at most once.",
+      "reason_not_to_choose": "Need actual signer/approval/security/retention evidence and a contract-specific baseline; no generic claim of legal equivalence.",
+      "next_proof": "With owner authorization, measure a matched bounded incumbent/candidate workflow; preserve quality and authority; capture review/rework, actual cancellable spend, operation, implementation and removal cost.",
+      "falsifier": "Reject the value claim if reviewed human effort does not decrease, critical quality/authority fails, cancellable spend is not actually removable, or measured net cash is non-positive."
+    },
+    {
+      "card_id": "n2.teableio.teable.2026-09-05",
+      "repository": "teableio/teable",
+      "source_revision": "5ef2238883cad7c3980084de9a9031135fb9734f",
+      "readme_blob_sha": "8b4ee9a525798aa936fc46f0a11c7950b87428b5",
+      "license_blob_sha": "b5403d3952197adba319dae940a761a0af134674",
+      "process": "Operational exception read-model and form intake",
+      "mechanism": "PostgreSQL-backed forms, tables, views, permissions and API documented upstream.",
+      "client_archetype": "US small professional-service firm; law-firm research pilot, not an observed customer",
+      "currency": "USD",
+      "adoption_route": "read_model",
+      "rights_state": "Root licence explicitly combines components under different licences; edition/path analysis required",
+      "admission": "not_admitted",
+      "source_evidence_state": "pinned_upstream_metadata_and_primary_documentation",
+      "historical_evidence_note": "The value-matrix's historical evidence remains unchanged; it is not transferred to this consumer.",
+      "source_references": [
+        "intelligence/agency/value-matrix.json#teableio/teable",
+        "https://github.com/teableio/teable/blob/5ef2238883cad7c3980084de9a9031135fb9734f/README.md",
+        "https://github.com/teableio/teable/blob/5ef2238883cad7c3980084de9a9031135fb9734f/LICENSE"
+      ],
+      "evidence_gates": {
+        "existing_corpus_membership": true,
+        "exact_upstream_revision": true,
+        "bounded_mechanism_primary_documentation": true,
+        "route_rights_review": false,
+        "customer_baseline": false,
+        "comparative_outcome_quality": false,
+        "complete_change_and_operating_cost": false
+      },
+      "inputs": {
+        "verified_cancelled_software_spend": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "verified_realized_labor_cash_savings": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "verified_incremental_contribution_margin": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "verified_risk_loss_reduction": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "annual_operating_cost": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "first_year_change_cost": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "annual_units": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "baseline_human_minutes_per_unit": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "assisted_human_minutes_per_unit": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        }
+      },
+      "benefit_overlap": "Alternative/adjacent capabilities, not an additive bundle. Shared cancelled spend and saved work may be claimed at most once.",
+      "reason_not_to_choose": "Generic tables do not implement legal matter, trust, billing or source-owner authority.",
+      "next_proof": "With owner authorization, measure a matched bounded incumbent/candidate workflow; preserve quality and authority; capture review/rework, actual cancellable spend, operation, implementation and removal cost.",
+      "falsifier": "Reject the value claim if reviewed human effort does not decrease, critical quality/authority fails, cancellable spend is not actually removable, or measured net cash is non-positive."
+    },
+    {
+      "card_id": "n2.toeverything.AFFiNE.2026-09-05",
+      "repository": "toeverything/AFFiNE",
+      "source_revision": "2365c365574829b0cc72219e85fc412c498d2b00",
+      "readme_blob_sha": "537c3615ba5e354c277a30a3b8cd21faf1ab3503",
+      "license_blob_sha": "ee4c98c5f018d7421d7a4a28d24f0710f1705269",
+      "process": "Internal knowledge notes and reviewed playbooks",
+      "mechanism": "Upstream documents a collaborative knowledge/workspace surface.",
+      "client_archetype": "US small professional-service firm; law-firm research pilot, not an observed customer",
+      "currency": "USD",
+      "adoption_route": "source_owned_module_candidate",
+      "rights_state": "Root licence delegates backend/native paths to a separate licence; others include MIT terms; route unreviewed",
+      "admission": "not_admitted",
+      "source_evidence_state": "pinned_upstream_metadata_and_primary_documentation",
+      "historical_evidence_note": "The value-matrix's historical evidence remains unchanged; it is not transferred to this consumer.",
+      "source_references": [
+        "intelligence/agency/value-matrix.json#toeverything/AFFiNE",
+        "https://github.com/toeverything/AFFiNE/blob/2365c365574829b0cc72219e85fc412c498d2b00/README.md",
+        "https://github.com/toeverything/AFFiNE/blob/2365c365574829b0cc72219e85fc412c498d2b00/LICENSE"
+      ],
+      "evidence_gates": {
+        "existing_corpus_membership": true,
+        "exact_upstream_revision": true,
+        "bounded_mechanism_primary_documentation": true,
+        "route_rights_review": false,
+        "customer_baseline": false,
+        "comparative_outcome_quality": false,
+        "complete_change_and_operating_cost": false
+      },
+      "inputs": {
+        "verified_cancelled_software_spend": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "verified_realized_labor_cash_savings": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "verified_incremental_contribution_margin": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "verified_risk_loss_reduction": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "annual_operating_cost": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "first_year_change_cost": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "annual_units": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "baseline_human_minutes_per_unit": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "assisted_human_minutes_per_unit": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        }
+      },
+      "benefit_overlap": "Alternative/adjacent capabilities, not an additive bundle. Shared cancelled spend and saved work may be claimed at most once.",
+      "reason_not_to_choose": "No measured migration, ACL preservation, records retention, backup or knowledge retrieval benefit for this consumer.",
+      "next_proof": "With owner authorization, measure a matched bounded incumbent/candidate workflow; preserve quality and authority; capture review/rework, actual cancellable spend, operation, implementation and removal cost.",
+      "falsifier": "Reject the value claim if reviewed human effort does not decrease, critical quality/authority fails, cancellable spend is not actually removable, or measured net cash is non-positive."
+    },
+    {
+      "card_id": "n2.activepieces.activepieces.2026-09-05",
+      "repository": "activepieces/activepieces",
+      "source_revision": "af374df8ae23f973376650f9b83642e2e7985bf3",
+      "readme_blob_sha": "83e16d857968de7c88600a6536d32042202b2348",
+      "license_blob_sha": "73e0a2f7acf13c780655de40183b06a0a93e091b",
+      "process": "Approved administrative follow-up workflow",
+      "mechanism": "Typed connector pieces and triggers/actions are described in the README.",
+      "client_archetype": "US small professional-service firm; law-firm research pilot, not an observed customer",
+      "currency": "USD",
+      "adoption_route": "allowlisted_workflow_sidecar",
+      "rights_state": "MIT community portions; enterprise paths have separate commercial terms; exact edition unresolved",
+      "admission": "not_admitted",
+      "source_evidence_state": "pinned_upstream_metadata_and_primary_documentation",
+      "historical_evidence_note": "The value-matrix's historical evidence remains unchanged; it is not transferred to this consumer.",
+      "source_references": [
+        "intelligence/agency/value-matrix.json#activepieces/activepieces",
+        "https://github.com/activepieces/activepieces/blob/af374df8ae23f973376650f9b83642e2e7985bf3/README.md",
+        "https://github.com/activepieces/activepieces/blob/af374df8ae23f973376650f9b83642e2e7985bf3/LICENSE"
+      ],
+      "evidence_gates": {
+        "existing_corpus_membership": true,
+        "exact_upstream_revision": true,
+        "bounded_mechanism_primary_documentation": true,
+        "route_rights_review": false,
+        "customer_baseline": false,
+        "comparative_outcome_quality": false,
+        "complete_change_and_operating_cost": false
+      },
+      "inputs": {
+        "verified_cancelled_software_spend": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "verified_realized_labor_cash_savings": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "verified_incremental_contribution_margin": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "verified_risk_loss_reduction": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "annual_operating_cost": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "first_year_change_cost": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "annual_units": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "baseline_human_minutes_per_unit": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "assisted_human_minutes_per_unit": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        }
+      },
+      "benefit_overlap": "Alternative/adjacent capabilities, not an additive bundle. Shared cancelled spend and saved work may be claimed at most once.",
+      "reason_not_to_choose": "Connectors do not supply correct authority, consent, retries, idempotency or actual saved review time.",
+      "next_proof": "With owner authorization, measure a matched bounded incumbent/candidate workflow; preserve quality and authority; capture review/rework, actual cancellable spend, operation, implementation and removal cost.",
+      "falsifier": "Reject the value claim if reviewed human effort does not decrease, critical quality/authority fails, cancellable spend is not actually removable, or measured net cash is non-positive."
+    },
+    {
+      "card_id": "n2.chatwoot.chatwoot.2026-09-05",
+      "repository": "chatwoot/chatwoot",
+      "source_revision": "8314676d1bece93d24293e87e80c94e7f5494d67",
+      "readme_blob_sha": "d8b8ae7a2331ba9eb4002ea7d2911a4ae36bf297",
+      "license_blob_sha": "d0425a707ab6f0cf06c9aa3c08e8edf5c64adc61",
+      "process": "Approved client-message triage and inbox",
+      "mechanism": "Upstream describes a shared multi-channel conversation inbox with routing/automation features.",
+      "client_archetype": "US small professional-service firm; law-firm research pilot, not an observed customer",
+      "currency": "USD",
+      "adoption_route": "sidecar_or_connector",
+      "rights_state": "MIT terms outside enterprise-specific and third-party exceptions; channel and edition review required",
+      "admission": "not_admitted",
+      "source_evidence_state": "pinned_upstream_metadata_and_primary_documentation",
+      "historical_evidence_note": "The value-matrix's historical evidence remains unchanged; it is not transferred to this consumer.",
+      "source_references": [
+        "intelligence/agency/value-matrix.json#chatwoot/chatwoot",
+        "https://github.com/chatwoot/chatwoot/blob/8314676d1bece93d24293e87e80c94e7f5494d67/README.md",
+        "https://github.com/chatwoot/chatwoot/blob/8314676d1bece93d24293e87e80c94e7f5494d67/LICENSE"
+      ],
+      "evidence_gates": {
+        "existing_corpus_membership": true,
+        "exact_upstream_revision": true,
+        "bounded_mechanism_primary_documentation": true,
+        "route_rights_review": false,
+        "customer_baseline": false,
+        "comparative_outcome_quality": false,
+        "complete_change_and_operating_cost": false
+      },
+      "inputs": {
+        "verified_cancelled_software_spend": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "verified_realized_labor_cash_savings": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "verified_incremental_contribution_margin": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "verified_risk_loss_reduction": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "annual_operating_cost": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "first_year_change_cost": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "annual_units": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "baseline_human_minutes_per_unit": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "assisted_human_minutes_per_unit": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        }
+      },
+      "benefit_overlap": "Alternative/adjacent capabilities, not an additive bundle. Shared cancelled spend and saved work may be claimed at most once.",
+      "reason_not_to_choose": "Channel presence is not matter isolation, permission to message, end-to-end delivery or a unified client truth.",
+      "next_proof": "With owner authorization, measure a matched bounded incumbent/candidate workflow; preserve quality and authority; capture review/rework, actual cancellable spend, operation, implementation and removal cost.",
+      "falsifier": "Reject the value claim if reviewed human effort does not decrease, critical quality/authority fails, cancellable spend is not actually removable, or measured net cash is non-positive."
+    },
+    {
+      "card_id": "n2.calcom.cal.diy.2026-09-05",
+      "repository": "calcom/cal.diy",
+      "source_revision": "abffde336e744e15cf69626c10e436d6172bc406",
+      "readme_blob_sha": "4bfd00c01597ecb1fbd76bcaff5d018c7b61b7bd",
+      "license_blob_sha": "98b51fbaac9145f1919fd2a79532acdb04a8f24b",
+      "process": "Scheduling interaction reference only",
+      "mechanism": "Community self-hosted scheduling code; README explicitly recommends personal non-production use.",
+      "client_archetype": "US small professional-service firm; law-firm research pilot, not an observed customer",
+      "currency": "USD",
+      "adoption_route": "pattern_reference_only",
+      "rights_state": "MIT declaration does not cancel the upstream non-production recommendation or missing enterprise functions",
+      "admission": "not_admitted",
+      "source_evidence_state": "pinned_upstream_metadata_and_primary_documentation",
+      "historical_evidence_note": "The value-matrix's historical evidence remains unchanged; it is not transferred to this consumer.",
+      "source_references": [
+        "intelligence/agency/value-matrix.json#calcom/cal.diy",
+        "https://github.com/calcom/cal.diy/blob/abffde336e744e15cf69626c10e436d6172bc406/README.md",
+        "https://github.com/calcom/cal.diy/blob/abffde336e744e15cf69626c10e436d6172bc406/LICENSE"
+      ],
+      "evidence_gates": {
+        "existing_corpus_membership": true,
+        "exact_upstream_revision": true,
+        "bounded_mechanism_primary_documentation": true,
+        "route_rights_review": false,
+        "customer_baseline": false,
+        "comparative_outcome_quality": false,
+        "complete_change_and_operating_cost": false
+      },
+      "inputs": {
+        "verified_cancelled_software_spend": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "verified_realized_labor_cash_savings": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "verified_incremental_contribution_margin": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "verified_risk_loss_reduction": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "annual_operating_cost": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "first_year_change_cost": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "annual_units": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "baseline_human_minutes_per_unit": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "assisted_human_minutes_per_unit": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        }
+      },
+      "benefit_overlap": "Alternative/adjacent capabilities, not an additive bundle. Shared cancelled spend and saved work may be claimed at most once.",
+      "reason_not_to_choose": "Reject production industry adoption in this pass: upstream recommends personal non-production use and removes teams/workflows/SSO.",
+      "next_proof": "With owner authorization, measure a matched bounded incumbent/candidate workflow; preserve quality and authority; capture review/rework, actual cancellable spend, operation, implementation and removal cost.",
+      "falsifier": "Reject the value claim if reviewed human effort does not decrease, critical quality/authority fails, cancellable spend is not actually removable, or measured net cash is non-positive."
+    },
+    {
+      "card_id": "n2.meilisearch.meilisearch.2026-09-05",
+      "repository": "meilisearch/meilisearch",
+      "source_revision": "1d8619825c3b1871398c539cb566f2de38564493",
+      "readme_blob_sha": "701c82b0d26dcca94466a939598dd121573c5791",
+      "license_blob_sha": "edcaeebc4e866b1ebefc330c103560e41639601b",
+      "process": "Permission-filtered lexical evidence retrieval",
+      "mechanism": "Upstream documents REST-based search and API-key access controls; host still supplies document/matter policy.",
+      "client_archetype": "US small professional-service firm; law-firm research pilot, not an observed customer",
+      "currency": "USD",
+      "adoption_route": "infrastructure_primitive",
+      "rights_state": "Root licence states MIT AND BUSL-1.1 across different portions; component/route review needed",
+      "admission": "not_admitted",
+      "source_evidence_state": "pinned_upstream_metadata_and_primary_documentation",
+      "historical_evidence_note": "The value-matrix's historical evidence remains unchanged; it is not transferred to this consumer.",
+      "source_references": [
+        "intelligence/agency/value-matrix.json#meilisearch/meilisearch",
+        "https://github.com/meilisearch/meilisearch/blob/1d8619825c3b1871398c539cb566f2de38564493/README.md",
+        "https://github.com/meilisearch/meilisearch/blob/1d8619825c3b1871398c539cb566f2de38564493/LICENSE"
+      ],
+      "evidence_gates": {
+        "existing_corpus_membership": true,
+        "exact_upstream_revision": true,
+        "bounded_mechanism_primary_documentation": true,
+        "route_rights_review": false,
+        "customer_baseline": false,
+        "comparative_outcome_quality": false,
+        "complete_change_and_operating_cost": false
+      },
+      "inputs": {
+        "verified_cancelled_software_spend": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "verified_realized_labor_cash_savings": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "verified_incremental_contribution_margin": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "verified_risk_loss_reduction": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "annual_operating_cost": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "first_year_change_cost": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "annual_units": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "baseline_human_minutes_per_unit": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "assisted_human_minutes_per_unit": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        }
+      },
+      "benefit_overlap": "Alternative/adjacent capabilities, not an additive bundle. Shared cancelled spend and saved work may be claimed at most once.",
+      "reason_not_to_choose": "An API key is not proof of correct matter-level access filtering; no measured retrieval/quality or migration cost.",
+      "next_proof": "With owner authorization, measure a matched bounded incumbent/candidate workflow; preserve quality and authority; capture review/rework, actual cancellable spend, operation, implementation and removal cost.",
+      "falsifier": "Reject the value claim if reviewed human effort does not decrease, critical quality/authority fails, cancellable spend is not actually removable, or measured net cash is non-positive."
+    },
+    {
+      "card_id": "n2.makeplane.plane.2026-09-05",
+      "repository": "makeplane/plane",
+      "source_revision": "da1a7ab85012d16836459a10dd92ec55eb739c69",
+      "readme_blob_sha": "74688cd92c4b14a9e34ad26075fa752a755b21c2",
+      "license_blob_sha": "5087e61e24bce453516dd67d07aec21923271472",
+      "process": "Internal delivery work-item queue",
+      "mechanism": "Upstream documents issues, cycles, roadmaps and filtered views.",
+      "client_archetype": "US small professional-service firm; law-firm research pilot, not an observed customer",
+      "currency": "USD",
+      "adoption_route": "whole_app_or_connector_candidate",
+      "rights_state": "AGPL-3.0 text observed; distribution/trademark/route review pending",
+      "admission": "not_admitted",
+      "source_evidence_state": "pinned_upstream_metadata_and_primary_documentation",
+      "historical_evidence_note": "The value-matrix's historical evidence remains unchanged; it is not transferred to this consumer.",
+      "source_references": [
+        "intelligence/agency/value-matrix.json#makeplane/plane",
+        "https://github.com/makeplane/plane/blob/da1a7ab85012d16836459a10dd92ec55eb739c69/README.md",
+        "https://github.com/makeplane/plane/blob/da1a7ab85012d16836459a10dd92ec55eb739c69/LICENSE.txt"
+      ],
+      "evidence_gates": {
+        "existing_corpus_membership": true,
+        "exact_upstream_revision": true,
+        "bounded_mechanism_primary_documentation": true,
+        "route_rights_review": false,
+        "customer_baseline": false,
+        "comparative_outcome_quality": false,
+        "complete_change_and_operating_cost": false
+      },
+      "inputs": {
+        "verified_cancelled_software_spend": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "verified_realized_labor_cash_savings": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "verified_incremental_contribution_margin": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "verified_risk_loss_reduction": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "annual_operating_cost": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "first_year_change_cost": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "annual_units": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "baseline_human_minutes_per_unit": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        },
+        "assisted_human_minutes_per_unit": {
+          "value": null,
+          "source_refs": [],
+          "reason": "No consumer-specific measurement or baseline receipt"
+        }
+      },
+      "benefit_overlap": "Alternative/adjacent capabilities, not an additive bundle. Shared cancelled spend and saved work may be claimed at most once.",
+      "reason_not_to_choose": "Existing historical host evidence is not this firm's workflow proof; a task tracker cannot replace matter/financial authority.",
+      "next_proof": "With owner authorization, measure a matched bounded incumbent/candidate workflow; preserve quality and authority; capture review/rework, actual cancellable spend, operation, implementation and removal cost.",
+      "falsifier": "Reject the value claim if reviewed human effort does not decrease, critical quality/authority fails, cancellable spend is not actually removable, or measured net cash is non-positive."
+    }
+  ]
+}

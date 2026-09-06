@@ -1,0 +1,61 @@
+{
+  "schema_version": "0.1.0",
+  "record_type": "observed_business_value_model",
+  "model_id": "observed-value-v0.1",
+  "as_of": "2026-09-05",
+  "extends": "economics/model.json (2026-08-03 specification); retains source value, client value, SISO price/profit and societal value as separate concepts",
+  "unit": "repository × bounded process × customer archetype × adoption route × observed comparison period",
+  "missing_data_policy": "Any unknown mandatory input produces null, not zero, a planning default or an invented range. A zero is permitted only as an explicit measured value with a receipt. Numeric synthetic fixtures test the formula only and are never market estimates.",
+  "formulas": {
+    "annual_capacity_hours": "annual_units * (baseline_human_minutes_per_unit - assisted_human_minutes_per_unit) / 60; assisted time includes review, rework and exception handling",
+    "first_year_net_cash": "verified_cancelled_software_spend + verified_realized_labor_cash_savings + verified_incremental_contribution_margin + verified_risk_loss_reduction - annual_operating_cost - first_year_change_cost",
+    "capacity_shadow_value": "annual_capacity_hours * measured_loaded_hourly_cost; report as non-cash capacity equivalent, never add to first_year_net_cash without observed monetization",
+    "societal_resource_value": "eligible_businesses * observed_adoption_fraction * measured_net_real_resource_benefit_per_business - measured_transition_externalities; not aggregate software revenue, willingness to pay, firm count × repo stars, or gross billable hours",
+    "evidence_score": "count of verified items among seven named receipt gates; display numerator/denominator. This is evidence completeness, NOT a valuation or quality multiplier."
+  },
+  "evidence_gates": [
+    "existing_corpus_membership",
+    "exact_upstream_revision",
+    "bounded_mechanism_primary_documentation",
+    "route_rights_review",
+    "customer_baseline",
+    "comparative_outcome_quality",
+    "complete_change_and_operating_cost"
+  ],
+  "cash_inputs": [
+    "verified_cancelled_software_spend",
+    "verified_realized_labor_cash_savings",
+    "verified_incremental_contribution_margin",
+    "verified_risk_loss_reduction",
+    "annual_operating_cost",
+    "first_year_change_cost"
+  ],
+  "required_input_receipts": [
+    "metric definition and units",
+    "currency and period",
+    "named process boundary",
+    "measurement/source date",
+    "baseline or counterfactual",
+    "attribution and non-overlap benefit ID",
+    "reviewer/owner acceptance"
+  ],
+  "guardrails": [
+    "Cancelled spend means actually removable spend, not a competitor's list price.",
+    "Released employee time is capacity unless reduced payroll/overtime or redeployment value is observed.",
+    "Saved billable hours can reduce revenue; do not presume higher profit.",
+    "Use contribution margin, not gross revenue; do not double-count the same benefit across modules.",
+    "Keep negative net results; a negative result is a valid rejection, not clipped to zero.",
+    "Source/edition rights and critical quality/security failures are hard adoption gates, not discount multipliers.",
+    "Do not extrapolate a sampled firm to an industry or society without measured eligible population, adoption and externalities."
+  ],
+  "falsifiers": [
+    "Net human time including review/rework is not lower than baseline: reject the productivity claim.",
+    "Actual cancellable spend is zero or contract cannot be terminated: reject the displacement term.",
+    "The same benefit ID is allocated in full to multiple modules: reject the aggregate.",
+    "An observed first-year net cash result is non-positive: reject a cash-saving offer unless a different explicitly authorized goal is documented.",
+    "Critical data/authority error occurs or baseline quality is not preserved: no adoption regardless of monetary result.",
+    "An outcome falls outside a preregistered predicted interval: forecast calibration fails and requires revision."
+  ],
+  "forecast_policy": "No business prediction interval is generated in this pass; required baseline/field inputs are absent. Later low/base/high estimates must cite evidence and preregister a comparison period, not reuse the older illustrative priors.",
+  "public_state": "local_research_not_published"
+}
