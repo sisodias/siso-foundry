@@ -104,3 +104,25 @@ reconcile coverage/value evidence, with source refs and regression tests. Next
 operational work requires an actual input/owner/runtime receipt. The
 [research-run playbook](RESEARCH-RUN.md) proposes a demand-led pilot once those
 inputs are verified; it creates no running job.
+
+
+## Full-checkout CI follow-up
+
+The initial workflow was rejected before job execution because a runner context
+was used at job-level environment scope. It was moved to step scope, following
+[GitHub's context-availability contract](https://docs.github.com/en/actions/reference/workflows-and-actions/contexts#context-availability).
+The next full-checkout run reached the source scanner and identified four
+pre-existing files containing machine-specific locators.
+
+The book-score diagnostic now requires an explicit authorised `--knowledge-root`
+and refuses its already-unimplemented `--apply` mode before reading. It does not
+write Knowledge data or change the historical scoring heuristic. The exporter's
+example uses a generic input path. Two existing small run-summary JSON records
+have only their database locator removed, retain all historical counts/timing,
+and carry explicit redaction metadata and the original blob/revision. These are
+sanitised derivatives, not newly measured runs. This does not purge Git history.
+No new raw evidence is published and no Graph operation is executed.
+
+Four synthetic input-gate tests extend the focused suite from 30 to 34. Full CI
+results must still be read from the exact pull-request head rather than inferred
+from this local fixture result.

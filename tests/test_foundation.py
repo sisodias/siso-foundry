@@ -206,5 +206,40 @@ class GateContractTests(unittest.TestCase):
             self.assertNotIn(directory, output.getvalue())
 
 
+class KnowledgeInputGateTests(unittest.TestCase):
+    def invoke(self, *args):
+        return subprocess.run(
+            [sys.executable, "-B", str(ROOT / "pipelines/books/fix_tier_score.py"), *args],
+            capture_output=True, text=True,
+        )
+
+    def test_explicit_root_is_required(self):
+        completed = self.invoke()
+        self.assertEqual(completed.returncode, 2)
+        self.assertIn("--knowledge-root", completed.stderr)
+
+    def test_missing_root_is_not_created(self):
+        with tempfile.TemporaryDirectory() as directory:
+            missing = Path(directory) / "missing"
+            completed = self.invoke("--knowledge-root", str(missing))
+            self.assertEqual(completed.returncode, 2)
+            self.assertFalse(missing.exists())
+
+    def test_apply_refused_before_input_read(self):
+        with tempfile.TemporaryDirectory() as directory:
+            completed = self.invoke("--knowledge-root", directory, "--apply")
+            self.assertEqual(completed.returncode, 2)
+            self.assertIn("--apply is unsupported", completed.stderr)
+            self.assertEqual(list(Path(directory).iterdir()), [])
+
+    def test_empty_synthetic_root_reads_without_writes(self):
+        with tempfile.TemporaryDirectory() as directory:
+            (Path(directory) / "sections").mkdir()
+            completed = self.invoke("--knowledge-root", directory)
+            self.assertEqual(completed.returncode, 0, completed.stderr)
+            self.assertIn("Scanned 0 page files", completed.stdout)
+            self.assertEqual(list((Path(directory) / "sections").iterdir()), [])
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -22,7 +22,7 @@ pipeline decides what to do with it.
 
 Usage:
   export_for_identity.py --db catalog_full.sqlite \
-      --identity ~/SISO_Workspace/SISO_Agent_Base/research/repo-catalog/identity/identity.sqlite \
+      --identity /approved/local/identity.sqlite \
       --out-dir ./export
 """
 import argparse
