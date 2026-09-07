@@ -14,7 +14,6 @@ jobs:
     timeout-minutes: 10
     env:
       FOUNDRY_CAPABILITY_ATLAS: ''
-      FOUNDRY_DATA: ${{ runner.temp }}/foundry-unmaterialized
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4, verified 2026-09-07
         with:
@@ -25,6 +24,8 @@ jobs:
           node --version
           git rev-parse HEAD
       - name: Validate public source without external datasets
+        env:
+          FOUNDRY_DATA: ${{ runner.temp }}/foundry-unmaterialized
         run: npm run test:source
       - name: State the boundary
         run: echo 'PUBLIC SOURCE ONLY. External dataset availability, rights, integration and execution are not established.'
