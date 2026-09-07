@@ -1,0 +1,30 @@
+name: Foundry public source checks
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+concurrency:
+  group: foundry-source-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  public-source:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      FOUNDRY_CAPABILITY_ATLAS: ''
+      FOUNDRY_DATA: ${{ runner.temp }}/foundry-unmaterialized
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4, verified 2026-09-07
+        with:
+          persist-credentials: false
+      - name: Record source-test environment
+        run: |
+          python3 --version
+          node --version
+          git rev-parse HEAD
+      - name: Validate public source without external datasets
+        run: npm run test:source
+      - name: State the boundary
+        run: echo 'PUBLIC SOURCE ONLY. External dataset availability, rights, integration and execution are not established.'
