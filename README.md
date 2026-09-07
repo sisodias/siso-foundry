@@ -1,110 +1,175 @@
 <p align="center">
-  <img src="docs/assets/repository-header.png" width="100%" alt="Raw source fragments refined by a precision foundry into reusable crystalline modules">
+  <img src="docs/assets/repository-header.png" width="100%" alt="Source fragments refined into reusable research knowledge">
 </p>
 
 # SISO Foundry
 
-Foundry turns large source corpora into traceable, ranked, reusable research knowledge.
+**Turn a named research or business need into a traceable, qualified source decision.**
 
-It lives under the **Research** section of the Great Library of SISO. Agents can operate it and consume its results, but that does not make it agent infrastructure: its durable outcome is a research asset—the identity graph, observations, evidence, rankings, and verified reuse knowledge.
+Foundry discovers useful source material and software, establishes identity and
+provenance, compares alternatives, and supplies evidence to the existing question
+or product owner. Success is a better-supported decision with less repeated work,
+not a larger pile of links or a higher repository-star count.
 
-## The boundary
+Foundry is an independent **Research Work**. Agents operate it; that does not make
+it an agent runtime, a product control plane, or the owner of every system it feeds.
+The [business-application mission](docs/AGENCY_OS_APPLICATION_MISSION.md) remains
+the detailed demand, adoption-route and product-evaluation contract.
 
-```text
-Research
-└── Foundry
-    ├── core/                  shared identity, ranking, storage, and DB contracts
-    ├── pipelines/             domain ingestion and enrichment software
-    │   ├── github/            repository catalog and value-mining pipeline
-    │   ├── people/            cross-domain people graph
-    │   ├── youtube/           channel and transcript acquisition
-    │   └── podcasts/          podcast acquisition contract
-    ├── packages/
-    │   ├── bank-api/          query and verification surface for reuse knowledge
-    │   └── research-topics/   append-only topic registry and artifact links
-    └── data plane             external, append-only, and deliberately not stored in Git
-```
+## Start here
 
-Code, contracts, schemas, small fixtures, and provenance belong in this repository. Multi-gigabyte databases, raw observations, transcripts, generated browsers, caches, and run artifacts live in the external data plane described by [`DATASETS.md`](DATASETS.md).
+| Need | Source |
+|---|---|
+| Understand the purpose, ownership and evidence flow | [Foundation and operating model](docs/FOUNDATION.md) |
+| Inspect what the September source audit actually found | [Source audit and repair boundaries](docs/SOURCE-AUDIT-2026-09-07.md) |
+| Plan a substantial, measurable research/reasoning run | [Research-run playbook](docs/RESEARCH-RUN.md) |
+| Work on the repository | [Agent guide](AGENTS.md), [architecture](ARCHITECTURE.md), [provenance](PROVENANCE.md) |
+| Understand the external data boundary | [Datasets](DATASETS.md), [dated manifest](datasets/manifest.json) |
+| Use existing business research | [Research index](intelligence/agency/RESEARCH-INDEX.md), [Agency intelligence](intelligence/agency/README.md) |
 
-That boundary is what lets Foundry scale from gigabytes to petabytes without turning GitHub into a database or making the source impossible to fork.
+## Keep the systems separate
 
-## Current modules
-
-| Module | Outcome | State |
+| System | Responsibility | Boundary |
 |---|---|---|
-| `core` | One data-root indirection, read-only/default SQLite access, shared identity and ranking contracts | Extracted |
-| `pipelines/github` | Append-only repository observations → canonical identity → enrichment → value ranking | Extracted, requires an external database |
-| `pipelines/people` | Cross-domain creator and maintainer identity graph | Extracted |
-| `pipelines/youtube` | Resumable channel acquisition and transcription | Extracted |
-| `pipelines/podcasts` | Podcast corpus routing contract | Early |
-| `packages/bank-api` | Capability query surface and behavioral verification harness | Experimental |
-| `packages/research-topics` | Fuzzy add-or-match topic registry with provenance-preserving merges | Experimental |
+| **Foundry** | Discovery, source/repository intelligence, qualification and evidence-supply coordination | Not client operations, automatic code adoption or a runtime |
+| **SISO Knowledge / Knowledge Graph** | Durable corpus, provenance, indexes, graphs and retrieval under their existing owners | Not absorbed or reorganised by Foundry |
+| **People Graph** | Its own identity/relationship system and ownership | People-related adapters in this checkout do not confer canonical Graph ownership |
+| **Evidence Engines** | Explicit source-grounded transformations, claims and evaluation inputs | Not source discovery or product execution |
+| **Question and product owners** | Reasoning, accepted decisions, implementation and authorised operational proof | A Foundry recommendation does not transfer their authority |
+| **Great Library** | Public identity, lineage, selection, accepted research and release history | Not raw private evidence, a deployment engine or proof of installability |
 
-## Reproducible discovery campaigns
+These boundaries follow the [application mission](docs/AGENCY_OS_APPLICATION_MISSION.md)
+and the public source references in the [audit](docs/SOURCE-AUDIT-2026-09-07.md).
 
-Campaign definitions are public, reviewable query contracts. Runs are resumable and write only to the external data plane; raw GitHub responses, checkpoints, and candidate projections never enter this repository.
-
-```bash
-python3 pipelines/github/run_campaign.py --dry-run
-python3 pipelines/github/run_campaign.py --max-queries 3 --limit-per-query 20
-```
-
-The first public campaign, [`agent-systems-v1`](pipelines/github/campaigns/agent-systems-v1.json), covers complete agent stacks, Claude Code hooks, Codex/agent skills, playbooks, orchestration, MCP tooling, memory, evaluation, coding-agent harnesses, and observability. The runner:
-
-- checks GitHub's search quota before every query and stops before exhaustion;
-- records each raw response as an append-only observation;
-- checkpoints query key plus query hash, so changed queries rerun without erasing history;
-- produces a deduplicated candidate projection with query lineage and capability tags; and
-- defaults every candidate to `rights_state: review_required` and `promotion_gate: direct_source_review`.
-
-GitHub authentication is supplied by the operator's existing `gh` CLI configuration. Tokens and API responses are never written to Git.
-
-The campaign is a reproducible discovery contract, not a claim that the resulting corpus is complete, current, or cleared for redistribution. Each run still requires source, license, privacy, and promotion review.
-
-## Agency intelligence
-
-[`intelligence/agency/`](intelligence/agency/README.md) turns the recovered source corpus into a durable mission for SISO Agency OS: discover useful business software, choose an evidence-backed adoption mode, prove the integration, and promote the result to its owning SISO Work. The package includes the [`Agency OS application mission`](docs/AGENCY_OS_APPLICATION_MISSION.md), a machine-readable metadata snapshot, the scored [`Agency OS value matrix`](intelligence/agency/VALUE-MATRIX.md), and a prioritized evidence backlog without publishing the private corpus.
-
-The deduplicated repository coverage and canonical 12-pillar evidence split are published in [`COVERAGE.md`](intelligence/agency/COVERAGE.md), with row-level data in [`coverage-inventory.json`](intelligence/agency/coverage-inventory.json).
-
-The [`Agency repository economic valuation`](intelligence/agency/ECONOMIC-VALUATION.md) specifies how Foundry will assign auditable low/base/high replacement, captured-source, client-outcome, offer, and three-year portfolio values to `repository × capability × client archetype × adoption route × commercial offer`. The current AFFiNE and Teable numbers are explicitly provisional calibration examples, not audited valuations or client prices.
-
-The economic specification also records a precondition for the next release: the coverage inventory and value matrix must be mechanically reconciled before either is described as complete. Four decision-grade projects are currently absent from coverage and sixteen stronger value-matrix evidence records were downgraded to `inferred`.
-
-Foundry remains the source-intelligence engine. The Great Library is the registry and discovery front door. Agency OS owns the product control plane and applies released capabilities to real business outcomes.
-
-## Data layout
-
-Foundry resolves data through `FOUNDRY_DATA`. When it is unset, the portable default is:
+## Repository versus data
 
 ```text
-~/.local/share/siso-foundry/
-├── domains/
-│   ├── github/
-│   │   ├── raw/               append-only observations
-│   │   ├── identity/          canonical identity database
-│   │   ├── staging/           reproducible intermediate products
-│   │   └── curated/           promotion-gated research assets
-│   └── <future-domain>/
-├── incoming/                  resumable harvest shards
-└── artifacts/                 generated reports and offline browsers
+Foundry source (this Git repository)
+  core/                  path, identity, ranking and DB helpers
+  pipelines/             acquisition/enrichment software and contracts
+  packages/              bank query, topic and business-application modules
+  intelligence/agency/   reviewed public research metadata and source links
+  datasets/              manifests, not the external warehouse
+  scripts/ + tests/      source checks and synthetic regression tests
+
+External data plane (not supplied by cloning this repository)
+  incoming -> raw observations -> identity -> staging -> curated
+                                      \-> generated artifacts
 ```
 
-Override the GitHub database alone with `FOUNDRY_GITHUB_DB`. Other explicit paths are documented in [`ARCHITECTURE.md`](ARCHITECTURE.md).
+The public source still contains historical people-ingestion and graph-related
+code. It is preserved, not reclassified as ownership of the canonical Knowledge
+Graph or People Graph. Legacy infrastructure documents and machine-specific
+comments are historical design evidence, not live-host receipts.
 
-## Verify
+Code, contracts, small fixtures and reviewed provenance belong in Git. Raw
+observations, large databases, transcripts, private handoffs, credentials, caches
+and generated run artifacts do not. Upstream source ownership and licenses remain
+asset-specific; Foundry's MIT code license does not relicense a dataset.
 
-```bash
+### Existing source capabilities, not runtime promises
+
+| Surface | What the public source supplies | Remaining distinction |
+|---|---|---|
+| `core` | Path and SQLite helpers | Does not elect a writer or verify a machine |
+| `pipelines/github` | Discovery campaigns, identity/enrichment and ranking code | Real runs need data, access and a bounded acquisition decision |
+| `pipelines/youtube`, `pipelines/podcasts` | Acquisition software or routing contracts | Source presence is not a complete, available corpus |
+| `packages/bank-api` | Experimental reuse-query and verification surface | Query access and behavioral proof remain separate |
+| `packages/research-topics` | Experimental topic registry with provenance | Not a replacement for a question owner's records |
+| `intelligence/agency` | Industry hypotheses, capability/coverage records and value models | Research-only claims are not measured client outcomes |
+
+The dataset manifest is dated **2026-07-30**. Its recorded counts are a checkpoint,
+not a count obtained by opening the live database today. Read [DATASETS.md](DATASETS.md)
+before describing anything as downloadable, replicated, released or operational.
+
+## Verify without pretending the data is present
+
+Use a Git checkout, Python 3.10 or newer, Node.js, npm and Bash. The source checks
+use the standard library and existing code; no package installation is required
+for these commands. Git identifies tracked and nonignored publication candidates
+so the source scanner does not recursively crawl ignored datasets.
+
+```sh
+# Public code, manifests, existing source invariants and synthetic fixtures.
+npm run test:source
+
+# Focused new regression tests, with disposable synthetic databases only.
+npm run test:foundation
+
+# Heuristic publication scan; prints rule IDs, never matched secret values.
+npm run check:publication
+```
+
+`test:source` prints `external_data=NOT_CHECKED` and
+`execution=NOT_ESTABLISHED`. The public CI runs this source-only gate with
+read-only GitHub permissions; it does not claim a deployment or dataset test.
+
+The original full entry point remains strict:
+
+```sh
+# Set this deliberately to an existing, authorised local atlas file.
+export FOUNDRY_CAPABILITY_ATLAS="/approved/local/atlas.jsonl"
 npm test
+
+# Or run only its explicit external-atlas consistency component.
+npm run test:external
 ```
 
-The check compiles every Python source file, syntax-checks JavaScript and shell entrypoints, exercises the research-topic registry against a disposable SQLite database, validates the dataset and Agency intelligence manifests, and scans the public surface for personal absolute paths and common credential forms.
+Without that explicit file, the external gate reports **blocked** and exits 2.
+Malformed, duplicate or mismatched capability records fail with exit 1. A match
+returns 0 and a content hash, but still does not prove broader corpus completeness,
+rights, backups, product fit or runtime readiness. External receipts are private
+operational metadata; do not upload them automatically.
+
+The old ancestor-directory atlas lookup has been removed. Missing external data
+is not silently replaced by a fixture and is not counted as a passing full test.
+
+## Existing discovery and business research
+
+[Agent-systems campaign](pipelines/github/campaigns/agent-systems-v1.json) and
+[business-software campaign](pipelines/github/campaigns/agency-business-software-v1.json)
+are reproducible query definitions, not complete or rights-cleared universes.
+Inspect a campaign without collection:
+
+```sh
+python3 pipelines/github/run_campaign.py --dry-run
+```
+
+Real acquisition uses the operator's existing GitHub access, an explicit scope
+and the external data plane. Query existing supply before collecting again.
+The public [Repo Bank](https://github.com/sisodias/siso-repo-bank) is a separately
+maintained derived index, not proof that its parent database is accessible.
+
+Existing Agency research includes the [value matrix](intelligence/agency/VALUE-MATRIX.md),
+[coverage inventory](intelligence/agency/COVERAGE.md),
+[economic valuation specification](intelligence/agency/ECONOMIC-VALUATION.md),
+[industry dossiers](intelligence/agency/industries/) and
+[value examples](intelligence/agency/economics/).
+
+**Unresolved evidence debt remains:** the baseline README documented four
+value-matrix projects missing from coverage and sixteen stronger records reduced
+to `inferred`. This foundation repair does not reconcile those records or turn
+provisional valuations into measured savings. The exact baseline and remaining
+work are in the [audit](docs/SOURCE-AUDIT-2026-09-07.md).
+
+## Data configuration
+
+`FOUNDRY_DATA` selects the external data root; its portable default is
+`~/.local/share/siso-foundry`. The usual identity location is
+`domains/github/identity/identity.sqlite` beneath that root.
+
+**Known divergence:** `pipelines/github/config.py` supports
+`FOUNDRY_GITHUB_DB`, while `core/paths.py` and some bank callers resolve defaults
+differently. This repair does not silently migrate every caller. Check the actual
+consumer before assuming that an environment setting selects the same database
+throughout the repository. No machine placement is inferred from a path.
 
 ## Great Library identity
 
 - Work: `gls:work:ec664d93-df93-48c5-be40-5d0165886c01`
 - Section: Research
-- Catalog: <https://great-library-of-siso.vercel.app/works/siso-foundry/>
+- [Public Foundry reading surface](https://great-library-of-siso.pages.dev/works/siso-foundry/)
 
-The software is MIT licensed. Dataset and upstream-source rights remain asset-specific; inclusion in a Foundry catalog never changes the original source's ownership or license.
+Registered, selected, pinned, published and deployed are different observations.
+A source branch or pull request does not update a Library Release or Snapshot.
+Keep those decisions with the existing Library owner.

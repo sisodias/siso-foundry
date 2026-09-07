@@ -12,5 +12,14 @@
   "owners": 40308,
   "enriched": 1197,
   "elapsed_sec": 1043.5,
-  "db": "/Users/shaansisodia/SISO_Workspace/SISO_Research/siso-foundry/pipelines/github/awesome/deep.sqlite"
+  "db": null,
+  "record_type": "sanitized_historical_run_summary",
+  "redaction": {
+    "field": "db",
+    "reason": "machine_specific_locator_removed",
+    "source_revision": "11f459597ce0c67dbfa89deeeafa3202e47dc6d5",
+    "source_blob_sha": "a465db53f8bfbb1d317d007e42ba664f274407e6",
+    "redacted_at": "2026-09-07",
+    "other_observations": "preserved_not_remeasured"
+  }
 }

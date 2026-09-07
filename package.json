@@ -5,6 +5,10 @@
   "description": "Source discovery, evidence, ranking, and reusable research knowledge.",
   "scripts": {
     "build:agency-coverage": "python3 scripts/build_agency_coverage.py",
-    "test": "python3 scripts/check.py"
+    "test": "python3 scripts/check.py",
+    "test:source": "python3 scripts/check.py --source-only",
+    "test:external": "python3 scripts/check_external_data.py",
+    "test:foundation": "python3 -B -m unittest discover -s tests -p test_foundation.py",
+    "check:publication": "python3 scripts/source_safety.py"
   }
 }

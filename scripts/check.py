@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Repository-level source, fixture, and publication-safety checks."""
 
+import argparse
 import json
 import os
 from pathlib import Path
@@ -10,18 +11,31 @@ import subprocess
 import sys
 import tempfile
 
+from source_safety import repository_files, scan
+
 
 ROOT = Path(__file__).resolve().parents[1]
-IGNORED_PARTS = {".git", "node_modules", "__pycache__", "run", "results"}
+if not __debug__:
+    raise SystemExit("FOUNDRY_CHECK_REFUSED: assertions must be enabled")
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument("--source-only", action="store_true", help="Explicitly omit the external atlas consistency gate")
+args = parser.parse_args()
+SOURCE_FILES = repository_files(ROOT)
+# Publication checks run before optional data access and all other checks.
+findings = scan(ROOT, SOURCE_FILES)
+if findings:
+    raise SystemExit("PUBLICATION_SAFETY_FAIL " + json.dumps(findings))
 
 
 def source_files(suffix):
-    return [path for path in ROOT.rglob(f"*{suffix}") if not IGNORED_PARTS.intersection(path.parts)]
+    return [path for path in SOURCE_FILES if path.suffix == suffix and not path.is_symlink()]
 
 
 def run(command, **kwargs):
     subprocess.run(command, cwd=ROOT, check=True, **kwargs)
 
+
+run([sys.executable, "-B", "-m", "unittest", "discover", "-s", "tests", "-p", "test_foundation.py"], stdout=subprocess.DEVNULL)
 
 for path in source_files(".py"):
     py_compile.compile(str(path), doraise=True)
@@ -158,9 +172,7 @@ assert cap_map["counts"]["capabilities"] == 189
 assert len(cap_map["capabilities"]) == 189 == len({c["capability_id"] for c in cap_map["capabilities"]})
 assert all(c["canonical_pillars"] and set(c["canonical_pillars"]).issubset(set(cap_map["canonical_pillars"])) for c in cap_map["capabilities"])
 assert all(c["raw_slice"] and c["rationale"].endswith(".") for c in cap_map["capabilities"])
-atlas_path = ROOT.parents[2] / ".agents" / "runs" / "agency-os-god-source-expansion-20260802" / "lane-b-capability-atlas.jsonl"
-atlas_ids = {json.loads(line)["capability_id"] for line in atlas_path.read_text().splitlines() if line.strip()}
-assert {c["capability_id"] for c in cap_map["capabilities"]} == atlas_ids
+# External atlas equality is retained in the explicit external-data gate.
 assert coverage["record_type"] == "agency_os_coverage_inventory"
 assert coverage["counts"]["candidate_application_rows"] == 497
 assert coverage["counts"]["frontier_rows"] == 30
@@ -190,26 +202,7 @@ assert all(set(r["canonical_verticals"]).issubset(set(canonical)) for r in cover
 for pillar, detail in coverage["vertical_coverage"].items():
     assert detail["repository_count"] == len(detail["projects"]) == len(set(detail["projects"]))
 
-publication_patterns = [
-    re.compile("/" + "Users" + "/"),
-    re.compile("SISO_" + "Workspace"),
-    re.compile("BEGIN (?:RSA |OPENSSH |EC |DSA )?" + "PRIVATE KEY"),
-    re.compile("(?<![A-Za-z0-9])(?:ghp|github_pat|sk)" + "-[A-Za-z0-9_-]{16,}"),
-]
-for path in ROOT.rglob("*"):
-    if IGNORED_PARTS.intersection(path.parts):
-        continue
-    if path.is_symlink():
-        text = os.readlink(path)
-    elif path.is_file():
-        try:
-            text = path.read_text()
-        except UnicodeDecodeError:
-            continue
-    else:
-        continue
-    for pattern in publication_patterns:
-        if pattern.search(text):
-            raise SystemExit(f"publication safety match {pattern.pattern!r} in {path.relative_to(ROOT)}")
-
-print(f"FOUNDRY_CHECK_OK ({len(source_files('.py'))} Python files)")
+print(f"FOUNDRY_SOURCE_CHECK_OK ({len(source_files('.py'))} Python files; external_data=NOT_CHECKED; execution=NOT_ESTABLISHED)", flush=True)
+if not args.source_only:
+    completed = subprocess.run([sys.executable, "scripts/check_external_data.py"], cwd=ROOT)
+    raise SystemExit(completed.returncode)

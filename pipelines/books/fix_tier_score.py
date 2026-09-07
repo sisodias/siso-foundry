@@ -2,7 +2,7 @@
 """
 Fix tier/score corruption in SISO_Knowledge page files.
 
-ROOT CAUSE (verified):
+HISTORICAL DIAGNOSIS (not reverified by this source-portability change):
 - queries/add_book.py writes `score: 0.0` unconditionally at lines 71 & 87.
 - queries/rebuild_index.py uses setdefault at line 90, so the fallback never
   fires once a page carries an explicit score.
@@ -15,22 +15,20 @@ an independent field. Score itself should be computed from evidence at
 rebuild rather than stamped at ingest. Stale on-disk score/tier are
 recomputed.
 
-This script is DRY-RUN by default. With --apply, it would rewrite frontmatter
-for every page where (score, tier) disagree with the schema bands:
+This script is read-only. --apply is deliberately unavailable. An explicitly
+authorised --knowledge-root is required; no owner path is discovered. It proposes
+changes where (score, tier) disagree with the historical schema bands:
 
   A = 8.0–10.0
   B = 5.0–7.9
   C = 0.0–4.9
 
-CONSTRAINT: read-only on SISO_Knowledge when run without --apply.
+CONSTRAINT: no Knowledge or Graph writes; this script does not grant access.
 """
 import argparse
 import sys
-import yaml
 from pathlib import Path
 
-LIB = Path("/Users/shaansisodia/SISO_Workspace/SISO_Knowledge")
-SECTIONS = LIB / "sections"
 
 # Schema bands from module_templates/page/PAGE_SCHEMA.md
 def tier_from_score(score: float) -> str:
@@ -42,6 +40,7 @@ def tier_from_score(score: float) -> str:
 
 
 def parse_page(path: Path):
+    import yaml  # Optional runtime dependency, not needed for help/input gates.
     try:
         content = path.read_text()
     except Exception:
@@ -84,9 +83,9 @@ def derive_score(fm: dict) -> float:
     return round(min(score, 10.0), 1)
 
 
-def scan_pages():
+def scan_pages(lib: Path):
     """Yield (path, fm, body, full_text) for every parseable page."""
-    for p in SECTIONS.rglob("p_*.md"):
+    for p in (lib / "sections").rglob("p_*.md"):
         if p.name in ("shelf.yaml", "bookcase.yaml", "_index.md", "section.yaml"):
             continue
         parsed = parse_page(p)
@@ -96,7 +95,7 @@ def scan_pages():
         yield p, fm, body, full
 
 
-def build_diff(limit=None):
+def build_diff(lib: Path, limit=None):
     """
     Compute what WOULD change. Returns (changes, totals_before, totals_after).
     """
@@ -105,7 +104,7 @@ def build_diff(limit=None):
     counts_after = {"A": 0, "B": 0, "C": 0, "other": 0, "no_tier": 0}
     seen = 0
 
-    for p, fm, body, full in scan_pages():
+    for p, fm, body, full in scan_pages(lib):
         seen += 1
         old_score = fm.get("score")
         old_tier = fm.get("tier")
@@ -129,7 +128,7 @@ def build_diff(limit=None):
         tier_changed = (old_tier != new_tier)
         if score_changed or tier_changed:
             changes.append({
-                "path": str(p.relative_to(LIB)),
+                "path": str(p.relative_to(lib)),
                 "old_score": old_score,
                 "new_score": new_score,
                 "old_tier": old_tier,
@@ -174,26 +173,27 @@ def print_distribution(before, after):
 
 
 def main():
-    ap = argparse.ArgumentParser(description="Fix tier/score corruption (dry-run by default)")
+    ap = argparse.ArgumentParser(description="Inspect historical tier/score proposals (read-only)")
     ap.add_argument("--apply", action="store_true",
-                    help="Actually rewrite page files (DESTRUCTIVE)")
+                    help="Unsupported: always refused before reading inputs")
     ap.add_argument("--sample", type=int, default=10,
                     help="Number of sample diffs to print")
+    ap.add_argument("--knowledge-root", type=Path, required=True,
+                    help="Explicit authorised local corpus root; no path discovery")
     args = ap.parse_args()
+    if args.apply:
+        ap.error("--apply is unsupported; this reader never writes Knowledge data")
+    lib = args.knowledge_root.expanduser().resolve()
+    if not (lib / "sections").is_dir():
+        ap.error("The selected root has no readable sections directory")
 
-    changes, before, after, seen = build_diff()
+    changes, before, after, seen = build_diff(lib)
     print(f"Scanned {seen} page files")
     print(f"Pages that WOULD change: {len(changes)}")
     print_distribution(before, after)
     print_diff(changes, limit=args.sample)
 
-    if args.apply:
-        print("!!! --apply was set, but this script does NOT write files yet.")
-        print("!!! A real apply pass needs a YAML-preserving re-dumper and a")
-        print("!!! backup. Halt before any in-place write to SISO_Knowledge.")
-        sys.exit(2)
-    else:
-        print("[DRY RUN] No files modified. Re-run with --apply to write.")
+    print("[DRY RUN] No files modified; applying changes is not implemented.")
 
 
 if __name__ == "__main__":
