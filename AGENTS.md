@@ -1,5 +1,7 @@
 # Agent guide
 
+**In one line:** Research engine that ingests large source corpora into traceable identities, observations, evidence and rankings, keeping big data outside Git. District: `Great_Library_of_SISO` (`~/SISO_Workspace/Great_Library_of_SISO/foundry`).
+
 Foundry is a Research Work. Do not refile it under Agents merely because agents run the pipeline.
 
 Preserve these invariants:
