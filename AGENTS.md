@@ -9,8 +9,8 @@
 | Owner | not yet assigned; the top Agent Zero (herdr A0, SISO_Agents/agent-zero/siso-firstmate) holds it |
 | Run it | `npm run test` |
 | Write here | `.agents/memory/MEMORY.md` (durable facts, one file each plus an index line) |
-| Worktrees | _data/worktrees/foundry/&lt;lane&gt; (never beside or inside the repo) |
-| Anything outside this repo | ask the estate first, not this repo's docs: `estate where <words>` (a sentence works), the map is `~/SISO_Workspace/AGENTS.md`; loose files go to `~/SISO_Workspace/_inbox`, data backups are declared in `SISO_Agents/siso-estate/plan/data-planes.json` |
+| Worktrees | `~/SISO_Workspace/_data/worktrees/foundry/<lane>` (never beside or inside the repo) |
+| Anything outside this repo | ask the estate first, not this repo's docs: `estate where <words>` (a sentence works), the map is `~/SISO_Workspace/AGENTS.md` (the whole laptop: `~/SISO_Workspace/docs/operations/LAPTOP-MAP.md`); loose files go to `~/SISO_Workspace/_inbox`, keys to `~/SISO_Workspace/.credentials/projects`, data backups are declared in `~/SISO_Workspace/SISO_Agents/siso-estate/plan/data-planes.json` |
 <!-- estate:door end -->
 
 Foundry is a Research Work. Do not refile it under Agents merely because agents run the pipeline.
